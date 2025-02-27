@@ -21,7 +21,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Jogos Educativos de Programação");
+        primaryStage.setTitle("🎮 Estruturas de Dados Gamificadas 🎮");
 
         JogoController controller = new JogoController();
         JogoView view = new JogoView(controller.getBotoes());

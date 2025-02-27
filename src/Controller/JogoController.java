@@ -23,7 +23,7 @@ public class JogoController {
             "Classes e Objetos", "Recursividade", "Vetores, Matrizes, Strings",
             "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
-            "Algoritmos de Ordenação"
+            "Algoritmos de Ordenação", "Algoritmo de Huffman"
         };
 
         for (String nome : nomesJogos) {

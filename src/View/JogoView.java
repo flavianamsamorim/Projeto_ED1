@@ -5,6 +5,7 @@
  */
 package View;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -17,8 +18,10 @@ public class JogoView {
     private Scene scene;
 
     public JogoView(List<Button> botoes) {
-        layout = new VBox(10);
+        layout = new VBox(10); // Espaçamento entre os botões
+        layout.setAlignment(Pos.CENTER); // Centraliza verticalmente e horizontalmente
         layout.getChildren().addAll(botoes);
+        
         scene = new Scene(layout, 400, 600);
     }
 
