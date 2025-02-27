@@ -9,19 +9,24 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
-//import javafx.stage.Stage;
-import java.util.List;
-
+import Controller.JogoController;
+import javafx.stage.Stage;
 
 public class JogoView {
     private VBox layout;
     private Scene scene;
 
-    public JogoView(List<Button> botoes) {
-        layout = new VBox(10); // Espaçamento entre os botões
-        layout.setAlignment(Pos.CENTER); // Centraliza verticalmente e horizontalmente
-        layout.getChildren().addAll(botoes);
-        
+    public JogoView(JogoController controller, Stage stage) {
+        // Layout para centralizar os botões
+        layout = new VBox(10);
+        layout.setAlignment(Pos.CENTER);
+
+        // Adiciona os botões ao layout
+        for (Button btn : controller.getBotoes()) {
+            layout.getChildren().add(btn);
+        }
+
+        // Criando a cena
         scene = new Scene(layout, 400, 600);
     }
 

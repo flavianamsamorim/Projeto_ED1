@@ -5,16 +5,9 @@
  */
 package Main;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import Controller.JogoController;
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.stage.Stage;
+import Controller.JogoController;
 import View.JogoView;
 
 public class Main extends Application {
@@ -24,7 +17,7 @@ public class Main extends Application {
         primaryStage.setTitle("🎮 Estruturas de Dados Gamificadas 🎮");
 
         JogoController controller = new JogoController();
-        JogoView view = new JogoView(controller.getBotoes());
+        JogoView view = new JogoView(controller, primaryStage);  // Passando o controller e o stage
 
         primaryStage.setScene(view.getScene());
         primaryStage.show();
