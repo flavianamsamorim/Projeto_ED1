@@ -4,7 +4,11 @@ package Controller;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import View.PilhaView;
+import View.QuizView;
 import View.GenericView;
+import View.LabirintoView;
+import View.OperadoresView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class JogoController {
         botoes = new ArrayList<>();
         
         String[] nomesJogos = {
-            "Entrada e Saída", "Tipos de Dados", "Operadores", "Condição e Repetição",
+            "Tipos Básicos", "Operadores", "Condição e Repetição",
             "Classes e Objetos", "Recursividade", "Vetores, Matrizes, Strings",
             "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
@@ -59,6 +63,15 @@ public class JogoController {
                 break;
             case "Algoritmos de Ordenação":
                 new GenericView("Jogo de Ordenação", stage);
+                break;
+            case "Tipos Básicos":
+                new QuizView(stage);
+                break;
+            case "Operadores":
+                new OperadoresView(stage);
+                break;
+            case "Condição e Repetição":
+                new LabirintoView(stage);
                 break;
             default:
                 // Para jogos não especificados, usaremos o GenericView
