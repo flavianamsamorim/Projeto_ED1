@@ -1,5 +1,6 @@
 package Model;
 
+//classe do jogo de classes e objetos
 public class Mago extends Personagem {
     // Construtor padrão
     public Mago(String nome) {

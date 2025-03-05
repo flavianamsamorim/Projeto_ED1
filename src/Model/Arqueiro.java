@@ -1,5 +1,6 @@
 package Model;
 
+//classe do jogo de classes e objetos
 public class Arqueiro extends Personagem {
     // Construtor padrão
     public Arqueiro(String nome) {

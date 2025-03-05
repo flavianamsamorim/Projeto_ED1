@@ -50,6 +50,7 @@ public abstract class Personagem implements Serializable {
         }
     }
 
+    //metodo para atacar
     public void atacar(Personagem alvo) {
         int dano = this.ataque - alvo.getDefesa();
         if (dano < 0) {

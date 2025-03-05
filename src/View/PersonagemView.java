@@ -14,6 +14,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//classe do jogo de classes e objetos
 public class PersonagemView {
     private Stage stage;
     private List<Personagem> listaPersonagens = new ArrayList<>();

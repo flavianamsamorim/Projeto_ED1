@@ -9,6 +9,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+
+//classe do jogo de classes e objetos
 public class BatalhaView {
     private Stage stage;
     private List<Personagem> personagens;
