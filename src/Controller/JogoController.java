@@ -8,6 +8,7 @@ import View.QuizView;
 import View.GenericView;
 import View.LabirintoView;
 import View.OperadoresView;
+import View.PersonagemView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,9 @@ public class JogoController {
                 break;
             case "Condição e Repetição":
                 new LabirintoView(stage);
+                break;
+            case "Classes e Objetos":
+                new PersonagemView(stage);
                 break;
             default:
                 // Para jogos não especificados, usaremos o GenericView

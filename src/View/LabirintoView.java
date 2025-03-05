@@ -22,37 +22,37 @@ public class LabirintoView {
     private int[][][] fases = {
         {
             {3, 1, 0, 0, 0},
-            {0, 1, 0, 1, 0},
-            {0, 0, 0, 1, 0},
-            {1, 1, 0, 1, 0},
-            {0, 0, 0, 0, 2}
+            {4, 1, 0, 1, 0},
+            {4, 4, 4, 1, 0},
+            {1, 1, 4, 1, 0},
+            {0, 0, 4, 4, 2}
         },
         {
             {0, 0, 1, 0, 0},
             {1, 3, 1, 0, 1},
-            {1, 0, 0, 0, 0},
-            {1, 1, 1, 1, 0},
+            {1, 4, 4, 4, 4},
+            {1, 1, 1, 1, 4},
             {0, 0, 0, 0, 2}
         },
         {
             {0, 0, 0, 1, 2},
-            {0, 1, 0, 1, 0},
-            {0, 1, 1, 1, 0},
-            {0, 0, 0, 0, 0},
+            {0, 1, 0, 1, 4},
+            {0, 1, 1, 1, 4},
+            {0, 0, 4, 4, 4},
             {0, 0, 3, 1, 1}
         },
         {
-            {2, 0, 0, 1, 0},
-            {0, 1, 0, 1, 0},
-            {0, 1, 0, 0, 0},
-            {0, 1, 1, 0, 3},
+            {2, 4, 4, 1, 0},
+            {0, 1, 4, 1, 0},
+            {0, 1, 4, 4, 0},
+            {0, 1, 1, 4, 3},
             {0, 0, 0, 0, 0}
         },
         {
-            {0, 0, 0, 1, 3},
-            {0, 1, 0, 0, 0},
-            {0, 1, 1, 1, 1},
-            {0, 0, 0, 0, 0},
+            {4, 4, 4, 1, 3},
+            {4, 1, 4, 4, 4},
+            {4, 1, 1, 1, 1},
+            {4, 0, 0, 0, 0},
             {2, 0, 0, 0, 0}
         }
     };
@@ -66,15 +66,17 @@ public class LabirintoView {
     private Stage stage;
     private Canvas canvas;
     private ToggleGroup tg;
-    private Button btnExecutar, btnProxima, btnJogarNovamente;
+    private Button btnExecutar, btnProxima, btnFinalizar;
     private Label resultadoLabel;
 
     public LabirintoView(Stage stage) {
         this.stage = stage;
+        
         iniciarFase();
     }
 
     private void iniciarFase() {
+        
         maze = fases[faseAtual];
         direcoes = new int[ROWS][COLS];
 
@@ -223,10 +225,10 @@ public class LabirintoView {
                                     "\t}\r\n" + //
                                     "}",
                 "Código 2: \nfor(i=0; i<7; i++){ \r\n" + //
-                                    "\tif(podeMoverDireita()){\r\n" + //
-                                    "\t\tmoverDireita();\r\n" + //
+                                    "\tif(podeMoverEsquerda()){\r\n" + //
+                                    "\t\tmoverEsquerda();\r\n" + //
                                     "\t}else{\r\n" + //
-                                    "\t\tmoverBaixo();\r\n" + //
+                                    "\t\tmoverCima();\r\n" + //
                                     "\t}\r\n" + //
                                     "}",
                 "Código 3: \ndo{\r\n" + //
@@ -293,11 +295,14 @@ public class LabirintoView {
         };
 
 
+        
     // Criar os botões dinâmicos de acordo com a fase atual
     RadioButton[] botoes = new RadioButton[4];
+
     for (int i = 0; i < 4; i++) {
         botoes[i] = new RadioButton(opcoesCodigo[faseAtual][i]);
         botoes[i].setToggleGroup(tg);
+
     }
 
         btnExecutar = new Button("Executar Código");
@@ -310,20 +315,20 @@ public class LabirintoView {
 
 
          // Botão "Jogar Novamente"
-         btnJogarNovamente = new Button("Jogar Novamente");
-         btnJogarNovamente.setStyle("-fx-background-color: #2980b9; " +
+         btnFinalizar = new Button("Finalizar");
+         btnFinalizar.setStyle("-fx-background-color: #2980b9; " +
              "-fx-text-fill: white; " +
              "-fx-font-weight: bold; " +
              "-fx-font-size: 14px; " +
              "-fx-background-radius: 8;");
-        if ((faseAtual < fases.length -1) && (faseAtual == 4)) {
-            btnJogarNovamente.setVisible(false);    
-        }else{
-            btnJogarNovamente.setVisible(true);
-            btnJogarNovamente.setOnAction(e -> {
-                jogarNovamente();
-            });
-        }
+        
+             btnFinalizar.setVisible(false);
+             btnFinalizar.setOnAction(e -> {
+            // Obtém a janela atual e a fecha
+            Stage stage = (Stage) btnFinalizar.getScene().getWindow();
+            stage.close();
+        });
+        
 
         btnProxima = new Button("Próxima Pergunta");
         btnProxima.setStyle( "-fx-background-color: #27ae60; " +
@@ -333,8 +338,9 @@ public class LabirintoView {
         "-fx-background-radius: 8;");
         btnProxima.setVisible(false);
         btnProxima.setOnAction(e -> {
-            if (faseAtual < fases.length - 1) {
+            if (faseAtual < 4) {
                 faseAtual++;
+                
                 iniciarFase();
             }
         });
@@ -343,10 +349,7 @@ public class LabirintoView {
         resultadoLabel.setStyle("-fx-font-size: 14px; -fx-text-fill: red;");
 
 
-
-
-
-        VBox vbox = new VBox(10, legenda, botoes[0], botoes[1], botoes[2], botoes[3], btnExecutar, resultadoLabel, btnProxima);
+        VBox vbox = new VBox(10, legenda, botoes[0], botoes[1], botoes[2], botoes[3], btnExecutar, resultadoLabel, btnProxima, btnFinalizar);
         vbox.setAlignment(Pos.CENTER);
         vbox.setStyle("-fx-background-color: #d9f1ff; -fx-padding: 70;");
 
@@ -357,11 +360,12 @@ public class LabirintoView {
         root.setCenter(stackPane); // Adiciona o StackPane com o labirinto e legenda
         root.setRight(vbox);
 
-        Scene scene = new Scene(root, 900, 900);
+        Scene scene = new Scene(root, 1000, 1000);
         stage.setScene(scene);
         stage.setTitle("Labirinto - Condição e Repetição");
         stage.show();
     }
+
 
     private void desenharLabirinto() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -381,10 +385,52 @@ public class LabirintoView {
                     gc.setFill(Color.LIGHTGREEN);
                     gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
                 }
-                if (respostaCorreta && direcoes[row][col] != 0) {
+                
+                if (respostaCorreta) {
                     gc.setFill(Color.BLACK);
                     gc.setFont(new Font(20));
-                    gc.fillText(getSeta(direcoes[row][col]), x + 25, y + 35);
+
+                        switch (faseAtual) {
+                            case 0:
+                                if (maze[row][col] == 4) {
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                                }
+                                break;
+
+                            case 1:
+                                if (maze[row][col] == 4) {
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                                }
+                                break;
+
+                            case 2:
+                                if (maze[row][col] == 4) {
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                                }
+                                break;
+
+                            case 3:
+                                if (maze[row][col] == 4) {
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                                }
+                                break;
+
+                            case 4: 
+                                if (maze[row][col] == 4) {
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillRect(x, y, CELL_SIZE, CELL_SIZE);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    
                 }
                 if (row == robotRow && col == robotCol) {
                     gc.setFill(Color.RED);
@@ -396,18 +442,10 @@ public class LabirintoView {
         }
     }
 
-    private String getSeta(int direcao) {
-        switch (direcao) {
-            case 1: return "→";
-            case 2: return "↓";
-            default: return "";
-        }
-    }
-
-
     
     private void executarCodigo() {
 
+        
         if (respostaSelecionada){
             return;
         }
@@ -419,53 +457,38 @@ public class LabirintoView {
             resultadoLabel.setText("Por favor, selecione uma opção.");
             return;  // Impede a execução se nada for selecionado
         }
-            RadioButton selected = (RadioButton) tg.getSelectedToggle();
-            String textoSelecionado = selected.getText();
+
+        RadioButton selected = (RadioButton) tg.getSelectedToggle();
+        String textoSelecionado = selected.getText();
     
-            // Verifica qual alternativa foi escolhida (1, 2, 3 ou 4)
-            int alternativaSelecionada = 0;
-            if (textoSelecionado.contains("Código 1")) alternativaSelecionada = 1;
-            else if (textoSelecionado.contains("Código 2")) alternativaSelecionada = 2;
-            else if (textoSelecionado.contains("Código 3")) alternativaSelecionada = 3;
-            else if (textoSelecionado.contains("Código 4")) alternativaSelecionada = 4;
+        // Verifica qual alternativa foi escolhida (1, 2, 3 ou 4)
+        int alternativaSelecionada = 0;
+        if (textoSelecionado.contains("Código 1")) alternativaSelecionada = 1;
+        else if (textoSelecionado.contains("Código 2")) alternativaSelecionada = 2;
+        else if (textoSelecionado.contains("Código 3")) alternativaSelecionada = 3;
+        else if (textoSelecionado.contains("Código 4")) alternativaSelecionada = 4;
     
-            // Compara com a resposta correta da fase atual
-            respostaCorreta = (alternativaSelecionada == respostasCorretas[faseAtual]);
+        // Compara com a resposta correta da fase atual
+        respostaCorreta = (alternativaSelecionada == respostasCorretas[faseAtual]);
     
-            resultadoLabel.setText(respostaCorreta ? "Correto!" : "Errado!");
-            if (respostaCorreta) executarTrajeto();
+        resultadoLabel.setText(respostaCorreta ? "Correto!" : "Errado!");
+
+    
+        if (faseAtual != 4) {
+            btnProxima.setVisible(true);
+            
+        }
         
-    
-        btnProxima.setVisible(true);
-
-
+        if (faseAtual == ultimaFase) {
+            btnFinalizar.setVisible(true);
+        }
+        
         for (Toggle toggle : tg.getToggles()) {
             ((Node) toggle).setDisable(true);  // Desabilita todas as opções de resposta
         }
 
-        // // Verifique se é a última fase
-        // if (faseAtual == ultimaFase) {
-        // // Torna o botão "Jogar novamente" visível
-        // btnJogarNovamente.setVisible(true);
-        // }
-
         desenharLabirinto();
-    }
-    
 
-    private void executarTrajeto() {
-        int r = robotRow, c = robotCol; // Usa a posição real do robô
-        while (r < ROWS && c < COLS && maze[r][c] != 2) { // Enquanto não chegar ao objetivo
-            if (podeMover(r, c + 1)) { // Se puder mover para a direita
-                direcoes[r][c] = 1;
-                c++;
-            } else if (podeMover(r + 1, c)) { // Se puder mover para baixo
-                direcoes[r][c] = 2;
-                r++;
-            } else {
-                break;
-            }
-        }
     }
     
 
@@ -473,18 +496,6 @@ public class LabirintoView {
         return row >= 0 && row < ROWS && col >= 0 && col < COLS && maze[row][col] != 1;
     }
 
-    private void jogarNovamente() {
-        // Redefine a fase
-        faseAtual = 0;  // Começa do início novamente
-    
-        // Reinicia o labirinto e outras variáveis do jogo
-        respostaSelecionada = false;
-        tg.getSelectedToggle().setSelected(false);  // Limpa a seleção de respostas
-        //btnJogarNovamente.setVisible(false);  // Esconde o botão "Jogar novamente" após o clique
-    
-        // Recarrega o labirinto
-        desenharLabirinto();
-    }
     
     
 }
