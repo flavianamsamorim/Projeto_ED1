@@ -16,19 +16,42 @@ public class PilhaController {
     private PilhaView view;
 
     public PilhaController(PilhaView view) {
-        this.pilha = new PilhaJogo();
+        pilha = new PilhaJogo();
         this.view = view;
     }
 
-    public void empilharElemento(String elemento) {
-        if (!elemento.isEmpty()) {
-            pilha.empilhar(elemento);
-            view.atualizarTopo(pilha.verTopo());
+    public void empilharElemento() {
+        String pedra = "Pedra " + (pilha.getContadorEmpilhadas() + 1); // Cria a pedra com um número sequencial
+        pilha.empilhar(pedra);
+        view.animarEmpilhar(pedra);
+        view.atualizarTopo(pilha.verTopo());
+        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
+
+        // Inicia o tempo se for o primeiro empilhamento
+        if (pilha.getContadorEmpilhadas() == 1) {
+            pilha.iniciarTempo();
         }
+
+        view.atualizarTempo(pilha.getTempoDecorrido());
     }
 
     public void desempilharElemento() {
-        pilha.desempilhar();
+        String topo = pilha.desempilhar();
+        view.animarDesempilhar();
+        view.atualizarTopo(topo);
+        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
+        view.atualizarTempo(pilha.getTempoDecorrido());
+    }
+
+    public void congelarTempo() {
+        pilha.congelarTempo();
+        view.exibirCongelarTempo();
+    }
+
+    public void reiniciarJogo() {
+        pilha.resetar();
         view.atualizarTopo(pilha.verTopo());
+        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
+        view.atualizarTempo(0);
     }
 }
