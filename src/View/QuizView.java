@@ -36,7 +36,7 @@ public class QuizView {
         lblFeedback.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;");
         
         lblRanking = new Label("Ranking:");
-        lblRanking.setStyle("-fx-font-size: 14px; -fx-text-fill: #2c3e50;");
+        lblRanking.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         
         titulo = new Label("Entrada e saída de dados/Tipos de dados");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");

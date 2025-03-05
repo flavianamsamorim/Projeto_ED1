@@ -28,17 +28,45 @@ public class OperadoresView {
         this.stage = stage;
         layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #d9f1ff, #ffffff);");
 
         lblPergunta = new Label();
+        lblPergunta.setWrapText(true);
+        lblPergunta.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        lblPergunta.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-wrap-text: true;");
+
         lblFeedback = new Label();
+        lblFeedback.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;");
+
         lblPontuacao = new Label("Pontuação: 0");
+        lblPontuacao.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+
         lblVidas = new Label("Vidas: 3");
+        lblVidas.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+
         lblCronometro = new Label("Tempo restante: 10s");
+        lblCronometro.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        
         btnA = new Button();
         btnB = new Button();
         btnC = new Button();
+        configurarEstiloBotao(btnA);
+        configurarEstiloBotao(btnB);
+        configurarEstiloBotao(btnC);
+
         btnProxima = new Button("Próxima Pergunta");
+        btnProxima.setStyle( "-fx-background-color: #27ae60; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-weight: bold; " +
+        "-fx-font-size: 14px; " +
+        "-fx-background-radius: 8;");
+
         btnJogarNovamente = new Button("Jogar Novamente");
+        btnJogarNovamente.setStyle("-fx-background-color: #e67e22; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-weight: bold; " +
+        "-fx-font-size: 14px; " +
+        "-fx-background-radius: 8;");
 
         btnProxima.setOnAction(e -> carregarPergunta());
         btnJogarNovamente.setOnAction(e -> reiniciarJogo());
@@ -141,5 +169,16 @@ public class OperadoresView {
         layout.getChildren().remove(btnJogarNovamente);
         layout.getChildren().addAll(btnA, btnB, btnC, btnProxima);
         carregarPergunta();
+    }
+
+    private void configurarEstiloBotao(Button btn) {
+        btn.setStyle(
+            "-fx-background-color: #3498db; " +   // Cor de fundo (azul)
+            "-fx-text-fill: white; " +           // Cor do texto (branca)
+            "-fx-font-weight: bold; " +          // Negrito
+            "-fx-font-size: 14px; " +            // Tamanho da fonte
+            "-fx-background-radius: 8; " +       // Arredonda as bordas
+            "-fx-padding: 8 16 8 16;"            // Espaçamento interno
+        );
     }
 }
