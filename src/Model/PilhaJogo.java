@@ -15,36 +15,38 @@ public class PilhaJogo {
     private int contadorDesempilhadas;
     private long tempoInicio;
     private int pontos;
-    private boolean tempoCongelado;
+    private boolean tempoAtivo;
 
     public PilhaJogo() {
         pilha = new Stack<>();
         contadorEmpilhadas = 0;
         contadorDesempilhadas = 0;
         pontos = 0;
-        tempoCongelado = false;
+        tempoAtivo = false;
     }
 
     public void empilhar(String pedra) {
-        pilha.push(pedra);
-        contadorEmpilhadas++;
-        pontos += 10; // Ganha pontos por empilhar
+        if (pilha.size() < 5) { // Limite de 5 pedras
+            pilha.push(pedra);
+            contadorEmpilhadas++;
+            pontos += 10; // Ganha 10 pontos por empilhar
+            if (!tempoAtivo) {
+                iniciarTempo();
+            }
+        }
     }
 
     public String desempilhar() {
         if (!pilha.isEmpty()) {
             contadorDesempilhadas++;
-            pontos -= 5; // Perde pontos por desempilhar
+            pontos += 5; // Ganha 5 pontos por desempilhar corretamente
             return pilha.pop();
         }
-        return "Pilha vazia!";
+        return null;
     }
 
     public String verTopo() {
-        if (!pilha.isEmpty()) {
-            return pilha.peek();
-        }
-        return "Pilha vazia!";
+        return pilha.isEmpty() ? "Pilha vazia!" : pilha.peek();
     }
 
     public boolean estaVazia() {
@@ -63,24 +65,18 @@ public class PilhaJogo {
         return pontos;
     }
 
-    public void iniciarTempo() {
+    private void iniciarTempo() {
         tempoInicio = System.currentTimeMillis();
+        tempoAtivo = true;
     }
 
-    public long getTempoDecorrido() {
-        if (tempoCongelado) {
-            return tempoInicio;
-        }
-        return System.currentTimeMillis() - tempoInicio;
+    public long getTempoRestante() {
+        long tempoDecorrido = System.currentTimeMillis() - tempoInicio;
+        return Math.max(30000 - tempoDecorrido, 0);
     }
 
-    public void congelarTempo() {
-        tempoCongelado = true;
-    }
-
-    public void descongelarTempo() {
-        tempoCongelado = false;
-        tempoInicio = System.currentTimeMillis();
+    public boolean tempoEsgotado() {
+        return getTempoRestante() == 0;
     }
 
     public void resetar() {
@@ -88,6 +84,6 @@ public class PilhaJogo {
         contadorEmpilhadas = 0;
         contadorDesempilhadas = 0;
         pontos = 0;
-        tempoCongelado = false;
+        tempoAtivo = false;
     }
 }

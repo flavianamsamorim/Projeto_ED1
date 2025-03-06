@@ -7,6 +7,10 @@ package Controller;
 
 import Model.PilhaJogo;
 import View.PilhaView;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
+import javafx.util.Duration;
 /**
  *
  * @author Cliente
@@ -14,44 +18,74 @@ import View.PilhaView;
 public class PilhaController {
     private PilhaJogo pilha;
     private PilhaView view;
+    private Timeline timer;
+    private int tempoRestante;
+    private long tempoInicio; // Armazena o tempo inicial
+    private int tempoGasto;   // Armazena o tempo decorrido corretamente
 
     public PilhaController(PilhaView view) {
-        pilha = new PilhaJogo();
+        this.pilha = new PilhaJogo();
         this.view = view;
+        this.tempoRestante = 30;
     }
 
     public void empilharElemento() {
-        String pedra = "Pedra " + (pilha.getContadorEmpilhadas() + 1); // Cria a pedra com um número sequencial
-        pilha.empilhar(pedra);
-        view.animarEmpilhar(pedra);
-        view.atualizarTopo(pilha.verTopo());
-        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
+        if (pilha.getContadorEmpilhadas() < 5) {
+            String pedra = "Pedra " + (pilha.getContadorEmpilhadas() + 1);
+            pilha.empilhar(pedra);
+            view.animarEmpilhar(pedra);
+            atualizarInterface();
 
-        // Inicia o tempo se for o primeiro empilhamento
-        if (pilha.getContadorEmpilhadas() == 1) {
-            pilha.iniciarTempo();
+            if (pilha.getContadorEmpilhadas() == 1) {
+                iniciarContagemRegressiva();
+            }
         }
-
-        view.atualizarTempo(pilha.getTempoDecorrido());
     }
 
     public void desempilharElemento() {
-        String topo = pilha.desempilhar();
-        view.animarDesempilhar();
-        view.atualizarTopo(topo);
-        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
-        view.atualizarTempo(pilha.getTempoDecorrido());
+        if (!pilha.estaVazia()) {
+            String topo = pilha.desempilhar();
+            view.animarDesempilhar();
+            atualizarInterface();
+
+            // Se a pilha ficar vazia após desempilhar, parar o timer e corrigir tempo
+            if (pilha.estaVazia() && timer != null) {
+                timer.stop();
+
+                // Recalcular tempo gasto e ajustar tempo restante para garantir soma correta
+                tempoGasto = (int) ((System.currentTimeMillis() - tempoInicio) / 1000);
+                tempoRestante = Math.max(30 - tempoGasto, 0); // Garante que nunca fique negativo
+                
+                Platform.runLater(() -> view.atualizarTempo(tempoRestante));
+            }
+        }
     }
 
-    public void congelarTempo() {
-        pilha.congelarTempo();
-        view.exibirCongelarTempo();
+    private void iniciarContagemRegressiva() {
+        tempoInicio = System.currentTimeMillis(); // Captura o tempo inicial
+        tempoRestante = 30;
+        tempoGasto = 0;
+        view.atualizarTempo(tempoRestante);
+
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
+            long tempoAtual = System.currentTimeMillis();
+            tempoGasto = (int) ((tempoAtual - tempoInicio) / 1000); // Calcula tempo gasto
+            tempoRestante = Math.max(30 - tempoGasto, 0); // Ajusta tempo restante para garantir soma = 30
+
+            Platform.runLater(() -> view.atualizarTempo(tempoRestante));
+
+            if (tempoRestante <= 0) {
+                timer.stop();
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
     }
 
-    public void reiniciarJogo() {
-        pilha.resetar();
-        view.atualizarTopo(pilha.verTopo());
-        view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
-        view.atualizarTempo(0);
+    private void atualizarInterface() {
+        Platform.runLater(() -> {
+            view.atualizarTopo(pilha.verTopo());
+            view.atualizarContadores(pilha.getContadorEmpilhadas(), pilha.getContadorDesempilhadas(), pilha.getPontos());
+        });
     }
 }
