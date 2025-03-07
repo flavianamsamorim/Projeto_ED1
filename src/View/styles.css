@@ -1,0 +1,49 @@
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+/* Botões do tabuleiro */
+.button {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-font-size: 16px;
+    -fx-padding: 10px;
+}
+
+.button:hover {
+    -fx-opacity: 0.8;
+}
+
+.button:pressed {
+    -fx-opacity: 0.6;
+}
+
+/* Botões principais */
+#novoJogo {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+#zerarPlacar {
+    -fx-background-color: #FF9800;
+    -fx-text-fill: white;
+}
+
+#desfazerJogada {
+    -fx-background-color: #F44336;
+    -fx-text-fill: white;
+}
+
+/* Estilo do placar */
+.label {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+/* Layout do tabuleiro */
+.grid-pane {
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+    -fx-padding: 15px;
+    -fx-background-color: #ddd;
+}

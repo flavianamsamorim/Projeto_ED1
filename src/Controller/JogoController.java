@@ -1,6 +1,6 @@
-
 package Controller;
 
+import View.FilaView;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import View.PilhaView;
@@ -14,11 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JogoController {
+
     private List<Button> botoes;
 
     public JogoController() {
         botoes = new ArrayList<>();
-        
+
         String[] nomesJogos = {
             "Tipos Básicos", "Operadores", "Condição e Repetição",
             "Classes e Objetos", "Recursividade", "Vetores, Matrizes, Strings",
@@ -44,42 +45,71 @@ public class JogoController {
     // Método para abrir o jogo correto
     private void abrirJogo(String nomeJogo) {
         Stage stage = new Stage();
-        
+
         // Abrir o jogo conforme o nome
         switch (nomeJogo) {
-            case "Pilhas":
-                new PilhaView(stage);
-                break;
-            case "Filas":
-                new GenericView("Jogo de Filas", stage);
-                break;
-            case "Listas Encadeadas":
-                new GenericView("Jogo de Listas Encadeadas", stage);
-                break;
-            case "Complexidade de Algoritmos":
-                new GenericView("Jogo de Complexidade", stage);
-                break;
-            case "Algoritmos de Busca":
-                new GenericView("Jogo de Busca", stage);
-                break;
-            case "Algoritmos de Ordenação":
-                new GenericView("Jogo de Ordenação", stage);
-                break;
             case "Tipos Básicos":
                 new QuizView(stage);
                 break;
+
             case "Operadores":
                 new OperadoresView(stage);
                 break;
+
             case "Condição e Repetição":
                 new LabirintoView(stage);
                 break;
+
             case "Classes e Objetos":
                 new PersonagemView(stage);
                 break;
-            default:
-                // Para jogos não especificados, usaremos o GenericView
-                new GenericView(nomeJogo, stage);
+
+            case "Recursividade":
+                new PersonagemView(stage);
+                break;
+
+            case "Vetores, Matrizes, Strings":
+                new PersonagemView(stage);
+                break;
+
+            case "Arquivos":
+                new PersonagemView(stage);
+                break;
+
+            case "Generic":
+                new PersonagemView(stage);
+                break;
+
+            case "Collection":
+                new PersonagemView(stage);
+                break;
+
+            case "Pilhas":
+                new PilhaView(stage);
+                break;
+
+            case "Filas":
+                new FilaView(stage);
+                break;
+
+            case "Listas Encadeadas":
+                new GenericView("Jogo de Listas Encadeadas", stage);
+                break;
+
+            case "Complexidade de Algoritmos":
+                new GenericView("Jogo de Complexidade", stage);
+                break;
+
+            case "Algoritmos de Busca":
+                new GenericView("Jogo de Busca", stage);
+                break;
+
+            case "Algoritmos de Ordenação":
+                new GenericView("Jogo de Ordenação", stage);
+                break;
+
+            case "Algoritmo de Huffman":
+                new GenericView("Jogo de Ordenação", stage);
                 break;
         }
     }
