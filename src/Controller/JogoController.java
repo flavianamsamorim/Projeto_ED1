@@ -1,10 +1,12 @@
 package Controller;
 
+import View.ArquivosView;
 import View.FilaView;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import View.PilhaView;
 import View.QuizView;
+import View.TorreHanoiView;
 import View.GenericView;
 import View.LabirintoView;
 import View.OperadoresView;
@@ -65,7 +67,7 @@ public class JogoController {
                 break;
 
             case "Recursividade":
-                new PersonagemView(stage);
+                new TorreHanoiView(stage, 5);
                 break;
 
             case "Vetores, Matrizes, Strings":
@@ -73,7 +75,7 @@ public class JogoController {
                 break;
 
             case "Arquivos":
-                new PersonagemView(stage);
+                new ArquivosView(stage);
                 break;
 
             case "Generic":
