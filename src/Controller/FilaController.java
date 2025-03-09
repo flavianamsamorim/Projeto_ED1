@@ -7,8 +7,6 @@ package Controller;
 
 import Model.FilaJogo;
 import View.FilaView;
-import javafx.application.Platform;
-
 /**
  *
  * @author Cliente
@@ -32,44 +30,53 @@ public class FilaController {
             String vencedor = model.verificarVencedor();
 
             if (vencedor != null) {
-                // Atualiza o placar corretamente, sem duplicação
-                if (vencedor.equals("X")) {
-                    placarX++;
-                } else if (vencedor.equals("O")) {
-                    placarO++;
-                }
-
-                // Contabiliza a partida APENAS se houver um vencedor (empates não contam)
-                if (!vencedor.equals("Empate")) {
-                    partidasJogadas++;
-                }
-
-                // Verifica se já atingiu o limite de partidas válidas
-                if (partidasJogadas >= LIMITE_PARTIDAS) {
-                    if (placarX > placarO) {
-                        view.exibirAlertaVencedor("Fim do jogo! O jogador X venceu com placar:\n"
-                                + "Jogador X: " + placarX + "\n"
-                                + "Jogador O: " + placarO);
-                    } else if (placarO > placarX) {
-                        view.exibirAlertaVencedor("Fim do jogo! O jogador O venceu com placar:\n"
-                                + "Jogador X: " + placarX + "\n"
-                                + "Jogador O: " + placarO);
-                    } else {
-                        // Se houver empate no placar final, joga uma partida extra
-                        view.exibirAlertaVencedor("Empate! Uma partida extra será jogada.");
-                        LIMITE_PARTIDAS++; // Aumenta o limite para permitir o desempate
-                        return; // Sai do método para continuar o jogo
-                    }
-
-                    // Reinicia o placar para nova rodada
-                    placarX = 0;
-                    placarO = 0;
-                    partidasJogadas = 0;
-                }
-
-                novoJogo();
+                processarResultado(vencedor);
             }
         }
+    }
+
+    private void processarResultado(String vencedor) {
+        if (vencedor.equals("X")) {
+            placarX++;
+        } else if (vencedor.equals("O")) {
+            placarO++;
+        }
+
+        if (!vencedor.equals("Empate")) {
+            partidasJogadas++;
+        }
+
+        if (partidasJogadas >= LIMITE_PARTIDAS) {
+            determinarCampeao();
+        } else {
+            view.exibirAlertaVencedor("JOGO ENCERRADO! " + (vencedor.equals("Empate") ? "Empate!" : "Vencedor: " + vencedor));
+            novoJogo();
+        }
+    }
+
+    private void determinarCampeao() {
+        String mensagem;
+
+        if (placarX > placarO) {
+            mensagem = "FIM DA RODADA! O jogador X venceu!\nPlacar Final:\nJogador X: " + placarX + " \nJogador O: " + placarO;
+        } else if (placarO > placarX) {
+            mensagem = "FIM DA RODADA! O jogador O venceu!\nPlacar Final:\nJogador X: " + placarX + " \nJogador O: " + placarO;
+        } else {
+            mensagem = "Empate! Uma partida extra será jogada.";
+            LIMITE_PARTIDAS++;
+            view.exibirAlertaVencedor(mensagem);
+            return;
+        }
+
+        view.exibirAlertaVencedor(mensagem);
+        resetPlacar();
+    }
+
+    private void resetPlacar() {
+        placarX = 0;
+        placarO = 0;
+        partidasJogadas = 0;
+        novoJogo();
     }
 
     public void novoJogo() {
@@ -83,11 +90,7 @@ public class FilaController {
     }
 
     private void atualizarView() {
-        String[] estado = new String[9];
-        for (int i = 0; i < 9; i++) {
-            estado[i] = model.getSimbolo(i);
-        }
-        view.atualizarTabuleiro(estado);
+        view.atualizarTabuleiro(model.getEstadoTabuleiro());
         view.atualizarPlacar(placarX, placarO);
     }
 }

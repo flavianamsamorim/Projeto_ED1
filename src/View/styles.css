@@ -2,43 +2,80 @@
     -fx-background-color: #f4f4f4;
 }
 
-/* Botões do tabuleiro */
-.button {
-    -fx-border-color: black;
-    -fx-border-width: 2px;
-    -fx-font-size: 16px;
+/* Título do placar */
+.titulo-placar {
+    -fx-font-size: 20px;
+	-fx-font-weight: bold;
+    -fx-text-fill: blue;
     -fx-padding: 10px;
-}
-
-.button:hover {
-    -fx-opacity: 0.8;
-}
-
-.button:pressed {
-    -fx-opacity: 0.6;
-}
-
-/* Botões principais */
-.novo-jogo {
-    -fx-background-color: #4CAF50;
-    -fx-text-fill: white;
-}
-
-.desfazer-jogada {
-    -fx-background-color: #F44336;
-    -fx-text-fill: white;
+    -fx-alignment: center;
 }
 
 /* Estilo do placar */
-.label {
+.placar-label {
     -fx-font-size: 18px;
     -fx-font-weight: bold;
 }
 
-/* Layout do tabuleiro */
+/* Botões do tabuleiro */
+.tabuleiro-button {
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-min-width: 120px;
+    -fx-min-height: 120px;
+}
+
+/* Ajuste das bordas para um visual uniforme */
 .grid-pane {
     -fx-border-color: black;
     -fx-border-width: 3px;
     -fx-padding: 15px;
     -fx-background-color: #ddd;
+}
+
+/* Removendo bordas externas do tabuleiro */
+.tabuleiro-button:nth-child(1), 
+.tabuleiro-button:nth-child(2), 
+.tabuleiro-button:nth-child(3) {
+    -fx-border-width: 0 2px 2px 0;
+}
+
+.tabuleiro-button:nth-child(4), 
+.tabuleiro-button:nth-child(5), 
+.tabuleiro-button:nth-child(6) {
+    -fx-border-width: 2px 2px 2px 0;
+}
+
+.tabuleiro-button:nth-child(7), 
+.tabuleiro-button:nth-child(8), 
+.tabuleiro-button:nth-child(9) {
+    -fx-border-width: 2px 2px 0 0;
+}
+
+/* Remove a borda direita da última coluna */
+.tabuleiro-button:nth-child(3n) {
+    -fx-border-width: 2px 0 2px 0;
+}
+
+/* Remove a borda inferior da última linha */
+.tabuleiro-button:nth-child(n+7) {
+    -fx-border-width: 2px 2px 0 0;
+}
+
+/* Botões principais */
+.novo-jogo {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 15px;
+}
+
+.desfazer-jogada {
+    -fx-background-color: #F44336;
+    -fx-text-fill: black;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 15px;
 }

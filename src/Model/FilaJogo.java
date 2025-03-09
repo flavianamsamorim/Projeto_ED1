@@ -76,4 +76,9 @@ public class FilaJogo {
     public String getSimbolo(int posicao) {
         return tabuleiro[posicao] == null ? "" : tabuleiro[posicao];
     }
+
+    //Método adicionado para retornar o estado do tabuleiro
+    public String[] getEstadoTabuleiro() {
+        return tabuleiro.clone(); // Retorna uma cópia para evitar modificações externas
+    }
 }

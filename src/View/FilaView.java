@@ -14,12 +14,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+
 /**
  *
  * @author Cliente
  */
 public class FilaView {
     private Button[] botoes;
+    private Label tituloPlacar;
     private Label placarX;
     private Label placarO;
     private Button novoJogo;
@@ -29,58 +31,33 @@ public class FilaView {
     public FilaView(Stage stage) {
         controller = new FilaController(this);
 
-        // Layout principal (HBox para dividir placar e tabuleiro)
         HBox layoutPrincipal = new HBox(30);
         layoutPrincipal.setPadding(new Insets(20));
         layoutPrincipal.setAlignment(Pos.CENTER);
 
-        // Vbox para placar e botões (lado esquerdo)
         VBox painelEsquerdo = new VBox(20);
         painelEsquerdo.setAlignment(Pos.CENTER_LEFT);
 
+        tituloPlacar = new Label("Placar \nMelhor de 5");
+        tituloPlacar.getStyleClass().add("titulo-placar");
+
         placarX = new Label("Jogador X: 0");
         placarO = new Label("Jogador O: 0");
-        placarX.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        placarO.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        placarX.getStyleClass().add("placar-label");
+        placarO.getStyleClass().add("placar-label");
 
-        // Criando botões e aplicando cores
-        novoJogo = new Button("Novo Jogo");
-        desfazerJogada = new Button("Desfazer");
-
-        novoJogo.setStyle("-fx-font-size: 16px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 15px;");
-        desfazerJogada.setStyle("-fx-font-size: 16px; -fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 10px 15px;");
+        novoJogo = criarBotao("Novo Jogo", "novo-jogo");
+        desfazerJogada = criarBotao("Desfazer", "desfazer-jogada");
 
         novoJogo.setOnAction(e -> controller.novoJogo());
         desfazerJogada.setOnAction(e -> controller.desfazerJogada());
 
-        painelEsquerdo.getChildren().addAll(placarX, placarO, novoJogo, desfazerJogada);
+        painelEsquerdo.getChildren().addAll(tituloPlacar, placarX, placarO, novoJogo, desfazerJogada);
 
-        // GridPane para o tabuleiro (lado direito)
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setStyle("-fx-border-color: black; -fx-border-width: 3px; -fx-padding: 15px; -fx-background-color: #ddd;");
+        GridPane grid = criarTabuleiro();
 
-        botoes = new Button[9];
-
-        int cont = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                botoes[cont] = new Button();
-                botoes[cont].setMinSize(120, 120);
-                botoes[cont].setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-background-color: white;");
-                int posicao = cont;
-                botoes[cont].setOnAction(e -> controller.jogar(posicao));
-                grid.add(botoes[cont], j, i);
-                cont++;
-            }
-        }
-
-        // Adiciona os elementos ao layout principal
         layoutPrincipal.getChildren().addAll(painelEsquerdo, grid);
 
-        // Criando e aplicando a cena
         Scene scene = new Scene(layoutPrincipal, 600, 450);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
@@ -88,14 +65,48 @@ public class FilaView {
         stage.show();
     }
 
+    private Button criarBotao(String texto, String estiloClasse) {
+        Button botao = new Button(texto);
+        botao.getStyleClass().add(estiloClasse);
+        return botao;
+    }
+
+    private GridPane criarTabuleiro() {
+        GridPane grid = new GridPane();
+        grid.setAlignment(Pos.CENTER);
+        grid.setHgap(0);
+        grid.setVgap(0);
+        grid.getStyleClass().add("grid-pane");
+
+        botoes = new Button[9];
+        for (int i = 0; i < 9; i++) {
+            botoes[i] = criarBotaoTabuleiro(i);
+            grid.add(botoes[i], i % 3, i / 3);
+        }
+
+        return grid;
+    }
+
+    private Button criarBotaoTabuleiro(int posicao) {
+        Button botao = new Button();
+        botao.setMinSize(120, 120);
+        botao.getStyleClass().add("tabuleiro-button");
+        botao.setOnAction(e -> controller.jogar(posicao));
+        return botao;
+    }
+
     public void atualizarTabuleiro(String[] estado) {
         for (int i = 0; i < 9; i++) {
             botoes[i].setText(estado[i]);
-            if ("X".equals(estado[i])) {
-                botoes[i].setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: blue; -fx-background-color: white;");
-            } else if ("O".equals(estado[i])) {
-                botoes[i].setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: red; -fx-background-color: white;");
-            }
+            estilizarBotaoTabuleiro(botoes[i], estado[i]);
+        }
+    }
+
+    private void estilizarBotaoTabuleiro(Button botao, String valor) {
+        if ("X".equals(valor)) {
+            botao.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: blue; -fx-background-color: white;");
+        } else if ("O".equals(valor)) {
+            botao.setStyle("-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: red; -fx-background-color: white;");
         }
     }
 
