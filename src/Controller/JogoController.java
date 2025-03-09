@@ -11,6 +11,7 @@ import View.GenericView;
 import View.LabirintoView;
 import View.OperadoresView;
 import View.PersonagemView;
+import View.ListaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public class JogoController {
                 break;
 
             case "Listas Encadeadas":
-                new GenericView("Jogo de Listas Encadeadas", stage);
+                new ListaView(stage);
                 break;
 
             case "Complexidade de Algoritmos":

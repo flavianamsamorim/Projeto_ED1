@@ -14,7 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("🎮 Estruturas de Dados Gamificadas 🎮");
+        primaryStage.setTitle("🎮 Estruturas de Dados I: Gamificada 🎮");
 
         JogoController controller = new JogoController();
         JogoView view = new JogoView(controller, primaryStage);  // Passando o controller e o stage

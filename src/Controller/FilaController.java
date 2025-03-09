@@ -58,9 +58,9 @@ public class FilaController {
         String mensagem;
 
         if (placarX > placarO) {
-            mensagem = "FIM DA RODADA! O jogador X venceu!\nPlacar Final:\nJogador X: " + placarX + " \nJogador O: " + placarO;
+            mensagem = "FIM DA RODADA! O jogador X venceu!\nPlacar Final:\nVitórias do Jogador X: " + placarX + " \nVitórias do Jogador O: " + placarO;
         } else if (placarO > placarX) {
-            mensagem = "FIM DA RODADA! O jogador O venceu!\nPlacar Final:\nJogador X: " + placarX + " \nJogador O: " + placarO;
+            mensagem = "FIM DA RODADA! O jogador O venceu!\nPlacar Final:\nVitórias do Jogador X: " + placarX + " \nVitórias do Jogador O: " + placarO;
         } else {
             mensagem = "Empate! Uma partida extra será jogada.";
             LIMITE_PARTIDAS++;
