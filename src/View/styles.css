@@ -19,17 +19,12 @@
 }
 
 /* Botões principais */
-#novoJogo {
+.novo-jogo {
     -fx-background-color: #4CAF50;
     -fx-text-fill: white;
 }
 
-#zerarPlacar {
-    -fx-background-color: #FF9800;
-    -fx-text-fill: white;
-}
-
-#desfazerJogada {
+.desfazer-jogada {
     -fx-background-color: #F44336;
     -fx-text-fill: white;
 }

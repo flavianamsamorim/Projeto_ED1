@@ -23,7 +23,6 @@ public class FilaView {
     private Label placarX;
     private Label placarO;
     private Button novoJogo;
-    private Button zerarPlacar;
     private Button desfazerJogada;
     private FilaController controller;
 
@@ -46,18 +45,15 @@ public class FilaView {
 
         // Criando botões e aplicando cores
         novoJogo = new Button("Novo Jogo");
-        zerarPlacar = new Button("Zerar Placar");
         desfazerJogada = new Button("Desfazer");
 
         novoJogo.setStyle("-fx-font-size: 16px; -fx-background-color: #4CAF50; -fx-text-fill: white; -fx-padding: 10px 15px;");
-        zerarPlacar.setStyle("-fx-font-size: 16px; -fx-background-color: #FF9800; -fx-text-fill: white; -fx-padding: 10px 15px;");
         desfazerJogada.setStyle("-fx-font-size: 16px; -fx-background-color: #F44336; -fx-text-fill: white; -fx-padding: 10px 15px;");
 
         novoJogo.setOnAction(e -> controller.novoJogo());
-        zerarPlacar.setOnAction(e -> controller.zerarPlacar());
         desfazerJogada.setOnAction(e -> controller.desfazerJogada());
 
-        painelEsquerdo.getChildren().addAll(placarX, placarO, novoJogo, zerarPlacar, desfazerJogada);
+        painelEsquerdo.getChildren().addAll(placarX, placarO, novoJogo, desfazerJogada);
 
         // GridPane para o tabuleiro (lado direito)
         GridPane grid = new GridPane();
@@ -88,7 +84,7 @@ public class FilaView {
         Scene scene = new Scene(layoutPrincipal, 600, 450);
         scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         stage.setScene(scene);
-        stage.setTitle("Jogo da Velha - Fila");
+        stage.setTitle("❌ Jogo da Velha ⭕");
         stage.show();
     }
 
@@ -108,11 +104,11 @@ public class FilaView {
         placarO.setText("Jogador O: " + po);
     }
 
-    public void exibirAlertaVencedor(String vencedor) {
+    public void exibirAlertaVencedor(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Fim de Jogo!");
-        alert.setHeaderText("Temos um vencedor!");
-        alert.setContentText("O jogador " + vencedor + " venceu a partida! 🎉");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
         alert.showAndWait();
     }
 }

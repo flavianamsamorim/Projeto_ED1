@@ -28,7 +28,7 @@ public class FilaJogo {
             tabuleiro[posicao] = turnoX ? "X" : "O";
             turnoX = !turnoX;
             jogadas++;
-            filaJogadas.add(posicao); // Enfileira a jogada
+            filaJogadas.add(posicao);
             return true;
         }
         return false;
@@ -66,7 +66,7 @@ public class FilaJogo {
 
     public void desfazerJogada() {
         if (!filaJogadas.isEmpty()) {
-            int ultimaJogada = filaJogadas.poll(); // Remove a jogada mais antiga da fila
+            int ultimaJogada = filaJogadas.poll();
             tabuleiro[ultimaJogada] = null;
             turnoX = !turnoX;
             jogadas--;
@@ -75,9 +75,5 @@ public class FilaJogo {
 
     public String getSimbolo(int posicao) {
         return tabuleiro[posicao] == null ? "" : tabuleiro[posicao];
-    }
-
-    public Queue<Integer> getFilaJogadas() {
-        return filaJogadas;
     }
 }
