@@ -1,3 +1,4 @@
+/* JOGO DA VELHA */
 .root {
     -fx-background-color: #f4f4f4;
 }
@@ -79,3 +80,5 @@
     -fx-font-size: 16px;
     -fx-padding: 10px 15px;
 }
+
+/* JOGO DA MEMORIA */

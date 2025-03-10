@@ -15,7 +15,7 @@ import java.util.Random;
  * @author Cliente
  */
 public class ListaJogo {
-   // Classe Carta
+    // Classe Carta
     public static class Carta {
         private String imagem;
         private boolean virada;
@@ -79,23 +79,19 @@ public class ListaJogo {
 
         public void embaralhar() {
             Random rand = new Random();
-            Carta[] cartas = new Carta[tamanho];
+            List<Carta> cartasLista = new ArrayList<>();
             No atual = cabeca;
-            int i = 0;
+
             while (atual != null) {
-                cartas[i++] = atual.carta;
+                cartasLista.add(atual.carta);
                 atual = atual.proximo;
             }
-            for (int j = tamanho - 1; j > 0; j--) {
-                int k = rand.nextInt(j + 1);
-                Carta temp = cartas[j];
-                cartas[j] = cartas[k];
-                cartas[k] = temp;
-            }
+
+            Collections.shuffle(cartasLista);
+
             atual = cabeca;
-            i = 0;
-            while (atual != null) {
-                atual.carta = cartas[i++];
+            for (Carta carta : cartasLista) {
+                atual.carta = carta;
                 atual = atual.proximo;
             }
         }
@@ -105,18 +101,30 @@ public class ListaJogo {
         }
     }
 
-    // Classe Tabuleiro (Gerenciador do Jogo)
+    // Classe Tabuleiro
     public static class Tabuleiro {
         private ListaEncadeada cartas;
+        private int linhas, colunas;
 
-        public Tabuleiro(String[] imagens, int tamanho) {
+        public Tabuleiro(String[] imagens, int linhas, int colunas) {
+            this.linhas = linhas;
+            this.colunas = colunas;
+            int totalCartas = linhas * colunas;
+
+            if (totalCartas % 2 != 0) {
+                throw new IllegalArgumentException("O tabuleiro deve ter um número par de cartas!");
+            }
+
             cartas = new ListaEncadeada();
             List<String> imagensDuplicadas = new ArrayList<>();
-            for (int i = 0; i < tamanho * tamanho / 2; i++) {
-                imagensDuplicadas.add(imagens[i]);
-                imagensDuplicadas.add(imagens[i]);
+
+            for (int i = 0; i < totalCartas / 2; i++) {
+                imagensDuplicadas.add(imagens[i % imagens.length]);
+                imagensDuplicadas.add(imagens[i % imagens.length]);
             }
+
             Collections.shuffle(imagensDuplicadas);
+
             for (String img : imagensDuplicadas) {
                 cartas.adicionar(new Carta(img));
             }
@@ -129,6 +137,13 @@ public class ListaJogo {
         public int getTamanho() {
             return cartas.getTamanho();
         }
-    } 
-    
+
+        public int getLinhas() {
+            return linhas;
+        }
+
+        public int getColunas() {
+            return colunas;
+        }
+    }
 }
