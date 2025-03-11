@@ -1,6 +1,7 @@
 package Controller;
 
 import View.ArquivosView;
+import View.ComplexAlgoView;
 import View.FilaView;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
@@ -9,6 +10,7 @@ import View.QuizView;
 import View.SimuladorImagemView;
 import View.TorreHanoiView;
 import View.GenericView;
+import View.HuffmanView;
 import View.InventarioMagicoView;
 import View.LabirintoView;
 import View.OperadoresView;
