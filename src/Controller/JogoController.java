@@ -6,12 +6,13 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import View.PilhaView;
 import View.QuizView;
+import View.SimuladorImagemView;
 import View.TorreHanoiView;
 import View.GenericView;
 import View.LabirintoView;
 import View.OperadoresView;
 import View.PersonagemView;
-import View.ListaView;
+//import View.ListaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class JogoController {
                 break;
 
             case "Vetores, Matrizes, Strings":
-                new PersonagemView(stage);
+                new SimuladorImagemView(stage);
                 break;
 
             case "Arquivos":
@@ -96,7 +97,7 @@ public class JogoController {
                 break;
 
             case "Listas Encadeadas":
-                new ListaView(stage);
+                new PersonagemView(stage);
                 break;
 
             case "Complexidade de Algoritmos":
