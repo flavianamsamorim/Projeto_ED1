@@ -9,10 +9,11 @@ import View.QuizView;
 import View.SimuladorImagemView;
 import View.TorreHanoiView;
 import View.GenericView;
+import View.InventarioMagicoView;
 import View.LabirintoView;
 import View.OperadoresView;
 import View.PersonagemView;
-import View.ListaView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +35,8 @@ public class JogoController {
 
         for (String nome : nomesJogos) {
             Button btn = new Button(nome);
-
+            btn.setStyle("-fx-background-color:rgb(97, 168, 29); -fx-text-fill: white; "
+            + "-fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
             // Definir ações para cada botão
             btn.setOnAction(e -> abrirJogo(nome));
 
@@ -81,7 +83,7 @@ public class JogoController {
                 break;
 
             case "Generic":
-                new PersonagemView(stage);
+                new InventarioMagicoView(stage);
                 break;
 
             case "Collection":

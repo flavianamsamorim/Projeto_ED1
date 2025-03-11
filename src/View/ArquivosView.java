@@ -34,10 +34,10 @@ public class ArquivosView {
         VBox root = new VBox(10);
         root.setPadding(new Insets(15));
         root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: #f0f0f0;");
+        root.setStyle("-fx-background-color: #d9f1ff;");
 
         Label lblTitulo = new Label("Jogo de Arquivos - Edição de Personagens");
-        lblTitulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        lblTitulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         // ListView para exibir personagens
         listView = new ListView<>();
@@ -58,9 +58,13 @@ public class ArquivosView {
 
         // Rótulos
         Label lblVida = new Label("Vida:");
+        lblVida.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         Label lblMana = new Label("Mana:");
+        lblMana.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         Label lblAtaque = new Label("Ataque:");
+        lblAtaque.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         Label lblDefesa = new Label("Defesa:");
+        lblDefesa.setStyle("-fx-font-size: 13px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         // Campos de texto
         txtVida = new TextField();
