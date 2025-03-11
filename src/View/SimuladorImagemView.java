@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import java.util.Random;
 
 public class SimuladorImagemView {
 
@@ -29,7 +28,13 @@ public class SimuladorImagemView {
 
     private void configurarLayout(Stage stage) {
         BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #f0f0f0, #ffffff);");
+        root.setStyle("-fx-background-color: #d9f1ff;");
+
+        // Título acima da matriz
+        Text titulo = new Text("Clique para alterar a matriz");
+        titulo.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
+        titulo.setFont(new Font(18));
+        titulo.setFill(Color.BLACK);
 
         // Grade de pixels (Canvas)
         desenharMatriz();
@@ -43,6 +48,11 @@ public class SimuladorImagemView {
 
         // Botão de inversão de cores
         Button btnInverter = new Button("Inverter Cores");
+        btnInverter.setStyle( "-fx-background-color: #27ae60; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-weight: bold; " +
+        "-fx-font-size: 14px; " +
+        "-fx-background-radius: 8;");
         btnInverter.setOnAction(e -> {
             for (int i = 0; i < SIZE; i++) {
                 for (int j = 0; j < SIZE; j++) {
@@ -53,25 +63,25 @@ public class SimuladorImagemView {
             atualizarTextoMatriz();
         });
 
-        // Botão para alternar para o jogo de frases
-        Button btnTrocarParaString = new Button("Trocar para Jogo de Strings");
-        btnTrocarParaString.setOnAction(e -> trocarParaJogoDeStrings());
-
         // Layout para exibir índices alinhados ao grid
         Canvas indexCanvas = new Canvas((SIZE + 1) * PIXEL_SIZE, (SIZE + 1) * PIXEL_SIZE);
         desenharIndices(indexCanvas.getGraphicsContext2D());
 
         StackPane canvasContainer = new StackPane(indexCanvas, canvas);
 
+        // Layout principal
+        VBox mainBox = new VBox(10, titulo, canvasContainer);
+        mainBox.setAlignment(Pos.CENTER);
+
         // Layout inferior com exibição da matriz
-        VBox bottomBox = new VBox(10, matrizText, btnInverter, btnTrocarParaString);
+        VBox bottomBox = new VBox(10, matrizText, btnInverter);
         bottomBox.setAlignment(Pos.CENTER);
 
-        root.setCenter(canvasContainer);
+        root.setTop(mainBox);
         root.setBottom(bottomBox);
         atualizarTextoMatriz();
 
-        Scene scene = new Scene(root, 450, 500);
+        Scene scene = new Scene(root, 450, 600);
         stage.setScene(scene);
         stage.setTitle("Simulador de Imagem em Pixels");
         stage.show();
@@ -115,50 +125,5 @@ public class SimuladorImagemView {
             sb.append("},\n");
         }
         matrizText.setText(sb.toString());
-    }
-
-    private void trocarParaJogoDeStrings() {
-        new JogoDeStringsView(stage);
-    }
-}
-
-class JogoDeStringsView {
-    private final Stage stage;
-    private final String[] sujeitos = {"O gato", "A professora", "O cientista"};
-    private final String[] verbos = {"comeu", "descobriu", "derrubou"};
-    private final String[] objetos = {"um livro", "um mistério", "o café"};
-    private final Text fraseText = new Text();
-
-    public JogoDeStringsView(Stage stage) {
-        this.stage = stage;
-        configurarLayout();
-    }
-
-    private void configurarLayout() {
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #f0f0f0, #ffffff);");
-
-        Button btnGerarFrase = new Button("Gerar Frase");
-        btnGerarFrase.setOnAction(e -> gerarFrase());
-        
-        Button btnTrocarParaPixels = new Button("Voltar para Pixels");
-        btnTrocarParaPixels.setOnAction(e -> new SimuladorImagemView(stage));
-
-        VBox vbox = new VBox(20, fraseText, btnGerarFrase, btnTrocarParaPixels);
-        vbox.setAlignment(Pos.CENTER);
-        root.setCenter(vbox);
-
-        Scene scene = new Scene(root, 450, 300);
-        stage.setScene(scene);
-        stage.setTitle("Criador de Frases Aleatórias");
-        stage.show();
-    }
-
-    private void gerarFrase() {
-        Random random = new Random();
-        String frase = sujeitos[random.nextInt(sujeitos.length)] + " " +
-                       verbos[random.nextInt(verbos.length)] + " " +
-                       objetos[random.nextInt(objetos.length)] + ".";
-        fraseText.setText(frase);
     }
 }
