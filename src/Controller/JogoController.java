@@ -13,7 +13,7 @@ import View.InventarioMagicoView;
 import View.LabirintoView;
 import View.OperadoresView;
 import View.PersonagemView;
-
+import View.ListaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,11 +99,11 @@ public class JogoController {
                 break;
 
             case "Listas Encadeadas":
-                new PersonagemView(stage);
+                new ListaView(stage);
                 break;
 
             case "Complexidade de Algoritmos":
-                new GenericView("Jogo de Complexidade", stage);
+                new ComplexAlgoView(stage);
                 break;
 
             case "Algoritmos de Busca":
@@ -115,7 +115,7 @@ public class JogoController {
                 break;
 
             case "Algoritmo de Huffman":
-                new GenericView("Jogo de Ordenação", stage);
+                new HuffmanView(stage);
                 break;
         }
     }
