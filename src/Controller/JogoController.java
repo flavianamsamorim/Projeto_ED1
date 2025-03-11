@@ -28,7 +28,7 @@ public class JogoController {
 
         String[] nomesJogos = {
             "Tipos Básicos", "Operadores", "Condição e Repetição",
-            "Classes e Objetos", "Recursividade", "Vetores, Matrizes, Strings",
+            "Classes e Objetos", "Recursividade", "Vetores e Matrizes",
             "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
             "Algoritmos de Ordenação", "Algoritmo de Huffman"
@@ -74,7 +74,7 @@ public class JogoController {
                 new TorreHanoiView(stage, 5);
                 break;
 
-            case "Vetores, Matrizes, Strings":
+            case "Vetores e Matrizes":
                 new SimuladorImagemView(stage);
                 break;
 
