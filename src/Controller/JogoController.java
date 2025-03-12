@@ -14,6 +14,7 @@ import View.OperadoresView;
 import View.PersonagemView;
 
 import View.PilhaView;
+import View.QuizColecoesJava;
 import View.FilaView;
 import View.ListaView;
 import View.ComplexAlgoView;
@@ -93,7 +94,7 @@ public class JogoController {
                 break;
 
             case "Collection":
-                new PersonagemView(stage);
+                new QuizColecoesJava(stage);
                 break;
 
             case "Pilhas":
