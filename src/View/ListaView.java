@@ -39,7 +39,7 @@ public class ListaView {
         stage.setTitle("🎯 Jogo da Memória 🚀");
         
         // Criando o título da interface
-        Text titulo = new Text("ESCOLHA A DIMENSÃO");
+        Text titulo = new Text("Escolha e dimensão \ndo Jogo");
         titulo.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titulo.setFill(Color.DARKBLUE);
         

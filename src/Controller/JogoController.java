@@ -1,21 +1,25 @@
 package Controller;
 
-import View.ArquivosView;
-import View.ComplexAlgoView;
-import View.FilaView;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import View.PilhaView;
+
+import View.ArquivosView;
 import View.QuizView;
 import View.SimuladorImagemView;
 import View.TorreHanoiView;
 import View.GenericView;
-import View.HuffmanView;
 import View.InventarioMagicoView;
 import View.LabirintoView;
 import View.OperadoresView;
 import View.PersonagemView;
+
+import View.PilhaView;
+import View.FilaView;
 import View.ListaView;
+import View.ComplexAlgoView;
+import View.BuscaView;
+import View.HuffmanView;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +113,7 @@ public class JogoController {
                 break;
 
             case "Algoritmos de Busca":
-                new GenericView("Jogo de Busca", stage);
+                new BuscaView(stage);
                 break;
 
             case "Algoritmos de Ordenação":
