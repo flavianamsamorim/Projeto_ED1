@@ -2,19 +2,17 @@ package Controller;
 
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-
-import View.ArquivosView;
-import View.SimuladorImagemView;
-import View.TorreHanoiView;
+import View.Arquivos.ArquivosView;
+import View.ClassesObjetos.PersonagemView;
+import View.Collection.QuizColecoesJava;
+import View.CondicaoRepeticao.LabirintoView;
+import View.Generic.InventarioMagicoView;
 import View.Operadores.OperadoresView;
+import View.Recursividade.TorreHanoiView;
 import View.TiposBasicos.QuizView;
+import View.VetoresMatriz.SimuladorImagemView;
 import View.GenericView;
-import View.InventarioMagicoView;
-import View.LabirintoView;
-import View.PersonagemView;
-
 import View.PilhaView;
-import View.QuizColecoesJava;
 import View.FilaView;
 import View.ListaView;
 import View.ComplexAlgoView;

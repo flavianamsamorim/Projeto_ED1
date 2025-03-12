@@ -25,13 +25,18 @@ public class FilaController {
     }
 
     public void jogar(int posicao) {
-        if (model.jogar(posicao)) {
-            atualizarView();
-            String vencedor = model.verificarVencedor();
+        try {
+            if (model.jogar(posicao)) {
+                atualizarView();
+                String vencedor = model.verificarVencedor();
 
-            if (vencedor != null) {
-                processarResultado(vencedor);
+                if (vencedor != null) {
+                    processarResultado(vencedor);
+                }
             }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 

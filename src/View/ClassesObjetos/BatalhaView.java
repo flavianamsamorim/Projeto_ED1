@@ -1,6 +1,5 @@
-package View;
+package View.ClassesObjetos;
 
-import Model.Personagem;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -8,6 +7,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.util.List;
+
+import Model.ClassesObjetos.Personagem;
 
 
 //classe do jogo de classes e objetos

@@ -1,9 +1,9 @@
-package View;
+package View.ClassesObjetos;
 
-import Model.Arqueiro;
-import Model.Guerreiro;
-import Model.Mago;
-import Model.Personagem;
+import Model.ClassesObjetos.Arqueiro;
+import Model.ClassesObjetos.Guerreiro;
+import Model.ClassesObjetos.Mago;
+import Model.ClassesObjetos.Personagem;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;

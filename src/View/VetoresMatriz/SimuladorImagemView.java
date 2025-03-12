@@ -1,4 +1,4 @@
-package View;
+package View.VetoresMatriz;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
