@@ -45,24 +45,35 @@ public class BuscaJogo {
 
         public Tabuleiro() {
             grid = new Celula[TAMANHO][TAMANHO];
-            inicializarMapaFixo();
+            inicializarMapaAleatorio();
         }
 
-        private void inicializarMapaFixo() {
-            boolean[][] mapa = {
-                {false, false, false, false, true},
-                {false, true, false, false, false},
-                {false, false, false, true, false},
-                {false, false, false, false, false},
-                {true, false, false, false, false}
-            };
+        private void inicializarMapaAleatorio() {
+    // Inicializa a matriz do mapa com todas as células como "false" (sem navio)
+    boolean[][] mapa = new boolean[TAMANHO][TAMANHO];
 
-            for (int i = 0; i < TAMANHO; i++) {
-                for (int j = 0; j < TAMANHO; j++) {
-                    grid[i][j] = new Celula(mapa[i][j]);
-                }
-            }
+    Random rand = new Random();
+    int naviosColocados = 0;
+    int totalNavios = 7; // Número total de navios que você quer posicionar
+
+    while (naviosColocados < totalNavios) {
+        int x = rand.nextInt(TAMANHO); // Posição aleatória para X (linha)
+        int y = rand.nextInt(TAMANHO); // Posição aleatória para Y (coluna)
+
+        // Verifica se já existe um navio naquela posição
+        if (!mapa[x][y]) {
+            mapa[x][y] = true; // Coloca um navio nessa posição
+            naviosColocados++; // Incrementa o contador de navios colocados
         }
+    }
+
+    // Preenche o grid com as posições dos navios (mapeado por verdadeiro)
+    for (int i = 0; i < TAMANHO; i++) {
+        for (int j = 0; j < TAMANHO; j++) {
+            grid[i][j] = new Celula(mapa[i][j]);
+        }
+    }
+}
 
         public Celula getCelula(int x, int y) {
             if (x >= 0 && x < TAMANHO && y >= 0 && y < TAMANHO) {
