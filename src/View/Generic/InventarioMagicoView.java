@@ -1,4 +1,4 @@
-package View;
+package View.Generic;
 
 import java.util.stream.Collectors;
 import javafx.collections.FXCollections;

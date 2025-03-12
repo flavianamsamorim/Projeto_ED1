@@ -5,25 +5,25 @@
  */
 package Model;
 
-import java.util.LinkedList;
-import java.util.Queue;
+
+import EstruturasDeDados.Fila.Fila;
 /**
  *
  * @author Cliente
  */
 public class FilaJogo {
     private String[] tabuleiro;
-    private Queue<Integer> filaJogadas;
+    private Fila<Integer> filaJogadas;
     private boolean turnoX;
     private int jogadas;
 
     public FilaJogo() {
         tabuleiro = new String[9];
-        filaJogadas = new LinkedList<>();
+        filaJogadas = new Fila<>();
         reset();
     }
 
-    public boolean jogar(int posicao) {
+    public boolean jogar(int posicao) throws Exception {
         if (tabuleiro[posicao] == null) {
             tabuleiro[posicao] = turnoX ? "X" : "O";
             turnoX = !turnoX;

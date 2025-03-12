@@ -6,6 +6,7 @@
 package View;
 
 import Controller.PilhaController;
+import EstruturasDeDados.Pilha.Pilha;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
@@ -17,20 +18,19 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import java.util.Stack;
 
 public class PilhaView {
     private PilhaController controller;
     private Label lblTitulo, lblTopo, lblContadorEmpilhadas, lblContadorDesempilhadas, lblTempo, lblPontos, lblMensagemFinal;
     private VBox layout, pilhaContainer;
-    private Stack<VBox> pilhaPedras; // Alterado para Stack para garantir LIFO
+    private Pilha<VBox> pilhaPedras; // Alterado para Stack para garantir LIFO
     private int tempoRestante = 30;
     private boolean tarefaConcluida = false;
     private long tempoInicio, tempoFinal;
 
     public PilhaView(Stage stage) {
         controller = new PilhaController(this);
-        pilhaPedras = new Stack<>();
+        pilhaPedras = new Pilha<>(5);
 
         lblTitulo = new Label("Objetivo: Empilhe e Desempilhe 5 pedras o mais rápido!");
         lblTopo = new Label("Topo da Pilha: (vazio)");
