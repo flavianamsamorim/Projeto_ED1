@@ -1,4 +1,4 @@
-package View;
+package View.Operadores;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

@@ -4,13 +4,13 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import View.ArquivosView;
-import View.QuizView;
 import View.SimuladorImagemView;
 import View.TorreHanoiView;
+import View.Operadores.OperadoresView;
+import View.TiposBasicos.QuizView;
 import View.GenericView;
 import View.InventarioMagicoView;
 import View.LabirintoView;
-import View.OperadoresView;
 import View.PersonagemView;
 
 import View.PilhaView;
