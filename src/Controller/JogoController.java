@@ -31,11 +31,11 @@ public class JogoController {
         botoes = new ArrayList<>();
 
         String[] nomesJogos = {
-            "Tipos Básicos", "Operadores", "Condição e Repetição",
-            "Classes e Objetos", "Recursividade", "Vetores e Matrizes",
-            "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
-            "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
-            "Algoritmos de Ordenação", "Algoritmo de Huffman"
+            "Complexidade de Algoritmos", "Listas Encadeadas", "Condição e Repetição",
+            "Classes e Objetos", "Algoritmos de Busca", "Algoritmos de Ordenação",
+            "Vetores e Matrizes", "Tipos Básicos", "Collection", "Recursividade", "Filas",
+            "Operadores", "Generic", "Pilhas",
+            "Arquivos", "Algoritmo de Huffman"
         };
 
         for (String nome : nomesJogos) {

@@ -1,80 +1,90 @@
 package View;
 
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
-import Controller.JogoController;
 import javafx.stage.Stage;
+import Controller.JogoController;
 
 import java.util.List;
 
 public class JogoView {
-    private VBox mainLayout;
+    private Pane mainLayout;
     private Scene scene;
 
     public JogoView(JogoController controller, Stage stage) {
-        // Layout principal para centralizar a lista encadeada de botões
-        mainLayout = new VBox(20);
+        mainLayout = new Pane();
         mainLayout.setStyle("-fx-background-color: #d9f1ff;");
-        mainLayout.setAlignment(Pos.CENTER);
 
-        // Obtém os botões do controlador
         List<Button> botoes = controller.getBotoes();
-        
-        if (botoes.isEmpty()) {
-            scene = new Scene(mainLayout, 400, 600);
-            return;
-        }
-
-        // Layout para organizar os botões em linhas com 3 botões por linha
-        VBox listLayout = new VBox(20); // Layout para organizar os botões em lista
-        listLayout.setAlignment(Pos.CENTER);
-
-        // Adiciona os botões em grupos de 3 por linha
-        int index = 0;
-        while (index < botoes.size()) {
-            // Criar uma linha de botões
-            HBox row = new HBox(10);
-            row.setAlignment(Pos.CENTER);
-            for (int i = 0; i < 3 && index < botoes.size(); i++) {
-                row.getChildren().add(botoes.get(index++));
-            }
-            listLayout.getChildren().add(row);
-
-            // Se não for a última linha, adicionar as linhas conectando os botões
-            if (index < botoes.size()) {
-                HBox lineRow = new HBox(10);
-                lineRow.setAlignment(Pos.CENTER);
-                // Adiciona as linhas entre os botões
-                for (int i = 0; i < row.getChildren().size() - 1; i++) {
-                    // Criar uma linha que conecta o botão atual ao próximo
-                    Button botaoInicial = (Button) row.getChildren().get(i);
-                    Button botaoFinal = (Button) row.getChildren().get(i + 1);
-
-                    // Definir a linha para ligar as laterais dos botões
-                    Line line = new Line();
-                    line.setStartX(botaoInicial.getLayoutX() + botaoInicial.getWidth());
-                    line.setStartY(botaoInicial.getLayoutY() + botaoInicial.getHeight() / 2);
-                    line.setEndX(botaoFinal.getLayoutX());
-                    line.setEndY(botaoFinal.getLayoutY() + botaoFinal.getHeight() / 2);
-                    line.setStroke(Color.BLACK); // Cor da linha
-                    line.setStrokeWidth(2);
-
-                    lineRow.getChildren().add(line);
-                }
-                listLayout.getChildren().add(lineRow);
-            }
-        }
-
-        // Adiciona a lista ao layout principal
-        mainLayout.getChildren().add(listLayout);
-
-        // Criando a cena
         scene = new Scene(mainLayout, 600, 600);
+        stage.setMaximized(true); // Faz a janela abrir maximizada
+        stage.setScene(scene);
+
+        if (!botoes.isEmpty()) {
+            organizarArvore(botoes, scene.getWidth(), scene.getHeight());
+        }
+
+        // Adiciona um listener para atualizar a árvore quando a janela for redimensionada
+        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            mainLayout.getChildren().clear(); // Limpa os elementos antigos
+            organizarArvore(botoes, newWidth.doubleValue(), oldWidth.doubleValue()); // Reorganiza os botões
+        });
+
+        stage.setScene(scene);
+    }
+
+    private void organizarArvore(List<Button> botoes, double larguraJanela, double comprimentoJanela) {
+        if (botoes.isEmpty()) return;
+
+        double startX = (larguraJanela /2)-50; // Centraliza horizontalmente (compensando o tamanho do botao)
+        double startY = (comprimentoJanela/2)/2;  
+        double offsetX = larguraJanela / 4; // Espaçamento inicial ajustável
+        double offsetY = comprimentoJanela/4;  
+
+        adicionarNo(botoes, 0, startX, startY, offsetX, offsetY, 0);
+    }
+
+    private void adicionarNo(List<Button> botoes, int index, double x, double y, double offsetX, double offsetY, int profundidade) {
+        if (index >= botoes.size()) return;
+
+        Button botao = botoes.get(index);
+        botao.setLayoutX(x);
+        botao.setLayoutY(y);
+        mainLayout.getChildren().add(botao);
+
+        int leftChild = 2 * index + 1;
+        int rightChild = 2 * index + 2;
+
+        double novoOffsetX = Math.max(offsetX / 2, 50); // Garante espaçamento mínimo
+
+        if (leftChild < botoes.size()) {
+            double childX = x - novoOffsetX;
+            double childY = y + offsetY;
+            desenharLinha(x, y, childX, childY);
+            adicionarNo(botoes, leftChild, childX, childY, novoOffsetX, offsetY, profundidade + 1);
+        }
+        if (rightChild < botoes.size()) {
+            double childX = x + novoOffsetX;
+            double childY = y + offsetY;
+            desenharLinha(x, y, childX, childY);
+            adicionarNo(botoes, rightChild, childX, childY, novoOffsetX, offsetY, profundidade + 1);
+        }
+    }
+
+    private void desenharLinha(double startX, double startY, double endX, double endY) {
+        double buttonSize = 50; // Supondo que os botões sejam 50x50 pixels
+        double centerXStart = startX + (buttonSize / 2);
+        double centerYStart = startY + (buttonSize / 2);
+        double centerXEnd = endX + (buttonSize / 2);
+        double centerYEnd = endY + (buttonSize / 2);
+
+        Line line = new Line(centerXStart, centerYStart, centerXEnd, centerYEnd);
+        line.setStroke(Color.BLACK);
+        line.setStrokeWidth(2);
+        mainLayout.getChildren().add(line);
     }
 
     public Scene getScene() {
