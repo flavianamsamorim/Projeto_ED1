@@ -71,4 +71,6 @@ public class BuscaController implements BuscaJogo.AtualizacaoTabuleiro {
 
         view.atualizarTabuleiro(x, y, atingiuNavio);
     }
+    
+    
 }

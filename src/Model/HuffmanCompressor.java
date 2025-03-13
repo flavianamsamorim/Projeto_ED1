@@ -7,6 +7,8 @@ package Model;
 
 import java.io.*;
 import java.util.*;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 /**
  *
  * @author Cliente
@@ -25,6 +27,11 @@ public class HuffmanCompressor {
     // Permite ao Controller definir um listener de progresso
     public void setProgressListener(ProgressListener listener) {
         this.progressListener = listener;
+    }
+
+    // Retorna o listener de progresso
+    public ProgressListener getProgressListener() {
+        return progressListener;
     }
 
     // Constrói a árvore de Huffman a partir do mapa de frequências
@@ -58,7 +65,7 @@ public class HuffmanCompressor {
         generateCodes(node.right, code + "1");
     }
 
-    // Comprime o arquivo de entrada e grava o arquivo comprimido de saída
+    // Compressão de arquivo
     public void compressFile(File inputFile, File outputFile) throws IOException {
         Map<Character, Integer> frequencyMap = new HashMap<>();
         StringBuilder content = new StringBuilder();
@@ -85,8 +92,10 @@ public class HuffmanCompressor {
         // Construir a árvore de Huffman a partir do mapa de frequências
         buildTree(frequencyMap);
 
-        // Tente usar o BitOutputStream para garantir o fechamento correto
-        try (BitOutputStream out = new BitOutputStream(new FileOutputStream(outputFile))) {
+        // Uso do try-with-resources para garantir o fechamento correto do fluxo
+        try (FileOutputStream fileOut = new FileOutputStream(outputFile);
+             BitOutputStream out = new BitOutputStream(fileOut)) {
+
             // Escreve o mapa de frequências
             out.writeObject(frequencyMap);
 
@@ -98,7 +107,6 @@ public class HuffmanCompressor {
             // Garantir que o último byte seja escrito corretamente
             out.flush();  // Força a gravação dos bits finais
         } catch (IOException e) {
-            // Trate o erro adequadamente
             e.printStackTrace();
             throw new IOException("Erro ao tentar escrever no arquivo comprimido.", e);
         }
@@ -157,12 +165,12 @@ public class HuffmanCompressor {
                 throw new IllegalArgumentException("O bit deve ser 0 ou 1.");
             }
 
-            currentByte = (currentByte << 1) | bit; // Desloca o bit para a posição correta
+            currentByte = (currentByte << 1) | bit;
             numBitsInCurrentByte++;
 
             if (numBitsInCurrentByte == 8) {
-                out.write(currentByte);  // Escreve o byte completo
-                currentByte = 0;         // Reseta o byte
+                out.write(currentByte);
+                currentByte = 0;
                 numBitsInCurrentByte = 0;
             }
         }
@@ -170,7 +178,7 @@ public class HuffmanCompressor {
         // Escreve múltiplos bits (por exemplo, um código de Huffman)
         public void writeBits(String bits) throws IOException {
             for (char bit : bits.toCharArray()) {
-                writeBit(bit == '1' ? 1 : 0); // Escreve cada bit individualmente
+                writeBit(bit == '1' ? 1 : 0);
             }
         }
 
@@ -184,7 +192,7 @@ public class HuffmanCompressor {
         // Método para forçar a gravação de bits restantes
         public void flush() throws IOException {
             if (numBitsInCurrentByte > 0) {
-                currentByte <<= (8 - numBitsInCurrentByte);  // Preenche os bits restantes com 0
+                currentByte <<= (8 - numBitsInCurrentByte);
                 out.write(currentByte);
             }
         }
@@ -192,7 +200,7 @@ public class HuffmanCompressor {
         // Fechar o stream e garantir que os dados remanescentes sejam escritos
         @Override
         public void close() throws IOException {
-            flush();  // Chama flush para garantir que os bits finais sejam gravados
+            flush();
             out.close();
         }
     }
@@ -205,20 +213,20 @@ public class HuffmanCompressor {
 
         public BitInputStream(InputStream in) throws IOException {
             this.in = in;
-            this.numBitsInCurrentByte = 8; // Inicializa com 8 bits prontos para leitura
+            this.numBitsInCurrentByte = 8;
         }
 
         // Lê um único bit
         public int readBit() throws IOException {
             if (numBitsInCurrentByte == 8) {
-                currentByte = in.read();  // Lê um byte do arquivo
+                currentByte = in.read();
                 if (currentByte == -1) {
-                    return -1;  // Fim do arquivo
+                    return -1;
                 }
                 numBitsInCurrentByte = 0;
             }
 
-            int bit = (currentByte >> (7 - numBitsInCurrentByte)) & 1;  // Extrai o bit
+            int bit = (currentByte >> (7 - numBitsInCurrentByte)) & 1;
             numBitsInCurrentByte++;
             return bit;
         }
@@ -228,9 +236,7 @@ public class HuffmanCompressor {
             StringBuilder bits = new StringBuilder();
             for (int i = 0; i < numBits; i++) {
                 int bit = readBit();
-                if (bit == -1) {
-                    break;
-                }
+                if (bit == -1) break;
                 bits.append(bit);
             }
             return bits.toString();
@@ -257,23 +263,23 @@ public class HuffmanCompressor {
         HuffmanNode left;
         HuffmanNode right;
 
-        HuffmanNode(char character, int frequency) {
+        public HuffmanNode(char character, int frequency) {
             this.character = character;
             this.frequency = frequency;
             this.left = null;
             this.right = null;
         }
 
-        HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right) {
-            this.character = '\0'; // No interno não tem caractere
+        public HuffmanNode(int frequency, HuffmanNode left, HuffmanNode right) {
+            this.character = '\0'; // Nó interno não tem um caractere
             this.frequency = frequency;
             this.left = left;
             this.right = right;
         }
 
         @Override
-        public int compareTo(HuffmanNode o) {
-            return Integer.compare(this.frequency, o.frequency);
+        public int compareTo(HuffmanNode other) {
+            return Integer.compare(this.frequency, other.frequency);
         }
     }
 }

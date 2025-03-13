@@ -17,6 +17,7 @@ import View.FilaView;
 import View.ListaView;
 import View.ComplexAlgoView;
 import View.BuscaView;
+import View.OrdemView;
 import View.HuffmanView;
 
 
@@ -116,7 +117,7 @@ public class JogoController {
                 break;
 
             case "Algoritmos de Ordenação":
-                new GenericView("Jogo de Ordenação", stage);
+                new OrdemView(stage);
                 break;
 
             case "Algoritmo de Huffman":

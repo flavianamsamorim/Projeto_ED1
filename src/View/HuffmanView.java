@@ -6,15 +6,16 @@
 package View;
 
 import Controller.HuffmanController;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ProgressBar;
 import javafx.application.Platform;
-import javafx.stage.FileChooser;
-import java.io.File;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import java.io.File;
 /**
  *
  * @author Cliente
@@ -23,56 +24,62 @@ public class HuffmanView {
     private HuffmanController controller;
     private Stage stage;
 
+    // A interface de progresso
+    private ProgressBar progressBar;
+
     public HuffmanView(Stage stage) {
         this.stage = stage;
-        this.controller = new HuffmanController(stage);  // Criação do controller aqui
+        this.controller = new HuffmanController(stage);
         initializeUI();
     }
 
     private void initializeUI() {
+        // Botões para compressão e descompressão
         Button btnCompress = new Button("Comprimir Arquivo");
-        btnCompress.setOnAction(e -> compressFile());
+        btnCompress.setOnAction(e -> controller.openFileChooserForCompression(progressBar));
 
         Button btnDecompress = new Button("Descomprimir Arquivo");
-        btnDecompress.setOnAction(e -> decompressFile());
+        btnDecompress.setOnAction(e -> controller.openFileChooserForDecompression(progressBar));
 
-        VBox root = new VBox(10, btnCompress, btnDecompress);
+        // Barra de progresso para mostrar o progresso da compressão
+        progressBar = new ProgressBar(0);
+        progressBar.setVisible(false);  // Inicialmente invisível, até que a compressão comece
+
+        // Layout da cena
+        VBox root = new VBox(10, btnCompress, btnDecompress, progressBar);
         Scene scene = new Scene(root, 300, 150);
 
+        // Configurações da janela
         stage.setTitle("Compressão Huffman");
         stage.setScene(scene);
         stage.show();
     }
 
-    private void compressFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Text Files", "*.txt"));
-        File file = fileChooser.showOpenDialog(stage);
-
-        if (file != null && file.exists()) {
-            controller.compressFile(file);
-        } else {
-            showAlert("Erro", "Nenhum arquivo válido selecionado.");
-        }
-    }
-
-    private void decompressFile() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Huffman Files", "*.huff"));
-        File file = fileChooser.showOpenDialog(stage);
-
-        if (file != null && file.exists()) {
-            controller.decompressFile(file);
-        } else {
-            showAlert("Erro", "Nenhum arquivo válido selecionado.");
-        }
-    }
-
-    private void showAlert(String title, String message) {
+    // Método para mostrar alertas na interface
+    public void showAlert(String title, String message) {
+        // Método para mostrar alertas na interface
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    // Método para exibir a barra de progresso
+    public void showProgressBar(boolean visible) {
+        // Torna a barra de progresso visível ou invisível
+        Platform.runLater(() -> progressBar.setVisible(visible));
+    }
+
+    // Método para atualizar o progresso na interface
+    public void updateProgressBar(double progress) {
+        // Atualiza a barra de progresso
+        Platform.runLater(() -> progressBar.setProgress(progress));
+    }
+
+    // Método para esconder a barra de progresso quando o processo terminar
+    public void hideProgressBar() {
+        // Torna a barra de progresso invisível após a operação
+        Platform.runLater(() -> progressBar.setVisible(false));
     }
 }
