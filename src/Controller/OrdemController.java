@@ -9,6 +9,7 @@ import Model.OrdemJogo;
 import View.OrdemView;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
+import javafx.application.Platform;
 /**
  *
  * @author Cliente
@@ -18,17 +19,20 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
     private OrdemJogo.Tabuleiro tabuleiro;
     private OrdemJogo.Ordenacao ordenacao;
     private OrdemView view;
-    private boolean ordenacaoEmExecucao = false; // Impede execução simultânea de ordenações
+    private boolean ordenacaoEmExecucao = false;
 
     public OrdemController(OrdemView view) {
         this.tabuleiro = new OrdemJogo.Tabuleiro();
         this.view = view;
-        this.ordenacao = new OrdemJogo.Ordenacao(this); // 'this' agora é do tipo AtualizacaoTabuleiro
+        this.ordenacao = new OrdemJogo.Ordenacao(this); // Atualiza a interface do tabuleiro
+    }
+
+    public OrdemJogo.Tabuleiro getTabuleiro() {
+        return tabuleiro;
     }
 
     // Método para executar a ordenação com base no tipo selecionado
     public void executarOrdem(String tipo) {
-        // Impede que a ordenação seja executada se já houver uma em execução
         if (ordenacaoEmExecucao) {
             System.out.println("A ordenação já está em execução.");
             return;
@@ -90,7 +94,12 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
     // Método que atualiza o tabuleiro na interface
     @Override
     public void atualizarTabuleiro(int i, char letra) {
+        // Calcular a posição x e y no grid a partir do índice 'i' (0-7)
+        int x = i / 4;  // Linha do grid (0 ou 1)
+        int y = i % 4;  // Coluna do grid (0-3)
+
         System.out.println("Letra atualizada na posição: " + i + " para: " + letra);
-        view.atualizarTabuleiro(i, letra); // Atualiza a interface com a nova letra
+        // Atualiza a interface com a nova letra
+        Platform.runLater(() -> view.atualizarTabuleiro(x, y, letra));
     }
 }

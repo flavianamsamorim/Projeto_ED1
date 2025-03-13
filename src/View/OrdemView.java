@@ -6,7 +6,7 @@
 package View;
 
 import Controller.OrdemController;
-import java.util.Random;
+import Model.OrdemJogo;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,6 +15,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.application.Platform;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -25,38 +31,37 @@ public class OrdemView {
     private OrdemController controller;
     private Label statusLabel;
     private Label ordenacaoLabel;
-    private ImageView[] gridImages;
+    private ImageView[][] gridImages;
     private Image abcImg, letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg;
     private Button btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort;
+    private OrdemJogo.Tabuleiro tabuleiro;
 
     public OrdemView(Stage stage) {
         controller = new OrdemController(this);
-
-        // Inicializar componentes
+        tabuleiro = new OrdemJogo.Tabuleiro();  // Inicializa o tabuleiro
         carregarImagens();
         inicializarInterface(stage);
     }
 
     private void carregarImagens() {
         abcImg = new Image("file:src/imagens/folder/abc.png");
-        letraAImg = new Image("file:src/imagens/folder/letraA.jpg");
-        letraBImg = new Image("file:src/imagens/folder/letraB.jpg");
-        letraCImg = new Image("file:src/imagens/folder/letraC.jpg");
-        letraDImg = new Image("file:src/imagens/folder/letraD.jpg");
-        letraEImg = new Image("file:src/imagens/folder/letraE.jpg");
-        letraFImg = new Image("file:src/imagens/folder/letraF.jpg");
-        letraGImg = new Image("file:src/imagens/folder/letraG.jpg");
-        letraHImg = new Image("file:src/imagens/folder/letraH.jpg");
+        letraAImg = new Image("file:src/imagens/folder/letraA.png");
+        letraBImg = new Image("file:src/imagens/folder/letraB.png");
+        letraCImg = new Image("file:src/imagens/folder/letraC.png");
+        letraDImg = new Image("file:src/imagens/folder/letraD.png");
+        letraEImg = new Image("file:src/imagens/folder/letraE.png");
+        letraFImg = new Image("file:src/imagens/folder/letraF.png");
+        letraGImg = new Image("file:src/imagens/folder/letraG.png");
+        letraHImg = new Image("file:src/imagens/folder/letraH.png");
     }
 
     private void inicializarInterface(Stage stage) {
         statusLabel = new Label("Escolha um método de ordenação");
         statusLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
+        
         ordenacaoLabel = new Label("");
         ordenacaoLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
-        // Criar botões de ordenação
         btnBubbleSort = criarBotao("🔴 Bubble Sort", "bubbleSort");
         btnSelectionSort = criarBotao("🔴 Selection Sort", "selectionSort");
         btnInsertionSort = criarBotao("🔴 Insertion Sort", "insertionSort");
@@ -64,11 +69,9 @@ public class OrdemView {
         btnShellSort = criarBotao("🔴 Shell Sort", "shellSort");
         btnHeapSort = criarBotao("🔴 Heap Sort", "heapSort");
 
-        // Botões em uma VBox alinhada à direita
         VBox buttonBox = new VBox(10, btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort);
         buttonBox.setAlignment(Pos.CENTER_RIGHT);
 
-        // Criar a imagem principal fixa e centralizada
         ImageView imgViewABC = new ImageView(abcImg);
         imgViewABC.setPreserveRatio(true);
         imgViewABC.setFitWidth(300);
@@ -76,11 +79,9 @@ public class OrdemView {
         HBox abcBox = new HBox(imgViewABC);
         abcBox.setAlignment(Pos.CENTER);
 
-        // Criar tabuleiro
-        GridPane gridPane = criarTabuleiro();
+        GridPane tabuleiroGrid = criarTabuleiro();
 
-        // Layout principal
-        HBox mainLayout = new HBox(30, gridPane, buttonBox);
+        HBox mainLayout = new HBox(30, tabuleiroGrid, buttonBox);
         mainLayout.setAlignment(Pos.CENTER);
 
         VBox vbox = new VBox(20, abcBox, statusLabel, mainLayout, ordenacaoLabel);
@@ -90,9 +91,8 @@ public class OrdemView {
         BorderPane root = new BorderPane();
         root.setCenter(vbox);
 
-        // Definir a cena
         Scene scene = new Scene(root, 600, 600);
-        stage.setTitle("🔢 Ordenação: Jogo da Ordem");
+        stage.setTitle("Ordenação: Jogo da Ordem 🔢 ");
         stage.setScene(scene);
         stage.show();
     }
@@ -105,32 +105,48 @@ public class OrdemView {
     }
 
     private GridPane criarTabuleiro() {
-        GridPane gridPane = new GridPane();
-        gridPane.setHgap(5);
-        gridPane.setVgap(5);
-        gridPane.setAlignment(Pos.CENTER_LEFT);
+        GridPane tabuleiroGrid = new GridPane();
+        tabuleiroGrid.setHgap(10);
+        tabuleiroGrid.setVgap(10);
+        tabuleiroGrid.setAlignment(Pos.CENTER_LEFT);
 
-        gridImages = new ImageView[8];
-        Image[] imagens = {letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg};
-        Random random = new Random();
+        gridImages = new ImageView[2][4]; // Grid 2x4
+        List<Image> listaImagens = carregarImagensTabuleiro();
 
         int index = 0;
         for (int row = 0; row < 2; row++) {
             for (int col = 0; col < 4; col++) {
-                ImageView imgView = new ImageView(abcImg);
-                imgView.setFitWidth(50);
-                imgView.setFitHeight(50);
-                imgView.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
-                gridPane.add(imgView, col, row);
-                gridImages[index++] = imgView;
+                ImageView imgView = new ImageView(listaImagens.get(index));
+                imgView.setFitWidth(70);
+                imgView.setFitHeight(70);
+                imgView.setStyle("-fx-border-color: black; -fx-border-width: 2px; -fx-background-color: white;");
+                tabuleiroGrid.add(imgView, col, row);
+                gridImages[row][col] = imgView;
+                index++;
             }
         }
-        return gridPane;
+        return tabuleiroGrid;
     }
 
-    public void atualizarTabuleiro(int i, char letra) {
-        Image letraImg = obterImagemLetra(letra);
-        gridImages[i].setImage(letraImg);
+    private List<Image> carregarImagensTabuleiro() {
+        // Criando uma lista de imagens, para que o tabuleiro tenha as letras embaralhadas
+        List<Image> imagens = new ArrayList<>();
+        imagens.add(letraAImg);
+        imagens.add(letraBImg);
+        imagens.add(letraCImg);
+        imagens.add(letraDImg);
+        imagens.add(letraEImg);
+        imagens.add(letraFImg);
+        imagens.add(letraGImg);
+        imagens.add(letraHImg);
+        Collections.shuffle(imagens);
+        return imagens;
+    }
+
+    // Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
+    public void atualizarTabuleiro(int x, int y, char letra) {
+        Image imagemAtual = obterImagemLetra(letra);
+        gridImages[x][y].setImage(imagemAtual);
     }
 
     private Image obterImagemLetra(char letra) {
@@ -147,6 +163,7 @@ public class OrdemView {
         }
     }
 
+    // Método para bloquear os botões enquanto a ordenação está em execução
     public void bloquearBotoes() {
         btnBubbleSort.setDisable(true);
         btnSelectionSort.setDisable(true);
@@ -156,6 +173,7 @@ public class OrdemView {
         btnHeapSort.setDisable(true);
     }
 
+    // Método para desbloquear os botões após a execução da ordenação
     public void desbloquearBotoes() {
         btnBubbleSort.setDisable(false);
         btnSelectionSort.setDisable(false);
