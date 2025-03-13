@@ -6,6 +6,7 @@
 package View;
 
 import Controller.OrdemController;
+import java.util.Random;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -56,22 +57,33 @@ public class OrdemView {
         ordenacaoLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         // Criar botões de ordenação
-        btnBubbleSort = criarBotao("🔵 Bubble Sort", "bubbleSort");
+        btnBubbleSort = criarBotao("🔴 Bubble Sort", "bubbleSort");
         btnSelectionSort = criarBotao("🔴 Selection Sort", "selectionSort");
-        btnInsertionSort = criarBotao("🟡 Insertion Sort", "insertionSort");
-        btnQuickSort = criarBotao("🟢 Quick Sort", "quickSort");
-        btnShellSort = criarBotao("🟣 Shell Sort", "shellSort");
-        btnHeapSort = criarBotao("🟠 Heap Sort", "heapSort");
+        btnInsertionSort = criarBotao("🔴 Insertion Sort", "insertionSort");
+        btnQuickSort = criarBotao("🔴 Quick Sort", "quickSort");
+        btnShellSort = criarBotao("🔴 Shell Sort", "shellSort");
+        btnHeapSort = criarBotao("🔴 Heap Sort", "heapSort");
 
-        // Botões em uma HBox
-        HBox buttonBox = new HBox(20, btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort);
-        buttonBox.setAlignment(Pos.CENTER);
+        // Botões em uma VBox alinhada à direita
+        VBox buttonBox = new VBox(10, btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort);
+        buttonBox.setAlignment(Pos.CENTER_RIGHT);
+
+        // Criar a imagem principal fixa e centralizada
+        ImageView imgViewABC = new ImageView(abcImg);
+        imgViewABC.setPreserveRatio(true);
+        imgViewABC.setFitWidth(300);
+
+        HBox abcBox = new HBox(imgViewABC);
+        abcBox.setAlignment(Pos.CENTER);
 
         // Criar tabuleiro
         GridPane gridPane = criarTabuleiro();
 
         // Layout principal
-        VBox vbox = new VBox(20, statusLabel, buttonBox, gridPane, ordenacaoLabel);
+        HBox mainLayout = new HBox(30, gridPane, buttonBox);
+        mainLayout.setAlignment(Pos.CENTER);
+
+        VBox vbox = new VBox(20, abcBox, statusLabel, mainLayout, ordenacaoLabel);
         vbox.setAlignment(Pos.CENTER);
         vbox.setStyle("-fx-padding: 20px; -fx-background-color: #87CEEB;");
 
@@ -88,24 +100,30 @@ public class OrdemView {
     private Button criarBotao(String texto, String tipoOrdenacao) {
         Button botao = new Button(texto);
         botao.setStyle("-fx-font-size: 14px; -fx-background-radius: 10px;");
-        botao.setOnAction(e -> controller.executarOrdem(tipoOrdenacao)); // Correção: uso de executarOrdem
+        botao.setOnAction(e -> controller.executarOrdem(tipoOrdenacao));
         return botao;
     }
 
     private GridPane criarTabuleiro() {
         GridPane gridPane = new GridPane();
-        gridPane.setHgap(2);
-        gridPane.setVgap(2);
-        gridPane.setAlignment(Pos.CENTER);
+        gridPane.setHgap(5);
+        gridPane.setVgap(5);
+        gridPane.setAlignment(Pos.CENTER_LEFT);
 
-        gridImages = new ImageView[5];
-        for (int i = 0; i < 5; i++) {
-            ImageView imgView = new ImageView(abcImg);
-            imgView.setFitWidth(50);
-            imgView.setFitHeight(50);
-            imgView.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
-            gridPane.add(imgView, i, 0);  // A linha é sempre a 0 porque é 1D
-            gridImages[i] = imgView;
+        gridImages = new ImageView[8];
+        Image[] imagens = {letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg};
+        Random random = new Random();
+
+        int index = 0;
+        for (int row = 0; row < 2; row++) {
+            for (int col = 0; col < 4; col++) {
+                ImageView imgView = new ImageView(abcImg);
+                imgView.setFitWidth(50);
+                imgView.setFitHeight(50);
+                imgView.setStyle("-fx-border-color: black; -fx-border-width: 2px;");
+                gridPane.add(imgView, col, row);
+                gridImages[index++] = imgView;
+            }
         }
         return gridPane;
     }
@@ -125,12 +143,11 @@ public class OrdemView {
             case 'F': return letraFImg;
             case 'G': return letraGImg;
             case 'H': return letraHImg;
-            default: return abcImg; // Caso a letra não seja válida
+            default: return abcImg;
         }
     }
 
     public void bloquearBotoes() {
-        // Desativa os botões após selecionar uma ordenação
         btnBubbleSort.setDisable(true);
         btnSelectionSort.setDisable(true);
         btnInsertionSort.setDisable(true);
@@ -140,7 +157,6 @@ public class OrdemView {
     }
 
     public void desbloquearBotoes() {
-        // Reativa os botões após a ordenação
         btnBubbleSort.setDisable(false);
         btnSelectionSort.setDisable(false);
         btnInsertionSort.setDisable(false);

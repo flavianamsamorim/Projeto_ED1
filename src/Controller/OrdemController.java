@@ -18,7 +18,7 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
     private OrdemJogo.Tabuleiro tabuleiro;
     private OrdemJogo.Ordenacao ordenacao;
     private OrdemView view;
-    private boolean ordenacaoEmExecucao = false; // Para evitar execução simultânea
+    private boolean ordenacaoEmExecucao = false; // Impede execução simultânea de ordenações
 
     public OrdemController(OrdemView view) {
         this.tabuleiro = new OrdemJogo.Tabuleiro();
@@ -28,39 +28,42 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
 
     // Método para executar a ordenação com base no tipo selecionado
     public void executarOrdem(String tipo) {
-        // Impede que a ordenação seja executada se já estiver em execução
+        // Impede que a ordenação seja executada se já houver uma em execução
         if (ordenacaoEmExecucao) {
             System.out.println("A ordenação já está em execução.");
             return;
         }
 
-        ordenacaoEmExecucao = true; // Indica que a ordenação está em execução
-        view.bloquearBotoes(); // Bloqueia todos os botões enquanto a ordenação ocorre
+        ordenacaoEmExecucao = true; // Marca que a ordenação está em execução
+        view.bloquearBotoes(); // Bloqueia os botões enquanto a ordenação ocorre
 
         // Chama o método de ordenação correspondente
+        Runnable metodoDeOrdenacao = obterMetodoOrdenacao(tipo);
+        if (metodoDeOrdenacao != null) {
+            executarOrdenacaoComDelay(metodoDeOrdenacao); // Executa o método com delay
+        } else {
+            System.out.println("Método de ordenação inválido.");
+            finalizarOrdenacao(); // Finaliza a ordenação se tipo inválido
+        }
+    }
+
+    // Método que retorna o método de ordenação correspondente ao tipo
+    private Runnable obterMetodoOrdenacao(String tipo) {
         switch (tipo) {
             case "bubbleSort":
-                executarOrdenacaoComDelay(() -> ordenacao.bubbleSort(tabuleiro));
-                break;
+                return () -> ordenacao.bubbleSort(tabuleiro);
             case "selectionSort":
-                executarOrdenacaoComDelay(() -> ordenacao.selectionSort(tabuleiro));
-                break;
+                return () -> ordenacao.selectionSort(tabuleiro);
             case "insertionSort":
-                executarOrdenacaoComDelay(() -> ordenacao.insertionSort(tabuleiro));
-                break;
+                return () -> ordenacao.insertionSort(tabuleiro);
             case "quickSort":
-                executarOrdenacaoComDelay(() -> ordenacao.quickSort(tabuleiro, 0, tabuleiro.getTamanho() - 1));
-                break;
+                return () -> ordenacao.quickSort(tabuleiro, 0, tabuleiro.getTamanho() - 1);
             case "shellSort":
-                executarOrdenacaoComDelay(() -> ordenacao.shellSort(tabuleiro));
-                break;
+                return () -> ordenacao.shellSort(tabuleiro);
             case "heapSort":
-                executarOrdenacaoComDelay(() -> ordenacao.heapSort(tabuleiro));
-                break;
+                return () -> ordenacao.heapSort(tabuleiro);
             default:
-                System.out.println("Método de ordenação inválido.");
-                ordenacaoEmExecucao = false; // Libera a ordenação se o tipo não for reconhecido
-                view.desbloquearBotoes(); // Reativa os botões
+                return null; // Retorna null se o tipo de ordenação for inválido
         }
     }
 
@@ -72,11 +75,16 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
             if (!tabuleiro.estaOrdenado()) { // Se o tabuleiro não estiver ordenado, continua
                 executarOrdenacaoComDelay(metodoDeOrdenacao); // Chama recursivamente até terminar a ordenação
             } else {
-                ordenacaoEmExecucao = false; // Libera a ordenação quando termina
-                view.desbloquearBotoes(); // Reativa os botões após a conclusão
+                finalizarOrdenacao(); // Finaliza a ordenação
             }
         });
         delay.play();
+    }
+
+    // Método para finalizar a ordenação e reabilitar a interface
+    private void finalizarOrdenacao() {
+        ordenacaoEmExecucao = false; // Libera a ordenação
+        view.desbloquearBotoes(); // Reativa os botões após a conclusão
     }
 
     // Método que atualiza o tabuleiro na interface
