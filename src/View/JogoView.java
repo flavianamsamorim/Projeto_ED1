@@ -2,6 +2,7 @@ package View;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -18,6 +19,23 @@ public class JogoView {
         mainLayout = new Pane();
         mainLayout.setStyle("-fx-background-color: #d9f1ff;");
 
+        Label titulo = new Label("Estrutura de Dados");
+        titulo.setStyle("-fx-font-size: 65px; -fx-font-weight: bold;");
+        // Centraliza horizontalmente
+        titulo.layoutXProperty().bind(mainLayout.widthProperty().subtract(titulo.widthProperty()).divide(2));
+        titulo.setLayoutY(10); // Distância do topo
+
+        mainLayout.getChildren().add(titulo);
+
+        Label instrucao = new Label("Clique em cada nó para testar seus conhecimentos");
+        instrucao.setStyle("-fx-font-size: 25px;");
+        // Centraliza horizontalmente
+instrucao.layoutXProperty().bind(mainLayout.widthProperty().subtract(instrucao.widthProperty()).divide(2));
+
+// Posiciona na parte inferior da tela
+instrucao.layoutYProperty().bind(mainLayout.heightProperty().subtract(50));
+        mainLayout.getChildren().add(instrucao);
+
         List<Button> botoes = controller.getBotoes();
         scene = new Scene(mainLayout, 600, 600);
         stage.setMaximized(true); // Faz a janela abrir maximizada
@@ -30,6 +48,7 @@ public class JogoView {
         // Adiciona um listener para atualizar a árvore quando a janela for redimensionada
         scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
             mainLayout.getChildren().clear(); // Limpa os elementos antigos
+            mainLayout.getChildren().addAll(titulo, instrucao);
             organizarArvore(botoes, newWidth.doubleValue(), oldWidth.doubleValue()); // Reorganiza os botões
         });
 
