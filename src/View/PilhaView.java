@@ -53,8 +53,10 @@ public class PilhaView {
 
         layout = new VBox(10, lblTitulo, lblTopo, lblContadorEmpilhadas, lblContadorDesempilhadas, lblTempo, lblPontos, pilhaContainer, btnEmpilhar, btnDesempilhar, btnVoltar, lblMensagemFinal);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
-        Scene scene = new Scene(layout, 300, 500);
+        Scene scene = new Scene(layout, 450, 400);
         stage.setScene(scene);
         stage.setTitle("Pilha de Pedras");
         stage.show();

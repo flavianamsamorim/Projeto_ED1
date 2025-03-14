@@ -39,10 +39,10 @@ public class ListaView {
         stage.setTitle("🎯 Jogo da Memória 🚀");
         
         // Criando o título da interface
-        Text titulo = new Text("Escolha e dimensão \ndo Jogo");
+        Text titulo = new Text("Escolha a dimensão \ndo Jogo");
         titulo.setFont(Font.font("Arial", FontWeight.BOLD, 20));
         titulo.setFill(Color.DARKBLUE);
-        
+                
         // Criando os botões com estilo melhorado
         Button btn2x2 = criarBotao("2x2");
         Button btn2x3 = criarBotao("2x3");
@@ -62,16 +62,17 @@ public class ListaView {
         btn4x4.setOnAction(e -> iniciarJogo(4, 4));
 
         // Organizando os botões horizontalmente
-        HBox botoesLayout = new HBox(10, btn2x2, btn2x3, btn2x4, btn2x5, btn2x6, btn2x7, btn4x4);
+        HBox botoesLayout = new HBox(5, btn2x2, btn2x3, btn2x4, btn2x5, btn2x6, btn2x7, btn4x4);
         botoesLayout.setAlignment(Pos.CENTER);
 
         // Criando um layout vertical para alinhar tudo no centro
-        VBox layout = new VBox(15, titulo, botoesLayout);
+        VBox layout = new VBox(55, titulo, botoesLayout);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color: lightgray; -fx-padding: 20;");
+        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
         // Configurando a cena
-        stage.setScene(new Scene(layout, 400, 150));
+        stage.setScene(new Scene(layout, 450, 400));
         stage.show();
     }
     

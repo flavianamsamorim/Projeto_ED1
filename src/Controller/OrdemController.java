@@ -7,52 +7,47 @@ package Controller;
 
 import Model.OrdemJogo;
 import View.OrdemView;
+import Model.OrdemJogo.AtualizacaoTabuleiro;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-import javafx.application.Platform;
+import javafx.scene.image.Image;
 /**
  *
  * @author Cliente
  */
-public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
+public class OrdemController implements AtualizacaoTabuleiro {
 
     private OrdemJogo.Tabuleiro tabuleiro;
-    private OrdemJogo.Ordenacao ordenacao;
     private OrdemView view;
     private boolean ordenacaoEmExecucao = false;
 
     public OrdemController(OrdemView view) {
-        this.tabuleiro = new OrdemJogo.Tabuleiro();
         this.view = view;
-        this.ordenacao = new OrdemJogo.Ordenacao(this); // Atualiza a interface do tabuleiro
+        this.tabuleiro = new OrdemJogo.Tabuleiro(view.carregarImagensTabuleiro());
     }
 
-    public OrdemJogo.Tabuleiro getTabuleiro() {
-        return tabuleiro;
-    }
-
-    // Método para executar a ordenação com base no tipo selecionado
     public void executarOrdem(String tipo) {
         if (ordenacaoEmExecucao) {
             System.out.println("A ordenação já está em execução.");
             return;
         }
 
-        ordenacaoEmExecucao = true; // Marca que a ordenação está em execução
-        view.bloquearBotoes(); // Bloqueia os botões enquanto a ordenação ocorre
+        ordenacaoEmExecucao = true;
+        view.bloquearBotoes();
 
-        // Chama o método de ordenação correspondente
-        Runnable metodoDeOrdenacao = obterMetodoOrdenacao(tipo);
+        // Passa o tabuleiro e a callback ao chamar obterMetodoOrdenacao
+        Runnable metodoDeOrdenacao = obterMetodoOrdenacao(tipo, tabuleiro, this);
         if (metodoDeOrdenacao != null) {
-            executarOrdenacaoComDelay(metodoDeOrdenacao); // Executa o método com delay
+            executarOrdenacaoComDelay(metodoDeOrdenacao);
         } else {
             System.out.println("Método de ordenação inválido.");
-            finalizarOrdenacao(); // Finaliza a ordenação se tipo inválido
+            finalizarOrdenacao();
         }
     }
 
-    // Método que retorna o método de ordenação correspondente ao tipo
-    private Runnable obterMetodoOrdenacao(String tipo) {
+    private Runnable obterMetodoOrdenacao(String tipo, OrdemJogo.Tabuleiro tabuleiro, OrdemJogo.AtualizacaoTabuleiro callback) {
+        OrdemJogo.Ordenacao ordenacao = new OrdemJogo.Ordenacao(callback);
+
         switch (tipo) {
             case "bubbleSort":
                 return () -> ordenacao.bubbleSort(tabuleiro);
@@ -61,45 +56,61 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
             case "insertionSort":
                 return () -> ordenacao.insertionSort(tabuleiro);
             case "quickSort":
-                return () -> ordenacao.quickSort(tabuleiro, 0, tabuleiro.getTamanho() - 1);
+                return () -> ordenacao.quickSort(tabuleiro, 0, tabuleiro.getLetras().size() - 1);
             case "shellSort":
                 return () -> ordenacao.shellSort(tabuleiro);
             case "heapSort":
                 return () -> ordenacao.heapSort(tabuleiro);
             default:
-                return null; // Retorna null se o tipo de ordenação for inválido
+                return null;
         }
     }
 
-    // Método para execução de ordenação com delay
     private void executarOrdenacaoComDelay(Runnable metodoDeOrdenacao) {
-        PauseTransition delay = new PauseTransition(Duration.seconds(0.5)); // Delay de meio segundo entre as mudanças
+        PauseTransition delay = new PauseTransition(Duration.seconds(0.5)); // Delay de meio segundo
         delay.setOnFinished(event -> {
             metodoDeOrdenacao.run();
-            if (!tabuleiro.estaOrdenado()) { // Se o tabuleiro não estiver ordenado, continua
-                executarOrdenacaoComDelay(metodoDeOrdenacao); // Chama recursivamente até terminar a ordenação
+            atualizarTabuleiroVisual(); 
+            if (!tabuleiro.estaOrdenado()) {
+                executarOrdenacaoComDelay(metodoDeOrdenacao); 
             } else {
-                finalizarOrdenacao(); // Finaliza a ordenação
+                finalizarOrdenacao();
             }
         });
         delay.play();
     }
 
-    // Método para finalizar a ordenação e reabilitar a interface
     private void finalizarOrdenacao() {
-        ordenacaoEmExecucao = false; // Libera a ordenação
-        view.desbloquearBotoes(); // Reativa os botões após a conclusão
+        ordenacaoEmExecucao = false;
+        view.desbloquearBotoes();
     }
 
-    // Método que atualiza o tabuleiro na interface
-    @Override
-    public void atualizarTabuleiro(int i, char letra) {
-        // Calcular a posição x e y no grid a partir do índice 'i' (0-7)
-        int x = i / 4;  // Linha do grid (0 ou 1)
-        int y = i % 4;  // Coluna do grid (0-3)
+    private void atualizarTabuleiroVisual() {
+        // Atualiza todas as células do tabuleiro
+        for (int i = 0; i < tabuleiro.getLetras().size(); i++) {
+            char letra = tabuleiro.getLetras().get(i);
+            // Dividindo o índice do tabuleiro para linhas e colunas (2x4)
+            view.atualizarTabuleiro(i / 4, i % 4, letra); 
+        }
+    }
 
-        System.out.println("Letra atualizada na posição: " + i + " para: " + letra);
-        // Atualiza a interface com a nova letra
-        Platform.runLater(() -> view.atualizarTabuleiro(x, y, letra));
+    @Override
+    public void atualizarTabuleiro(int i, int j, Image imagem) {
+        // Aqui você pode obter a letra associada à imagem
+        char letra = obterLetraAssociada(imagem);
+        // Chame a função para atualizar a célula no tabuleiro com a letra
+        view.atualizarTabuleiro(i, j, letra);
+    }
+
+    private char obterLetraAssociada(Image imagem) {
+        if (imagem == view.getLetraAImg()) return 'A';
+        if (imagem == view.getLetraBImg()) return 'B';
+        if (imagem == view.getLetraCImg()) return 'C';
+        if (imagem == view.getLetraDImg()) return 'D';
+        if (imagem == view.getLetraEImg()) return 'E';
+        if (imagem == view.getLetraFImg()) return 'F';
+        if (imagem == view.getLetraGImg()) return 'G';
+        if (imagem == view.getLetraHImg()) return 'H';
+        return ' '; // Se a imagem não for encontrada, retornamos um espaço
     }
 }

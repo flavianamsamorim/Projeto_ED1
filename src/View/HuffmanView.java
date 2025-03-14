@@ -47,7 +47,9 @@ public class HuffmanView {
 
         // Layout da cena
         VBox root = new VBox(10, btnCompress, btnDecompress, progressBar);
-        Scene scene = new Scene(root, 300, 150);
+        Scene scene = new Scene(root, 450, 400);
+        root.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
         // Configurações da janela
         stage.setTitle("Compressão Huffman");

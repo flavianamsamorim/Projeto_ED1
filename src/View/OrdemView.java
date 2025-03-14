@@ -6,7 +6,6 @@
 package View;
 
 import Controller.OrdemController;
-import Model.OrdemJogo;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,10 +14,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.application.Platform;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,11 +31,9 @@ public class OrdemView {
     private ImageView[][] gridImages;
     private Image abcImg, letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg;
     private Button btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort;
-    private OrdemJogo.Tabuleiro tabuleiro;
-
+    
     public OrdemView(Stage stage) {
         controller = new OrdemController(this);
-        tabuleiro = new OrdemJogo.Tabuleiro();  // Inicializa o tabuleiro
         carregarImagens();
         inicializarInterface(stage);
     }
@@ -86,7 +81,8 @@ public class OrdemView {
 
         VBox vbox = new VBox(20, abcBox, statusLabel, mainLayout, ordenacaoLabel);
         vbox.setAlignment(Pos.CENTER);
-        vbox.setStyle("-fx-padding: 20px; -fx-background-color: #87CEEB;");
+        vbox.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
         BorderPane root = new BorderPane();
         root.setCenter(vbox);
@@ -128,7 +124,7 @@ public class OrdemView {
         return tabuleiroGrid;
     }
 
-    private List<Image> carregarImagensTabuleiro() {
+    public List<Image> carregarImagensTabuleiro() {
         // Criando uma lista de imagens, para que o tabuleiro tenha as letras embaralhadas
         List<Image> imagens = new ArrayList<>();
         imagens.add(letraAImg);
@@ -144,12 +140,15 @@ public class OrdemView {
     }
 
     // Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
-    public void atualizarTabuleiro(int x, int y, char letra) {
+    public void atualizarTabuleiro(int linha, int coluna, char letra) {
+        // Obtém a imagem correspondente à letra
         Image imagemAtual = obterImagemLetra(letra);
-        gridImages[x][y].setImage(imagemAtual);
+
+        // Atualiza a imagem na posição específica do tabuleiro (matriz 2x4)
+        gridImages[linha][coluna].setImage(imagemAtual);
     }
 
-    private Image obterImagemLetra(char letra) {
+    public Image obterImagemLetra(char letra) {
         switch (letra) {
             case 'A': return letraAImg;
             case 'B': return letraBImg;
@@ -182,5 +181,38 @@ public class OrdemView {
         btnShellSort.setDisable(false);
         btnHeapSort.setDisable(false);
         ordenacaoLabel.setText("Ordenação concluída!");
+    }
+
+    // Métodos para obter as imagens das letras. Eles são utilizados no Controller para obter a imagem correspondente à letra.
+    public Image getLetraAImg() {
+        return letraAImg;
+    }
+
+    public Image getLetraBImg() {
+        return letraBImg;
+    }
+
+    public Image getLetraCImg() {
+        return letraCImg;
+    }
+
+    public Image getLetraDImg() {
+        return letraDImg;
+    }
+
+    public Image getLetraEImg() {
+        return letraEImg;
+    }
+
+    public Image getLetraFImg() {
+        return letraFImg;
+    }
+
+    public Image getLetraGImg() {
+        return letraGImg;
+    }
+
+    public Image getLetraHImg() {
+        return letraHImg;
     }
 }

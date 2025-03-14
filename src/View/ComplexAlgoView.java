@@ -28,6 +28,8 @@ public class ComplexAlgoView {
         controller = new ComplexAlgoController(this);
         layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
+        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
         lblPergunta = new Label();
         lblFeedback = new Label();
@@ -44,7 +46,7 @@ public class ComplexAlgoView {
 
         // Adicionando os elementos à cena
         layout.getChildren().addAll(lblPergunta, btnA, btnB, btnC, lblFeedback, btnProxima);
-        Scene scene = new Scene(layout, 400, 400);
+        Scene scene = new Scene(layout, 450, 400);
         stage.setScene(scene);
         stage.setTitle("Quiz Complexidade de Algoritmos");
         stage.show();

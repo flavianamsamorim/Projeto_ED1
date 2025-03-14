@@ -68,12 +68,13 @@ public class BuscaView {
 
         VBox vbox = new VBox(20, statusLabel, buttonBox, gridPane, ataqueLabel); // ataqueLabel agora está no final
         vbox.setAlignment(Pos.CENTER);
-        vbox.setStyle("-fx-padding: 20px; -fx-background-color: #87CEEB;");
+        vbox.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
+                + "-fx-padding: 20;");
 
         BorderPane root = new BorderPane();
         root.setCenter(vbox);
 
-        Scene scene = new Scene(root, 500, 550);
+        Scene scene = new Scene(root, 450, 400);
         stage.setTitle("🚢 Busca: Batalha Naval 💣");
         stage.setScene(scene);
         stage.show();

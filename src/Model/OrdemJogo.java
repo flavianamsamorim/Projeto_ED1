@@ -5,100 +5,80 @@
  */
 package Model;
 
-import java.util.Random;
-import javafx.animation.PauseTransition;
-import javafx.util.Duration;
+import javafx.scene.image.Image;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author Cliente
  */
 public class OrdemJogo {
 
-    // Classe que representa uma célula com uma letra e um estado de ordenação
-    public static class Celula {
-        private char letra;
-        private boolean ordenada;
-
-        public Celula(char letra) {
-            this.letra = letra;
-            this.ordenada = false;
-        }
-
-        public char getLetra() {
-            return letra;
-        }
-
-        public void setLetra(char letra) {
-            this.letra = letra;
-        }
-
-        public boolean isOrdenada() {
-            return ordenada;
-        }
-
-        public void setOrdenada(boolean ordenada) {
-            this.ordenada = ordenada;
-        }
-    }
-
-    // Classe que representa o tabuleiro com 8 células
+    // Classe que representa o tabuleiro com 8 letras
     public static class Tabuleiro {
-        private static final int TAMANHO = 8;
-        private Celula[] grid;
 
-        // Construtor do tabuleiro que inicializa com letras de 'A' a 'H'
-        public Tabuleiro() {
-            grid = new Celula[TAMANHO];
-            inicializarTabuleiroAleatorio();
+        private List<Character> letras; // Lista de letras que serão associadas às imagens
+        private List<Image> imagens; // Lista de imagens associadas às letras
+
+        public Tabuleiro(List<Image> imagens) {
+            this.imagens = imagens;
+            this.letras = new ArrayList<>();
+            inicializarTabuleiro();
         }
 
-        // Inicializa o tabuleiro com letras de 'A' a 'H'
-        private void inicializarTabuleiroAleatorio() {
-            Random rand = new Random();
-            for (int i = 0; i < TAMANHO; i++) {
-                char letra = (char) ('A' + i);
-                grid[i] = new Celula(letra);
-            }
+        private void inicializarTabuleiro() {
+            // Associando letras com imagens embaralhadas
+            letras.add('A');
+            letras.add('B');
+            letras.add('C');
+            letras.add('D');
+            letras.add('E');
+            letras.add('F');
+            letras.add('G');
+            letras.add('H');
+            Collections.shuffle(letras);
+            Collections.shuffle(imagens); // Embaralha as imagens também
         }
 
-        // Obtém uma célula específica
-        public Celula getCelula(int i) {
-            return (i >= 0 && i < TAMANHO) ? grid[i] : null;
+        public List<Character> getLetras() {
+            return letras;
         }
 
-        // Atualiza o conteúdo de uma célula específica
-        public void atualizarTabuleiro(int i, char letra) {
-            grid[i].setLetra(letra);
+        public List<Image> getImagens() {
+            return imagens;
         }
 
-        // Retorna o tamanho do tabuleiro (constante 8)
-        public int getTamanho() {
-            return TAMANHO;
-        }
-
-        // Retorna o array de células do tabuleiro
-        public Celula[] getGrid() {
-            return grid;
-        }
-
-        // Verifica se o tabuleiro está ordenado
         public boolean estaOrdenado() {
-            for (int i = 0; i < TAMANHO - 1; i++) {
-                if (grid[i].getLetra() > grid[i + 1].getLetra()) {
-                    return false;
+            for (int i = 0; i < letras.size() - 1; i++) {
+                if (letras.get(i) > letras.get(i + 1)) {
+                    return false;  // Não está ordenado
                 }
             }
-            return true;
+            return true;  // Está ordenado
+        }
+
+        // Atualiza as letras e as imagens no tabuleiro
+        public void atualizarTabuleiro(int index, char letra) {
+            letras.set(index, letra); // Atualiza a letra
+            // Reorganiza a imagem associada à letra após a troca
+            Collections.sort(imagens, (img1, img2) -> {
+                // Ordena imagens de acordo com as letras
+                return letras.indexOf(img1) - letras.indexOf(img2);
+            });
         }
     }
 
     // Interface para callback de atualização do tabuleiro
     public interface AtualizacaoTabuleiro {
-        void atualizarTabuleiro(int i, char letra);
+
+        void atualizarTabuleiro(int row, int col, Image image);
     }
 
     // Classe de ordenação que executa os algoritmos e atualiza o tabuleiro
     public static class Ordenacao {
+
         private final AtualizacaoTabuleiro callback;
         private int swapsRealizados = 0;
 
@@ -108,24 +88,26 @@ public class OrdemJogo {
 
         // Algoritmo de Bubble Sort
         public void bubbleSort(Tabuleiro tabuleiro) {
-            for (int i = 0; i < tabuleiro.getTamanho() - 1; i++) {
+            for (int i = 0; i < tabuleiro.getLetras().size() - 1; i++) {
                 boolean trocado = false;
-                for (int j = 0; j < tabuleiro.getTamanho() - i - 1; j++) {
-                    if (tabuleiro.getCelula(j).getLetra() > tabuleiro.getCelula(j + 1).getLetra()) {
+                for (int j = 0; j < tabuleiro.getLetras().size() - i - 1; j++) {
+                    if (tabuleiro.getLetras().get(j) > tabuleiro.getLetras().get(j + 1)) {
                         swap(tabuleiro, j, j + 1);
                         trocado = true;
                     }
                 }
-                if (!trocado) break; // Se não houve trocas, o vetor já está ordenado
+                if (!trocado) {
+                    break; // Se não houve trocas, o vetor já está ordenado
+                }
             }
         }
 
         // Algoritmo de Selection Sort
         public void selectionSort(Tabuleiro tabuleiro) {
-            for (int i = 0; i < tabuleiro.getTamanho() - 1; i++) {
+            for (int i = 0; i < tabuleiro.getLetras().size() - 1; i++) {
                 int minIdx = i;
-                for (int j = i + 1; j < tabuleiro.getTamanho(); j++) {
-                    if (tabuleiro.getCelula(j).getLetra() < tabuleiro.getCelula(minIdx).getLetra()) {
+                for (int j = i + 1; j < tabuleiro.getLetras().size(); j++) {
+                    if (tabuleiro.getLetras().get(j) < tabuleiro.getLetras().get(minIdx)) {
                         minIdx = j;
                     }
                 }
@@ -137,14 +119,14 @@ public class OrdemJogo {
 
         // Algoritmo de Insertion Sort
         public void insertionSort(Tabuleiro tabuleiro) {
-            for (int i = 1; i < tabuleiro.getTamanho(); i++) {
-                char key = tabuleiro.getCelula(i).getLetra();
+            for (int i = 1; i < tabuleiro.getLetras().size(); i++) {
+                char key = tabuleiro.getLetras().get(i);
                 int j = i - 1;
-                while (j >= 0 && tabuleiro.getCelula(j).getLetra() > key) {
-                    tabuleiro.atualizarTabuleiro(j + 1, tabuleiro.getCelula(j).getLetra());
+                while (j >= 0 && tabuleiro.getLetras().get(j) > key) {
+                    tabuleiro.getLetras().set(j + 1, tabuleiro.getLetras().get(j));
                     j--;
                 }
-                tabuleiro.atualizarTabuleiro(j + 1, key);
+                tabuleiro.getLetras().set(j + 1, key);
             }
         }
 
@@ -159,10 +141,10 @@ public class OrdemJogo {
 
         // Particionamento usado no Quick Sort
         private int partition(Tabuleiro tabuleiro, int low, int high) {
-            char pivot = medianOfThree(tabuleiro, low, high);
+            char pivot = tabuleiro.getLetras().get(high);
             int i = low - 1;
             for (int j = low; j < high; j++) {
-                if (tabuleiro.getCelula(j).getLetra() < pivot) {
+                if (tabuleiro.getLetras().get(j) < pivot) {
                     i++;
                     swap(tabuleiro, i, j);
                 }
@@ -171,87 +153,69 @@ public class OrdemJogo {
             return i + 1;
         }
 
-        // Mediana de três elementos para escolher o pivô
-        private char medianOfThree(Tabuleiro tabuleiro, int low, int high) {
-            int mid = (low + high) / 2;
-            char first = tabuleiro.getCelula(low).getLetra();
-            char middle = tabuleiro.getCelula(mid).getLetra();
-            char last = tabuleiro.getCelula(high).getLetra();
-
-            if ((first > middle) != (first > last)) {
-                return first;
-            } else if ((middle > first) != (middle > last)) {
-                return middle;
-            } else {
-                return last;
-            }
-        }
-
         // Algoritmo de Shell Sort
         public void shellSort(Tabuleiro tabuleiro) {
-            int n = tabuleiro.getTamanho();
-            int[] gaps = {1, 5, 19, 41, 109, 301, 601}; // Exemplo de sequência de Sedgewick
-            for (int gap : gaps) {
-                if (gap >= n) continue;  // Ignore gaps maiores que o tamanho
+            int n = tabuleiro.getLetras().size();
+            for (int gap = n / 2; gap > 0; gap /= 2) {
                 for (int i = gap; i < n; i++) {
-                    char temp = tabuleiro.getCelula(i).getLetra();
+                    char temp = tabuleiro.getLetras().get(i);
                     int j = i;
-                    while (j >= gap && tabuleiro.getCelula(j - gap).getLetra() > temp) {
-                        tabuleiro.atualizarTabuleiro(j, tabuleiro.getCelula(j - gap).getLetra());
+                    while (j >= gap && tabuleiro.getLetras().get(j - gap) > temp) {
+                        tabuleiro.getLetras().set(j, tabuleiro.getLetras().get(j - gap));
                         j -= gap;
                     }
-                    tabuleiro.atualizarTabuleiro(j, temp);
+                    tabuleiro.getLetras().set(j, temp);
                 }
             }
         }
 
-        // Função que troca os valores de duas células no tabuleiro
-        private void swap(Tabuleiro tabuleiro, int i, int j) {
-            if (i != j) {  // Apenas troca se os índices forem diferentes
-                char temp = tabuleiro.getCelula(i).getLetra();
-                tabuleiro.atualizarTabuleiro(i, tabuleiro.getCelula(j).getLetra());
-                tabuleiro.atualizarTabuleiro(j, temp);
-                swapsRealizados++; // Incrementa apenas se uma troca de fato ocorrer
-            }
-        }
-
-        // Função de Heap Sort
+        // Algoritmo de Heap Sort
         public void heapSort(Tabuleiro tabuleiro) {
-            int n = tabuleiro.getTamanho();
-            // Construir o heap (max heap)
+            int n = tabuleiro.getLetras().size();
             for (int i = n / 2 - 1; i >= 0; i--) {
                 heapify(tabuleiro, n, i);
             }
-            // Extrair elementos um por um do heap
             for (int i = n - 1; i > 0; i--) {
-                // Mover a raiz (máximo) para o final
                 swap(tabuleiro, 0, i);
-                // Chamar heapify no heap reduzido
                 heapify(tabuleiro, i, 0);
             }
         }
 
-        // Função heapify que assegura a propriedade do heap
+        // Função de heapify para o Heap Sort
         private void heapify(Tabuleiro tabuleiro, int n, int i) {
-            int largest = i;  // Inicializa largest como a raiz
-            int left = 2 * i + 1;  // Esquerda
-            int right = 2 * i + 2;  // Direita
+            int largest = i;
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
 
-            // Verifica se o filho da esquerda é maior que a raiz
-            if (left < n && tabuleiro.getCelula(left).getLetra() > tabuleiro.getCelula(largest).getLetra()) {
+            if (left < n && tabuleiro.getLetras().get(left) > tabuleiro.getLetras().get(largest)) {
                 largest = left;
             }
-
-            // Verifica se o filho da direita é maior que a raiz ou o filho da esquerda
-            if (right < n && tabuleiro.getCelula(right).getLetra() > tabuleiro.getCelula(largest).getLetra()) {
+            if (right < n && tabuleiro.getLetras().get(right) > tabuleiro.getLetras().get(largest)) {
                 largest = right;
             }
-
-            // Se o maior não for a raiz, troca e continua heapifying
             if (largest != i) {
                 swap(tabuleiro, i, largest);
                 heapify(tabuleiro, n, largest);
             }
+        }
+
+        // Função que troca os valores de duas letras no tabuleiro
+        private void swap(Tabuleiro tabuleiro, int i, int j) {
+            // Troca as letras
+            char temp = tabuleiro.getLetras().get(i);
+            tabuleiro.getLetras().set(i, tabuleiro.getLetras().get(j));
+            tabuleiro.getLetras().set(j, temp);
+
+            // Troca as imagens associadas às letras
+            Image tempImage = tabuleiro.getImagens().get(i);
+            tabuleiro.getImagens().set(i, tabuleiro.getImagens().get(j));
+            tabuleiro.getImagens().set(j, tempImage);
+
+            // Atualiza o tabuleiro visualmente após a troca
+            callback.atualizarTabuleiro(i / 4, i % 4, tabuleiro.getImagens().get(i));
+            callback.atualizarTabuleiro(j / 4, j % 4, tabuleiro.getImagens().get(j));
+
+            swapsRealizados++;
         }
 
         // Obtém o número de swaps realizados
