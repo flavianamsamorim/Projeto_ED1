@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import Controller.OrdemController;
 
 /**
  *
@@ -29,7 +30,6 @@ public class OrdemJogo {
         }
 
         private void inicializarTabuleiro() {
-            // Associando letras com imagens embaralhadas
             letras.add('A');
             letras.add('B');
             letras.add('C');
@@ -80,10 +80,13 @@ public class OrdemJogo {
     public static class Ordenacao {
 
         private final AtualizacaoTabuleiro callback;
+        private final OrdemController controller;
         private int swapsRealizados = 0;
 
-        public Ordenacao(AtualizacaoTabuleiro callback) {
+        // Modificado para receber o controller
+        public Ordenacao(AtualizacaoTabuleiro callback, OrdemController controller) {
             this.callback = callback;
+            this.controller = controller;  // Guarda a referência do controller
         }
 
         // Algoritmo de Bubble Sort
@@ -93,11 +96,12 @@ public class OrdemJogo {
                 for (int j = 0; j < tabuleiro.getLetras().size() - i - 1; j++) {
                     if (tabuleiro.getLetras().get(j) > tabuleiro.getLetras().get(j + 1)) {
                         swap(tabuleiro, j, j + 1);
+                        controller.executarOrdenacaoComDelay(() -> {});
                         trocado = true;
                     }
                 }
                 if (!trocado) {
-                    break; // Se não houve trocas, o vetor já está ordenado
+                    break;
                 }
             }
         }
@@ -113,6 +117,7 @@ public class OrdemJogo {
                 }
                 if (minIdx != i) {
                     swap(tabuleiro, i, minIdx);
+                    controller.executarOrdenacaoComDelay(() -> {});
                 }
             }
         }
@@ -124,9 +129,11 @@ public class OrdemJogo {
                 int j = i - 1;
                 while (j >= 0 && tabuleiro.getLetras().get(j) > key) {
                     tabuleiro.getLetras().set(j + 1, tabuleiro.getLetras().get(j));
+                    controller.executarOrdenacaoComDelay(() -> {});
                     j--;
                 }
                 tabuleiro.getLetras().set(j + 1, key);
+                controller.executarOrdenacaoComDelay(() -> {});
             }
         }
 
@@ -147,9 +154,11 @@ public class OrdemJogo {
                 if (tabuleiro.getLetras().get(j) < pivot) {
                     i++;
                     swap(tabuleiro, i, j);
+                    controller.executarOrdenacaoComDelay(() -> {});
                 }
             }
             swap(tabuleiro, i + 1, high);
+            controller.executarOrdenacaoComDelay(() -> {});
             return i + 1;
         }
 
@@ -177,6 +186,7 @@ public class OrdemJogo {
             }
             for (int i = n - 1; i > 0; i--) {
                 swap(tabuleiro, 0, i);
+                controller.executarOrdenacaoComDelay(() -> {});
                 heapify(tabuleiro, i, 0);
             }
         }
@@ -195,12 +205,13 @@ public class OrdemJogo {
             }
             if (largest != i) {
                 swap(tabuleiro, i, largest);
+                controller.executarOrdenacaoComDelay(() -> {});
                 heapify(tabuleiro, n, largest);
             }
         }
 
         // Função que troca os valores de duas letras no tabuleiro
-        private void swap(Tabuleiro tabuleiro, int i, int j) {
+        public void swap(Tabuleiro tabuleiro, int i, int j) {
             // Troca as letras
             char temp = tabuleiro.getLetras().get(i);
             tabuleiro.getLetras().set(i, tabuleiro.getLetras().get(j));
@@ -210,15 +221,20 @@ public class OrdemJogo {
             Image tempImage = tabuleiro.getImagens().get(i);
             tabuleiro.getImagens().set(i, tabuleiro.getImagens().get(j));
             tabuleiro.getImagens().set(j, tempImage);
-
+            
+            // Chama o método de atraso após cada troca
+            controller.executarOrdenacaoComDelay(() -> {
+            
             // Atualiza o tabuleiro visualmente após a troca
             callback.atualizarTabuleiro(i / 4, i % 4, tabuleiro.getImagens().get(i));
             callback.atualizarTabuleiro(j / 4, j % 4, tabuleiro.getImagens().get(j));
-
+            
+            });
+            
             swapsRealizados++;
+
         }
 
-        // Obtém o número de swaps realizados
         public int getSwapsRealizados() {
             return swapsRealizados;
         }

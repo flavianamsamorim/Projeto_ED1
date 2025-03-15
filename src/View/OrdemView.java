@@ -5,6 +5,7 @@
  */
 package View;
 
+import Model.OrdemJogo;
 import Controller.OrdemController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -31,7 +32,7 @@ public class OrdemView {
     private ImageView[][] gridImages;
     private Image abcImg, letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg;
     private Button btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort;
-    
+
     public OrdemView(Stage stage) {
         controller = new OrdemController(this);
         carregarImagens();
@@ -53,7 +54,7 @@ public class OrdemView {
     private void inicializarInterface(Stage stage) {
         statusLabel = new Label("Escolha um método de ordenação");
         statusLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-        
+
         ordenacaoLabel = new Label("");
         ordenacaoLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
@@ -138,7 +139,7 @@ public class OrdemView {
         Collections.shuffle(imagens);
         return imagens;
     }
-
+    
     // Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
     public void atualizarTabuleiro(int linha, int coluna, char letra) {
         // Obtém a imagem correspondente à letra
@@ -150,15 +151,24 @@ public class OrdemView {
 
     public Image obterImagemLetra(char letra) {
         switch (letra) {
-            case 'A': return letraAImg;
-            case 'B': return letraBImg;
-            case 'C': return letraCImg;
-            case 'D': return letraDImg;
-            case 'E': return letraEImg;
-            case 'F': return letraFImg;
-            case 'G': return letraGImg;
-            case 'H': return letraHImg;
-            default: return abcImg;
+            case 'A':
+                return letraAImg;
+            case 'B':
+                return letraBImg;
+            case 'C':
+                return letraCImg;
+            case 'D':
+                return letraDImg;
+            case 'E':
+                return letraEImg;
+            case 'F':
+                return letraFImg;
+            case 'G':
+                return letraGImg;
+            case 'H':
+                return letraHImg;
+            default:
+                return abcImg;
         }
     }
 
