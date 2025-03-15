@@ -5,12 +5,14 @@
  */
 package Model;
 import java.util.Stack;
+
+import EstruturasDeDados.Pilha.Pilha;
 /**
  *
  * @author Cliente
  */
 public class PilhaJogo {
-    private Stack<String> pilha;
+    private Pilha<String> pilha;
     private int contadorEmpilhadas;
     private int contadorDesempilhadas;
     private long tempoInicio;
@@ -18,7 +20,7 @@ public class PilhaJogo {
     private boolean tempoAtivo;
 
     public PilhaJogo() {
-        pilha = new Stack<>();
+        pilha = new Pilha<>(5);
         contadorEmpilhadas = 0;
         contadorDesempilhadas = 0;
         pontos = 0;

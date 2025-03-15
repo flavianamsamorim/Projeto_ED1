@@ -93,4 +93,16 @@ public class Pilha <T> implements InterfacePilha <T>
         return top + 1;
     }
     
+	public void clear() {
+		// Redefine o topo para -1, indicando que a pilha está vazia.
+		top = -1;
+	
+		// Opcional: para evitar que referências antigas fiquem no array, pode-se zerar os elementos.
+		// Embora isso não seja necessário para a pilha funcionar, pode ser útil para evitar problemas
+		// de referências a objetos antigos.
+		for (int i = 0; i < sizeMax; i++) {
+			array[i] = null;
+		}
+	}
+	
 }
