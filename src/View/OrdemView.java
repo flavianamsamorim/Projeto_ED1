@@ -139,15 +139,14 @@ public class OrdemView {
         Collections.shuffle(imagens);
         return imagens;
     }
-    
-    // Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
-    public void atualizarTabuleiro(int linha, int coluna, char letra) {
-        // Obtém a imagem correspondente à letra
-        Image imagemAtual = obterImagemLetra(letra);
 
-        // Atualiza a imagem na posição específica do tabuleiro (matriz 2x4)
-        gridImages[linha][coluna].setImage(imagemAtual);
+    //Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
+    public void atualizarTabuleiroImg(int linha, int coluna, Image imagem) {
+        gridImages[linha][coluna].setImage(imagem);
     }
+    
+    
+    
 
     public Image obterImagemLetra(char letra) {
         switch (letra) {
@@ -172,7 +171,7 @@ public class OrdemView {
         }
     }
 
-    // Método para bloquear os botões enquanto a ordenação está em execução
+    // Métodos para bloquear e desbloquear os botões durante a execução da ordenação
     public void bloquearBotoes() {
         btnBubbleSort.setDisable(true);
         btnSelectionSort.setDisable(true);
@@ -182,7 +181,6 @@ public class OrdemView {
         btnHeapSort.setDisable(true);
     }
 
-    // Método para desbloquear os botões após a execução da ordenação
     public void desbloquearBotoes() {
         btnBubbleSort.setDisable(false);
         btnSelectionSort.setDisable(false);
