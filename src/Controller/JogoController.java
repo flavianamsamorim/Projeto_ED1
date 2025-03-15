@@ -12,30 +12,31 @@ import View.Recursividade.TorreHanoiView;
 import View.TiposBasicos.QuizView;
 import View.VetoresMatriz.SimuladorImagemView;
 import View.PilhaView;
+import View.AlgoritmoHuffman.HuffmanView;
 import View.FilaView;
 import View.ListaView;
 import View.ComplexAlgoView;
 import View.BuscaView;
 import View.OrdemView;
-import View.HuffmanView;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
+import EstruturasDeDados.Lista.Lista;
+
 public class JogoController {
 
-    private List<Button> botoes;
+    private Lista<Button> botoes;
 
     public JogoController() {
-        botoes = new ArrayList<>();
+        botoes = new Lista<>();
 
         String[] nomesJogos = {
             "Entrada e Saída", "Tipos de Dados", "Operadores", "Condição e Repetição",
              "Tipos Básicos", "Operadores", "Condição e Repetição",
              "Classes e Objetos", "Recursividade", "Vetores e Matrizes",
              "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
-             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca", "Algoritmos de Ordenação"
+             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca", "Algoritmos de Ordenação", "Algoritmo de Huffman"
 
         };
 
@@ -46,11 +47,11 @@ public class JogoController {
             // Definir ações para cada botão
             btn.setOnAction(e -> abrirJogo(nome));
 
-            botoes.add(btn);
+            botoes.addFirst(btn);
         }
     }
 
-    public List<Button> getBotoes() {
+    public Lista<Button> getBotoes() {
         return botoes;
     }
 
@@ -120,9 +121,9 @@ public class JogoController {
                 new OrdemView(stage);
                 break;
 
-            //case "Algoritmo de Huffman":
-               // new HuffmanView(stage);
-                //break;
+            case "Algoritmo de Huffman":
+               new HuffmanView(stage);
+                break;
         }
     }
 }

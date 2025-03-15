@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package Model.AlgoritmoHuffman;
 
 import java.io.*;
 import java.util.*;
@@ -37,8 +37,16 @@ public class HuffmanCompressor {
     // Constrói a árvore de Huffman a partir do mapa de frequências
     public void buildTree(Map<Character, Integer> frequencyMap) {
         PriorityQueue<HuffmanNode> pq = new PriorityQueue<>();
+
+        
+
         for (Map.Entry<Character, Integer> entry : frequencyMap.entrySet()) {
             pq.add(new HuffmanNode(entry.getKey(), entry.getValue()));
+        }
+
+        System.out.println("Mapa de Huffman:");
+        for (Map.Entry<Character, String> entry : huffmanCodes.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
 
         while (pq.size() > 1) {
@@ -101,13 +109,16 @@ public class HuffmanCompressor {
 
             // Escreve os bits comprimidos no arquivo de saída
             for (char c : content.toString().toCharArray()) {
-                out.writeBits(huffmanCodes.get(c)); // Escreve os bits comprimidos
+                if (huffmanCodes.containsKey(c)) {
+                    out.writeBits(huffmanCodes.get(c)); // Escreve os bits comprimidos
+                } else {
+                    throw new IOException("Código Huffman não encontrado para o caractere: " + c);
+                }
             }
 
             // Garantir que o último byte seja escrito corretamente
-            out.flush();  // Força a gravação dos bits finais
+            out.flush(); // Força a gravação dos bits finais
         } catch (IOException e) {
-            e.printStackTrace();
             throw new IOException("Erro ao tentar escrever no arquivo comprimido.", e);
         }
     }

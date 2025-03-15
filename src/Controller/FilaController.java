@@ -18,7 +18,7 @@ public class FilaController {
     private int placarO = 0;
     private int partidasJogadas = 0;
     private int LIMITE_PARTIDAS = 5;
-
+    
     public FilaController(FilaView view) {
         this.model = new FilaJogo();
         this.view = view;

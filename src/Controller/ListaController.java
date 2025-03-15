@@ -11,7 +11,6 @@ import View.ListaView;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-
 /**
  *
  * @author Cliente

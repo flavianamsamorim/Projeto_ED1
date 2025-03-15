@@ -9,8 +9,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import Controller.JogoController;
-
-import java.util.List;
+import EstruturasDeDados.Lista.Lista;
 
 public class JogoView {
     private Pane mainLayout;
@@ -26,7 +25,7 @@ public class JogoView {
         Label instrucao = new Label("Clique em cada nó para testar seus conhecimentos");
         instrucao.setStyle("-fx-font-size: 25px;");
 
-        List<Button> botoes = controller.getBotoes();
+        Lista<Button> botoes = controller.getBotoes();
         scene = new Scene(mainLayout, 800, 600);
         stage.setMaximized(true); // Faz a janela abrir maximizado
         stage.setScene(scene);
@@ -44,13 +43,13 @@ public class JogoView {
         stage.setScene(scene);
     }
 
-    private HBox organizarBotoes(List<Button> botoes) {
+    private HBox organizarBotoes(Lista<Button> botoes) {
         VBox coluna1 = new VBox(10);
         coluna1.setAlignment(Pos.CENTER);
         Label unidade1 = new Label("Unidade 1");
         unidade1.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
         coluna1.getChildren().add(unidade1);
-        for (int i = 0; i < 13 && i < botoes.size(); i++) {
+        for (int i = 0; i < 13 && i < botoes.getSize(); i++) {
             coluna1.getChildren().add(botoes.get(i));
         }
 
@@ -59,7 +58,7 @@ public class JogoView {
         Label unidade2 = new Label("Unidade 2");
         unidade2.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
         coluna2.getChildren().add(unidade2);
-        for (int i = 13; i < 16 && i < botoes.size(); i++) {
+        for (int i = 13; i < 16 && i < botoes.getSize(); i++) {
             coluna2.getChildren().add(botoes.get(i));
         }
 
@@ -68,7 +67,7 @@ public class JogoView {
         Label unidade3 = new Label("Unidade 3");
         unidade3.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
         coluna3.getChildren().add(unidade3);
-        for (int i = 16; i < 19 && i < botoes.size(); i++) {
+        for (int i = 16; i < 20 && i < botoes.getSize(); i++) {
             coluna3.getChildren().add(botoes.get(i));
         }
 

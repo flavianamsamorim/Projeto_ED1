@@ -6,20 +6,26 @@
 package Model;
 
 import java.util.*;
+
+import EstruturasDeDados.Lista.Lista;
 /**
  *
  * @author Cliente
  */
 public class ComplexAlgoQuiz {
-    private List<Map.Entry<String, String[]>> perguntasOrdenadas;
+    private Lista<Map.Entry<String, String[]>> perguntasOrdenadas;
     private String[] respostasCorretas;
     private int perguntaAtual = 0;
     private int pontuacao = 0;
-    private List<Integer> ranking = new ArrayList<>();
+    private Lista<Integer> ranking = new Lista<>();
     private Map<String, String[]> perguntas;
 
     public ComplexAlgoQuiz(Map<String, String[]> perguntas, String[] respostas) {
-        this.perguntasOrdenadas = new ArrayList<>(perguntas.entrySet());
+        this.perguntasOrdenadas = new Lista<>();
+        for (Map.Entry<String, String[]> entry : perguntas.entrySet()) {
+            this.perguntasOrdenadas.addFirst(entry);
+        }
+
         this.perguntas = perguntas;
         this.respostasCorretas = respostasCorretas;
         this.perguntaAtual = 0;
@@ -28,7 +34,7 @@ public class ComplexAlgoQuiz {
     }
 
     public Map.Entry<String, String[]> getPerguntaAtual() {
-        if (perguntaAtual < perguntasOrdenadas.size()) {
+        if (perguntaAtual < perguntasOrdenadas.getSize()) {
             return perguntasOrdenadas.get(perguntaAtual);
         }
         return null;
@@ -54,7 +60,7 @@ public class ComplexAlgoQuiz {
     }
 
     public boolean isFimQuiz() {
-        return perguntaAtual >= perguntasOrdenadas.size();
+        return perguntaAtual >= perguntasOrdenadas.getSize();
     }
 
     public void reiniciarQuiz() {

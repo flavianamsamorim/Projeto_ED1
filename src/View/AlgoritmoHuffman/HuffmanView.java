@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package View;
+package View.AlgoritmoHuffman;
 
-import Controller.HuffmanController;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -16,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import java.io.File;
+
+import Controller.AlgoritmoHuffman.HuffmanController;
 /**
  *
  * @author Cliente

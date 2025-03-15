@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package Controller.AlgoritmoHuffman;
 
-import Model.HuffmanCompressor;
-import Model.HuffmanCompressor.ProgressListener;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.stage.DirectoryChooser;
@@ -17,6 +15,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ProgressBar;
 import java.io.File;
 import java.io.IOException;
+
+import Model.AlgoritmoHuffman.HuffmanCompressor;
+import Model.AlgoritmoHuffman.HuffmanCompressor.ProgressListener;
 /**
  *
  * @author Cliente
