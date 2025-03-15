@@ -11,7 +11,6 @@ import View.Operadores.OperadoresView;
 import View.Recursividade.TorreHanoiView;
 import View.TiposBasicos.QuizView;
 import View.VetoresMatriz.SimuladorImagemView;
-import View.GenericView;
 import View.PilhaView;
 import View.FilaView;
 import View.ListaView;
@@ -37,6 +36,7 @@ public class JogoController {
              "Classes e Objetos", "Recursividade", "Vetores e Matrizes",
              "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
              "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca", "Algoritmos de Ordenação"
+
         };
 
         for (String nome : nomesJogos) {
@@ -120,9 +120,9 @@ public class JogoController {
                 new OrdemView(stage);
                 break;
 
-            case "Algoritmo de Huffman":
-                new HuffmanView(stage);
-                break;
+            //case "Algoritmo de Huffman":
+               // new HuffmanView(stage);
+                //break;
         }
     }
 }
