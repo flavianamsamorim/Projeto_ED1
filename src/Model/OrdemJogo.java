@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import Controller.OrdemController;
 
 /**
  *
@@ -17,10 +16,10 @@ import Controller.OrdemController;
  */
 public class OrdemJogo {
 
-    // Classe que representa o tabuleiro com 8 letras
+    // Classe que representa o tabuleiro com 8 letras e suas imagens correspondentes
     public static class Tabuleiro {
 
-        private List<Character> letras; // Lista de letras que serão associadas às imagens
+        private List<Character> letras; // Lista de letras associadas às imagens
         private List<Image> imagens; // Lista de imagens associadas às letras
 
         public Tabuleiro(List<Image> imagens) {
@@ -38,8 +37,8 @@ public class OrdemJogo {
             letras.add('F');
             letras.add('G');
             letras.add('H');
-            Collections.shuffle(letras);
-            Collections.shuffle(imagens); // Embaralha as imagens também
+            Collections.shuffle(letras); // Embaralha as letras
+            Collections.shuffle(imagens); // Embaralha as imagens
         }
 
         public List<Character> getLetras() {
@@ -53,60 +52,62 @@ public class OrdemJogo {
         public boolean estaOrdenado() {
             for (int i = 0; i < letras.size() - 1; i++) {
                 if (letras.get(i) > letras.get(i + 1)) {
-                    return false;  // Não está ordenado
+                    return false; // Não está ordenado
                 }
             }
-            return true;  // Está ordenado
-        }
-
-        // Atualiza as letras e as imagens no tabuleiro
-        public void atualizarTabuleiro(int index, char letra) {
-            letras.set(index, letra); // Atualiza a letra
-            // Reorganiza a imagem associada à letra após a troca
-            Collections.sort(imagens, (img1, img2) -> {
-                // Ordena imagens de acordo com as letras
-                return letras.indexOf(img1) - letras.indexOf(img2);
-            });
+            return true; // Está ordenado
         }
     }
 
     // Interface para callback de atualização do tabuleiro
     public interface AtualizacaoTabuleiro {
-
-        void atualizarTabuleiro(int row, int col, Image image);
+        void atualizarTabuleiroImg(int row, int col, Image image);
     }
 
-    // Classe de ordenação que executa os algoritmos e atualiza o tabuleiro
+    // Classe que contém os algoritmos de ordenação
     public static class Ordenacao {
 
-        private final AtualizacaoTabuleiro callback;
-        private final OrdemController controller;
-        private int swapsRealizados = 0;
+        private final AtualizacaoTabuleiro callback; // Callback para atualizar a interface
+        private int swapsRealizados = 0; // Contador de trocas realizadas
 
-        // Modificado para receber o controller
-        public Ordenacao(AtualizacaoTabuleiro callback, OrdemController controller) {
+        public Ordenacao(AtualizacaoTabuleiro callback) {
             this.callback = callback;
-            this.controller = controller;  // Guarda a referência do controller
         }
 
-        // Algoritmo de Bubble Sort
+        // Método genérico de troca
+        public void swap(Tabuleiro tabuleiro, int i, int j) {
+            // Troca as letras
+            char temp = tabuleiro.getLetras().get(i);
+            tabuleiro.getLetras().set(i, tabuleiro.getLetras().get(j));
+            tabuleiro.getLetras().set(j, temp);
+
+            // Troca as imagens associadas às letras
+            Image tempImage = tabuleiro.getImagens().get(i);
+            tabuleiro.getImagens().set(i, tabuleiro.getImagens().get(j));
+            tabuleiro.getImagens().set(j, tempImage);
+
+            // Atualiza visualmente o tabuleiro na interface
+            callback.atualizarTabuleiroImg(i / 4, i % 4, tabuleiro.getImagens().get(i));
+            callback.atualizarTabuleiroImg(j / 4, j % 4, tabuleiro.getImagens().get(j));
+
+            swapsRealizados++;
+        }
+
+        // Algoritmo Bubble Sort
         public void bubbleSort(Tabuleiro tabuleiro) {
             for (int i = 0; i < tabuleiro.getLetras().size() - 1; i++) {
                 boolean trocado = false;
                 for (int j = 0; j < tabuleiro.getLetras().size() - i - 1; j++) {
                     if (tabuleiro.getLetras().get(j) > tabuleiro.getLetras().get(j + 1)) {
                         swap(tabuleiro, j, j + 1);
-                        controller.executarOrdenacaoComDelay(() -> {});
                         trocado = true;
                     }
                 }
-                if (!trocado) {
-                    break;
-                }
+                if (!trocado) break;
             }
         }
 
-        // Algoritmo de Selection Sort
+        // Algoritmo Selection Sort
         public void selectionSort(Tabuleiro tabuleiro) {
             for (int i = 0; i < tabuleiro.getLetras().size() - 1; i++) {
                 int minIdx = i;
@@ -117,27 +118,25 @@ public class OrdemJogo {
                 }
                 if (minIdx != i) {
                     swap(tabuleiro, i, minIdx);
-                    controller.executarOrdenacaoComDelay(() -> {});
                 }
             }
         }
 
-        // Algoritmo de Insertion Sort
+        // Algoritmo Insertion Sort
         public void insertionSort(Tabuleiro tabuleiro) {
             for (int i = 1; i < tabuleiro.getLetras().size(); i++) {
                 char key = tabuleiro.getLetras().get(i);
                 int j = i - 1;
                 while (j >= 0 && tabuleiro.getLetras().get(j) > key) {
                     tabuleiro.getLetras().set(j + 1, tabuleiro.getLetras().get(j));
-                    controller.executarOrdenacaoComDelay(() -> {});
                     j--;
                 }
                 tabuleiro.getLetras().set(j + 1, key);
-                controller.executarOrdenacaoComDelay(() -> {});
+                callback.atualizarTabuleiroImg(i / 4, i % 4, tabuleiro.getImagens().get(i)); // Atualização direta
             }
         }
 
-        // Algoritmo de Quick Sort
+        // Algoritmo Quick Sort
         public void quickSort(Tabuleiro tabuleiro, int low, int high) {
             if (low < high) {
                 int pi = partition(tabuleiro, low, high);
@@ -146,7 +145,6 @@ public class OrdemJogo {
             }
         }
 
-        // Particionamento usado no Quick Sort
         private int partition(Tabuleiro tabuleiro, int low, int high) {
             char pivot = tabuleiro.getLetras().get(high);
             int i = low - 1;
@@ -154,15 +152,13 @@ public class OrdemJogo {
                 if (tabuleiro.getLetras().get(j) < pivot) {
                     i++;
                     swap(tabuleiro, i, j);
-                    controller.executarOrdenacaoComDelay(() -> {});
                 }
             }
             swap(tabuleiro, i + 1, high);
-            controller.executarOrdenacaoComDelay(() -> {});
             return i + 1;
         }
 
-        // Algoritmo de Shell Sort
+        // Algoritmo Shell Sort
         public void shellSort(Tabuleiro tabuleiro) {
             int n = tabuleiro.getLetras().size();
             for (int gap = n / 2; gap > 0; gap /= 2) {
@@ -178,7 +174,7 @@ public class OrdemJogo {
             }
         }
 
-        // Algoritmo de Heap Sort
+        // Algoritmo Heap Sort
         public void heapSort(Tabuleiro tabuleiro) {
             int n = tabuleiro.getLetras().size();
             for (int i = n / 2 - 1; i >= 0; i--) {
@@ -186,12 +182,10 @@ public class OrdemJogo {
             }
             for (int i = n - 1; i > 0; i--) {
                 swap(tabuleiro, 0, i);
-                controller.executarOrdenacaoComDelay(() -> {});
                 heapify(tabuleiro, i, 0);
             }
         }
 
-        // Função de heapify para o Heap Sort
         private void heapify(Tabuleiro tabuleiro, int n, int i) {
             int largest = i;
             int left = 2 * i + 1;
@@ -205,34 +199,8 @@ public class OrdemJogo {
             }
             if (largest != i) {
                 swap(tabuleiro, i, largest);
-                controller.executarOrdenacaoComDelay(() -> {});
                 heapify(tabuleiro, n, largest);
             }
-        }
-
-        // Função que troca os valores de duas letras no tabuleiro
-        public void swap(Tabuleiro tabuleiro, int i, int j) {
-            // Troca as letras
-            char temp = tabuleiro.getLetras().get(i);
-            tabuleiro.getLetras().set(i, tabuleiro.getLetras().get(j));
-            tabuleiro.getLetras().set(j, temp);
-
-            // Troca as imagens associadas às letras
-            Image tempImage = tabuleiro.getImagens().get(i);
-            tabuleiro.getImagens().set(i, tabuleiro.getImagens().get(j));
-            tabuleiro.getImagens().set(j, tempImage);
-            
-            // Chama o método de atraso após cada troca
-            controller.executarOrdenacaoComDelay(() -> {
-            
-            // Atualiza o tabuleiro visualmente após a troca
-            callback.atualizarTabuleiro(i / 4, i % 4, tabuleiro.getImagens().get(i));
-            callback.atualizarTabuleiro(j / 4, j % 4, tabuleiro.getImagens().get(j));
-            
-            });
-            
-            swapsRealizados++;
-
         }
 
         public int getSwapsRealizados() {
