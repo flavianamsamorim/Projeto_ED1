@@ -1,11 +1,12 @@
 package View;
 
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import Controller.JogoController;
 
@@ -21,89 +22,59 @@ public class JogoView {
 
         Label titulo = new Label("Estrutura de Dados");
         titulo.setStyle("-fx-font-size: 65px; -fx-font-weight: bold;");
-        // Centraliza horizontalmente
-        titulo.layoutXProperty().bind(mainLayout.widthProperty().subtract(titulo.widthProperty()).divide(2));
-        titulo.setLayoutY(10); // Distância do topo
-
-        mainLayout.getChildren().add(titulo);
 
         Label instrucao = new Label("Clique em cada nó para testar seus conhecimentos");
         instrucao.setStyle("-fx-font-size: 25px;");
-        // Centraliza horizontalmente
-instrucao.layoutXProperty().bind(mainLayout.widthProperty().subtract(instrucao.widthProperty()).divide(2));
-
-// Posiciona na parte inferior da tela
-instrucao.layoutYProperty().bind(mainLayout.heightProperty().subtract(50));
-        mainLayout.getChildren().add(instrucao);
 
         List<Button> botoes = controller.getBotoes();
-        scene = new Scene(mainLayout, 600, 600);
-        stage.setMaximized(true); // Faz a janela abrir maximizada
+        scene = new Scene(mainLayout, 800, 600);
+        stage.setMaximized(true); // Faz a janela abrir maximizado
         stage.setScene(scene);
 
         if (!botoes.isEmpty()) {
-            organizarArvore(botoes, scene.getWidth(), scene.getHeight());
+            organizarBotoes(botoes);
         }
 
-        // Adiciona um listener para atualizar a árvore quando a janela for redimensionada
-        scene.widthProperty().addListener((obs, oldWidth, newWidth) -> {
-            mainLayout.getChildren().clear(); // Limpa os elementos antigos
-            mainLayout.getChildren().addAll(titulo, instrucao);
-            organizarArvore(botoes, newWidth.doubleValue(), oldWidth.doubleValue()); // Reorganiza os botões
-        });
+        VBox layoutPrincipal = new VBox(20, titulo, organizarBotoes(botoes), instrucao);
+        layoutPrincipal.setAlignment(Pos.CENTER);
+        layoutPrincipal.prefWidthProperty().bind(scene.widthProperty());
+        layoutPrincipal.prefHeightProperty().bind(scene.heightProperty());
 
+        mainLayout.getChildren().add(layoutPrincipal);
         stage.setScene(scene);
     }
 
-    private void organizarArvore(List<Button> botoes, double larguraJanela, double comprimentoJanela) {
-        if (botoes.isEmpty()) return;
-
-        double startX = (larguraJanela /2)-50; // Centraliza horizontalmente (compensando o tamanho do botao)
-        double startY = (comprimentoJanela/2)/2;  
-        double offsetX = larguraJanela / 4; // Espaçamento inicial ajustável
-        double offsetY = comprimentoJanela/4;  
-
-        adicionarNo(botoes, 0, startX, startY, offsetX, offsetY, 0);
-    }
-
-    private void adicionarNo(List<Button> botoes, int index, double x, double y, double offsetX, double offsetY, int profundidade) {
-        if (index >= botoes.size()) return;
-
-        Button botao = botoes.get(index);
-        botao.setLayoutX(x);
-        botao.setLayoutY(y);
-        mainLayout.getChildren().add(botao);
-
-        int leftChild = 2 * index + 1;
-        int rightChild = 2 * index + 2;
-
-        double novoOffsetX = Math.max(offsetX / 2, 50); // Garante espaçamento mínimo
-
-        if (leftChild < botoes.size()) {
-            double childX = x - novoOffsetX;
-            double childY = y + offsetY;
-            desenharLinha(x, y, childX, childY);
-            adicionarNo(botoes, leftChild, childX, childY, novoOffsetX, offsetY, profundidade + 1);
+    private HBox organizarBotoes(List<Button> botoes) {
+        VBox coluna1 = new VBox(10);
+        coluna1.setAlignment(Pos.CENTER);
+        Label unidade1 = new Label("Unidade 1");
+        unidade1.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
+        coluna1.getChildren().add(unidade1);
+        for (int i = 0; i < 13 && i < botoes.size(); i++) {
+            coluna1.getChildren().add(botoes.get(i));
         }
-        if (rightChild < botoes.size()) {
-            double childX = x + novoOffsetX;
-            double childY = y + offsetY;
-            desenharLinha(x, y, childX, childY);
-            adicionarNo(botoes, rightChild, childX, childY, novoOffsetX, offsetY, profundidade + 1);
+
+        VBox coluna2 = new VBox(10);
+        coluna2.setAlignment(Pos.CENTER);
+        Label unidade2 = new Label("Unidade 2");
+        unidade2.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
+        coluna2.getChildren().add(unidade2);
+        for (int i = 13; i < 16 && i < botoes.size(); i++) {
+            coluna2.getChildren().add(botoes.get(i));
         }
-    }
 
-    private void desenharLinha(double startX, double startY, double endX, double endY) {
-        double buttonSize = 50; // Supondo que os botões sejam 50x50 pixels
-        double centerXStart = startX + (buttonSize / 2);
-        double centerYStart = startY + (buttonSize / 2);
-        double centerXEnd = endX + (buttonSize / 2);
-        double centerYEnd = endY + (buttonSize / 2);
+        VBox coluna3 = new VBox(10);
+        coluna3.setAlignment(Pos.CENTER);
+        Label unidade3 = new Label("Unidade 3");
+        unidade3.setStyle("-fx-font-size: 20px; -fx-font-family: 'Arial'; -fx-font-weight: bold;");
+        coluna3.getChildren().add(unidade3);
+        for (int i = 16; i < 19 && i < botoes.size(); i++) {
+            coluna3.getChildren().add(botoes.get(i));
+        }
 
-        Line line = new Line(centerXStart, centerYStart, centerXEnd, centerYEnd);
-        line.setStroke(Color.BLACK);
-        line.setStrokeWidth(2);
-        mainLayout.getChildren().add(line);
+        HBox layoutBotoes = new HBox(50, coluna1, coluna2, coluna3);
+        layoutBotoes.setAlignment(Pos.CENTER);
+        return layoutBotoes;
     }
 
     public Scene getScene() {
