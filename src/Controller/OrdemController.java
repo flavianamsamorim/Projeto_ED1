@@ -7,6 +7,7 @@ package Controller;
 
 import Model.OrdemJogo;
 import View.OrdemView;
+import Model.OrdemJogo.AtualizacaoTabuleiro;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.image.Image;
@@ -15,21 +16,20 @@ import javafx.scene.image.Image;
  *
  * @author Cliente
  */
-public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
+public class OrdemController implements AtualizacaoTabuleiro {
 
-    private OrdemJogo.Ordenacao ordenacao;
     private OrdemJogo.Tabuleiro tabuleiro;
     private OrdemView view;
+    private OrdemJogo.Ordenacao ordenacao;
     private boolean ordenacaoEmExecucao = false;
 
-    // Construtor com inicialização de Tabuleiro e Ordenacao
     public OrdemController(OrdemView view) {
-        this.view = view;
-        this.tabuleiro = new OrdemJogo.Tabuleiro(view.carregarImagensTabuleiro());
-        this.ordenacao = new OrdemJogo.Ordenacao(this); // Passa o Controller como callback
-    }
-
-    // Método para iniciar a ordenação, chamado pela View
+    this.view = view;
+    this.tabuleiro = new OrdemJogo.Tabuleiro(view.carregarImagensTabuleiro());
+    this.ordenacao = new OrdemJogo.Ordenacao(this);
+}
+    
+    
     public void executarOrdem(String tipo) {
         if (ordenacaoEmExecucao) {
             System.out.println("A ordenação já está em execução.");
@@ -39,18 +39,19 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
         ordenacaoEmExecucao = true;
         view.bloquearBotoes();
 
-        // Obtém o método de ordenação com base no tipo selecionado
-        Runnable metodoDeOrdenacao = obterMetodoOrdenacao(tipo);
+        // Passa o tabuleiro e a callback ao chamar obterMetodoOrdenacao
+        Runnable metodoDeOrdenacao = obterMetodoOrdenacao(tipo, tabuleiro, this);
         if (metodoDeOrdenacao != null) {
-            executarOrdenacaoComDelay(metodoDeOrdenacao); // Inicia a ordenação com delay
+            executarOrdenacaoComDelay(metodoDeOrdenacao);
         } else {
             System.out.println("Método de ordenação inválido.");
             finalizarOrdenacao();
         }
     }
 
-    // Obtém o método de ordenação com base no tipo selecionado
-    public Runnable obterMetodoOrdenacao(String tipo) {
+    private Runnable obterMetodoOrdenacao(String tipo, OrdemJogo.Tabuleiro tabuleiro, OrdemJogo.AtualizacaoTabuleiro callback) {
+        OrdemJogo.Ordenacao ordenacao = new OrdemJogo.Ordenacao(callback);
+
         switch (tipo) {
             case "bubbleSort":
                 return () -> ordenacao.bubbleSort(tabuleiro);
@@ -69,60 +70,73 @@ public class OrdemController implements OrdemJogo.AtualizacaoTabuleiro {
         }
     }
 
-    // Método que executa a ordenação com um delay entre as etapas
-    public void executarOrdenacaoComDelay(Runnable metodoDeOrdenacao) {
-        PauseTransition delay = new PauseTransition(Duration.seconds(1.0)); // Delay de 1 segundo
+    private void executarOrdenacaoComDelay(Runnable metodoDeOrdenacao) {
+        PauseTransition delay = new PauseTransition(Duration.seconds(0.5)); // Delay de meio segundo
         delay.setOnFinished(event -> {
-            metodoDeOrdenacao.run(); // Executa o próximo passo do algoritmo de ordenação
-            atualizarTabuleiroVisual(); // Atualiza o tabuleiro visualmente na View
+            metodoDeOrdenacao.run();
+            atualizarTabuleiroVisual();
             if (!tabuleiro.estaOrdenado()) {
-                executarOrdenacaoComDelay(metodoDeOrdenacao); // Continua o ciclo
+                executarOrdenacaoComDelay(metodoDeOrdenacao);
             } else {
-                finalizarOrdenacao(); // Finaliza o processo
+                finalizarOrdenacao();
             }
         });
         delay.play();
     }
 
-    // Finaliza a ordenação e desbloqueia os botões
     private void finalizarOrdenacao() {
-        ordenacaoEmExecucao = false;
-        view.desbloquearBotoes();
-        System.out.println("Ordenação concluída!");
-    }
+    ordenacaoEmExecucao = false;
+    view.desbloquearBotoes();
+    int swapsRealizados = getOrdenacao().getSwapsRealizados();
+    view.exibirAlertaOrdenacao(swapsRealizados);
+}
 
-    // Atualiza todas as células do tabuleiro visualmente
     private void atualizarTabuleiroVisual() {
+        // Atualiza todas as células do tabuleiro
         for (int i = 0; i < tabuleiro.getLetras().size(); i++) {
             char letra = tabuleiro.getLetras().get(i);
-            Image imagem = obterImagemAssociada(letra); // Obtém a imagem correspondente à letra
-            view.atualizarTabuleiroImg(i / 4, i % 4, imagem); // Atualiza cada célula com a imagem
+            // Dividindo o índice do tabuleiro para linhas e colunas (2x4)
+            view.atualizarTabuleiro(i / 4, i % 4, letra);
         }
     }
 
-    // Método para associar uma imagem à sua letra correspondente
-    private Image obterImagemAssociada(char letra) {
-        switch (letra) {
-            case 'A': return view.getLetraAImg();
-            case 'B': return view.getLetraBImg();
-            case 'C': return view.getLetraCImg();
-            case 'D': return view.getLetraDImg();
-            case 'E': return view.getLetraEImg();
-            case 'F': return view.getLetraFImg();
-            case 'G': return view.getLetraGImg();
-            case 'H': return view.getLetraHImg();
-            default: return null; // Retorna nulo caso a letra não tenha correspondência
-        }
-    }
-
-    // Implementação do método da interface AtualizacaoTabuleiro
     @Override
-    public void atualizarTabuleiroImg(int linha, int coluna, Image imagem) {
-        view.atualizarTabuleiroImg(linha, coluna, imagem); // Atualiza a célula no tabuleiro visual
+    public void atualizarTabuleiro(int i, int j, Image imagem) {
+        // Aqui você pode obter a letra associada à imagem
+        char letra = obterLetraAssociada(imagem);
+        // Chame a função para atualizar a célula no tabuleiro com a letra
+        view.atualizarTabuleiro(i, j, letra);
     }
+    
+    public OrdemJogo.Ordenacao getOrdenacao() {
+    return ordenacao;
+}
 
-    // Método adicional para execução interativa de trocas (exemplo: botão de ação)
-    public void onTrocarButtonClick(int i, int j) {
-        ordenacao.swap(tabuleiro, i, j); // Realiza a troca diretamente no Modelo
+    private char obterLetraAssociada(Image imagem) {
+        if (imagem == view.getLetraAImg()) {
+            return 'A';
+        }
+        if (imagem == view.getLetraBImg()) {
+            return 'B';
+        }
+        if (imagem == view.getLetraCImg()) {
+            return 'C';
+        }
+        if (imagem == view.getLetraDImg()) {
+            return 'D';
+        }
+        if (imagem == view.getLetraEImg()) {
+            return 'E';
+        }
+        if (imagem == view.getLetraFImg()) {
+            return 'F';
+        }
+        if (imagem == view.getLetraGImg()) {
+            return 'G';
+        }
+        if (imagem == view.getLetraHImg()) {
+            return 'H';
+        }
+        return ' '; // Se a imagem não for encontrada, retornamos um espaço
     }
 }

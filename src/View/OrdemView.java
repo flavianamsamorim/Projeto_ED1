@@ -5,7 +5,6 @@
  */
 package View;
 
-import Model.OrdemJogo;
 import Controller.OrdemController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -19,6 +18,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javafx.scene.control.Alert;
 
 /**
  *
@@ -140,13 +140,14 @@ public class OrdemView {
         return imagens;
     }
 
-    //Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
-    public void atualizarTabuleiroImg(int linha, int coluna, Image imagem) {
-        gridImages[linha][coluna].setImage(imagem);
+    // Método que atualiza a posição (x, y) do tabuleiro com a letra correspondente
+    public void atualizarTabuleiro(int linha, int coluna, char letra) {
+        // Obtém a imagem correspondente à letra
+        Image imagemAtual = obterImagemLetra(letra);
+
+        // Atualiza a imagem na posição específica do tabuleiro (matriz 2x4)
+        gridImages[linha][coluna].setImage(imagemAtual);
     }
-    
-    
-    
 
     public Image obterImagemLetra(char letra) {
         switch (letra) {
@@ -171,7 +172,7 @@ public class OrdemView {
         }
     }
 
-    // Métodos para bloquear e desbloquear os botões durante a execução da ordenação
+    // Método para bloquear os botões enquanto a ordenação está em execução
     public void bloquearBotoes() {
         btnBubbleSort.setDisable(true);
         btnSelectionSort.setDisable(true);
@@ -181,6 +182,7 @@ public class OrdemView {
         btnHeapSort.setDisable(true);
     }
 
+    // Método para desbloquear os botões após a execução da ordenação
     public void desbloquearBotoes() {
         btnBubbleSort.setDisable(false);
         btnSelectionSort.setDisable(false);
@@ -190,6 +192,17 @@ public class OrdemView {
         btnHeapSort.setDisable(false);
         ordenacaoLabel.setText("Ordenação concluída!");
     }
+
+    public void exibirAlertaOrdenacao(int swapsRealizados) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle("Resultado da Ordenação");
+    alert.setHeaderText("Quantidade de Trocas:");
+    alert.setContentText(String.valueOf(swapsRealizados));
+    alert.setOnCloseRequest(event -> {
+        // Realize as ações necessárias após o fechamento do diálogo
+    });
+    alert.show();
+}
 
     // Métodos para obter as imagens das letras. Eles são utilizados no Controller para obter a imagem correspondente à letra.
     public Image getLetraAImg() {

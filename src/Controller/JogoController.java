@@ -19,9 +19,6 @@ import View.ComplexAlgoView;
 import View.BuscaView;
 import View.OrdemView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import EstruturasDeDados.Lista.Lista;
 
 public class JogoController {
