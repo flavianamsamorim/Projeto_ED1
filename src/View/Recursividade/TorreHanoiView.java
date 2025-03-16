@@ -1,5 +1,6 @@
 package View.Recursividade;
 
+import EstruturasDeDados.Lista.Lista;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.geometry.Pos;
@@ -12,8 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Torre de Hanói em JavaFX (sem pilhas),
@@ -27,7 +27,7 @@ public class TorreHanoiView {
     private final int[] discPositions;   // discPositions[i] = poste onde está o disco (i+1)
 
     // Lista de "eventos": cada evento pode ser uma String (log) ou um Move (movimento)
-    private List<Object> eventos;
+    private Lista<Object> eventos;
     private int eventoAtual = 0;
 
     private Canvas canvas;
@@ -133,18 +133,18 @@ public class TorreHanoiView {
      * Inicia a animação: gera os eventos (log + movimentos) e executa cada um a cada 3s.
      */
     private void iniciarAnimacao() {
-        eventos = new ArrayList<>();
+        eventos = new Lista<>();
         eventoAtual = 0;
         recursionLog.clear();
 
         // Gera eventos recursivamente (agora com logs de chamada inteira)
         gerarEventosRecursivo(numDiscos, 0, 2, 1, eventos);
 
-        recursionLog.appendText("Total de eventos: " + eventos.size() + "\n");
+        recursionLog.appendText("Total de eventos: " + eventos.getSize() + "\n");
 
         // Cria o Timeline com 3s de intervalo
         timeline = new Timeline(new KeyFrame(Duration.seconds(2), e -> executarProximoEvento()));
-        timeline.setCycleCount(eventos.size());
+        timeline.setCycleCount(eventos.getSize());
         timeline.play();
     }
 
@@ -155,33 +155,33 @@ public class TorreHanoiView {
      *   - se n>1: gerarEventosRecursivo(n-1, ...), Move(n,...), gerarEventosRecursivo(n-1, ...)
      *   - "desempilhando n" (quando sai da função que move n discos)
      */
-    private void gerarEventosRecursivo(int n, int origem, int destino, int auxiliar, List<Object> lista) {
+    private void gerarEventosRecursivo(int n, int origem, int destino, int auxiliar, Lista<Object> lista) {
         // Log de entrada (chamada recursiva para mover n discos)
-        lista.add("empilhando " + n);
+        lista.addLast("empilhando " + n);
 
         if (n == 1) {
             // Caso base: mover disco 1
-            lista.add(new Move(1, origem, destino));
+            lista.addLast(new Move(1, origem, destino));
         } else {
             // Mover n-1 do 'origem' para 'auxiliar'
             gerarEventosRecursivo(n - 1, origem, auxiliar, destino, lista);
 
             // Mover o disco n
-            lista.add(new Move(n, origem, destino));
+            lista.addLast(new Move(n, origem, destino));
 
             // Mover n-1 do 'auxiliar' para 'destino'
             gerarEventosRecursivo(n - 1, auxiliar, destino, origem, lista);
         }
 
         // Log de saída (voltando da função que move n discos)
-        lista.add("desempilhando " + n);
+        lista.addLast("desempilhando " + n);
     }
 
     /**
      * Executa o próximo evento da lista (String ou Move).
      */
     private void executarProximoEvento() {
-        if (eventoAtual < eventos.size()) {
+        if (eventoAtual < eventos.getSize()) {
             Object ev = eventos.get(eventoAtual);
 
             if (ev instanceof String) {

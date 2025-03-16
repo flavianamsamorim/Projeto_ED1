@@ -5,21 +5,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.List;
-
+import EstruturasDeDados.Lista.Lista;
 import Model.ClassesObjetos.Personagem;
 
 
 //classe do jogo de classes e objetos
 public class BatalhaView {
     private Stage stage;
-    private List<Personagem> personagens;
+    private Lista<Personagem> personagens;
     private ComboBox<Personagem> cbPersonagem1;
     private ComboBox<Personagem> cbPersonagem2;
     private TextArea txtLog;
 
-    public BatalhaView(Stage stage, List<Personagem> personagens) {
+    public BatalhaView(Stage stage, Lista<Personagem> personagens) {
         this.stage = stage;
         this.personagens = personagens;
         configurarLayout();
@@ -37,9 +35,14 @@ public class BatalhaView {
         cbPersonagem1 = new ComboBox<>();
         cbPersonagem2 = new ComboBox<>();
 
-        // Preenche combos com personagens
-        cbPersonagem1.getItems().addAll(personagens);
-        cbPersonagem2.getItems().addAll(personagens);
+        // // Preenche combos com personagens
+        // cbPersonagem1.getItems().addAll(personagens);
+        // cbPersonagem2.getItems().addAll(personagens);
+
+        for (Personagem p : personagens) {
+            cbPersonagem1.getItems().add(p);
+            cbPersonagem2.getItems().add(p);
+        }
 
         Button btnLutar = new Button("Iniciar Batalha");
         btnLutar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; "

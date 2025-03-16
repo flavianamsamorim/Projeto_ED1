@@ -11,12 +11,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.*;
 
+import EstruturasDeDados.Lista.Lista;
+
 public class OperadoresView {
     private Stage stage;
     private VBox layout;
     private Label lblPergunta, lblFeedback, lblPontuacao, lblVidas, lblCronometro;
     private Button btnA, btnB, btnC, btnProxima, btnJogarNovamente;
-    private List<Map.Entry<String, String[]>> perguntas;
+    private Lista<Map.Entry<String, String[]>> perguntas;
     private String[] respostasCorretas;
     private int perguntaAtual = 0;
     private int pontuacao = 0;
@@ -111,11 +113,15 @@ public class OperadoresView {
         perguntasMap.put("4 ? 2 = 2", new String[]{"A) /", "B) *", "C) +"});
         perguntasMap.put("15 ? 3 = 5", new String[]{"A) *", "B) /", "C) -"});
 
-        perguntas = new ArrayList<>(perguntasMap.entrySet());
+        perguntas = new Lista<>();
+        for (Map.Entry<String, String[]> entry : perguntasMap.entrySet()) {
+            perguntas.addLast(entry);
+        }
+
     }
 
     private void carregarPergunta() {
-        if (perguntaAtual < perguntas.size() && vidas > 0) {
+        if (perguntaAtual < perguntas.getSize() && vidas > 0) {
             Map.Entry<String, String[]> perguntaEntry = perguntas.get(perguntaAtual);
             lblPergunta.setText(perguntaEntry.getKey());
             btnA.setText(perguntaEntry.getValue()[0]);

@@ -9,12 +9,14 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
+import EstruturasDeDados.Lista.Lista;
+
 public class QuizView {
     private Stage stage;
     private VBox layout;
     private Label lblPergunta, lblFeedback, lblRanking, titulo;
     private Button btnA, btnB, btnC, btnProxima, btnJogarNovamente;
-    private List<Map.Entry<String, String[]>> perguntasOrdenadas;
+    private Lista<Map.Entry<String, String[]>> perguntasOrdenadas;
     private String[] respostasCorretas;
     private int perguntaAtual = 0;
     private int pontuacao = 0;
@@ -106,12 +108,16 @@ public class QuizView {
         perguntas.put("Qual índice tem o primeiro elemento de um array em Java?", new String[]{"A) 1", "B) 0", "C) -1"});
         perguntas.put("Qual estrutura melhor representa uma matriz 3x3?", new String[]{"A) int matriz[3]", "B) int[][] matriz = new int[3][3]", "C) int matriz = new int[9]"});
         
-        perguntasOrdenadas = new ArrayList<>(perguntas.entrySet());
+        perguntasOrdenadas = new Lista<>();
+        for (Map.Entry<String, String[]> entry : perguntas.entrySet()) {
+            perguntasOrdenadas.addLast(entry);
+        }
+
     }
 
     private void carregarPergunta() {
         respostaSelecionada = false;
-        if (perguntaAtual < perguntasOrdenadas.size()) {
+        if (perguntaAtual < perguntasOrdenadas.getSize()) {
             Map.Entry<String, String[]> perguntaEntry = perguntasOrdenadas.get(perguntaAtual);
             lblPergunta.setText(perguntaEntry.getKey());
             btnA.setText(perguntaEntry.getValue()[0]);

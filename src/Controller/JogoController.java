@@ -6,7 +6,7 @@ import View.Arquivos.ArquivosView;
 import View.ClassesObjetos.PersonagemView;
 import View.Collection.QuizColecoesJava;
 import View.CondicaoRepeticao.LabirintoView;
-import View.Generic.InventarioMagicoView;
+import View.Generic.QuizGeneric;
 import View.Operadores.OperadoresView;
 import View.Recursividade.TorreHanoiView;
 import View.TiposBasicos.QuizView;
@@ -29,22 +29,20 @@ public class JogoController {
         botoes = new Lista<>();
 
         String[] nomesJogos = {
-            "Entrada e Saída", "Tipos de Dados", "Operadores", "Condição e Repetição",
-             "Tipos Básicos", "Operadores", "Condição e Repetição",
-             "Classes e Objetos", "Recursividade", "Vetores e Matrizes",
-             "Arquivos", "Generic", "Collection", "Pilhas", "Filas",
-             "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca", "Algoritmos de Ordenação", "Algoritmo de Huffman"
-
+            "Tipos Básicos", "Operadores", "Condição e Repetição", "Classes e Objetos",
+            "Recursividade", "Vetores e Matrizes", "Arquivos", "Generic", "Collection",
+            "Pilhas", "Filas", "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
+            "Algoritmos de Ordenação"
         };
 
         for (String nome : nomesJogos) {
             Button btn = new Button(nome);
             btn.setStyle("-fx-background-color:rgb(97, 168, 29); -fx-text-fill: white; "
-            + "-fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
+                    + "-fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
             // Definir ações para cada botão
             btn.setOnAction(e -> abrirJogo(nome));
 
-            botoes.addFirst(btn);
+            botoes.addLast(btn); // Agora os botões são adicionados na ordem correta
         }
     }
 
@@ -87,7 +85,7 @@ public class JogoController {
                 break;
 
             case "Generic":
-                new InventarioMagicoView(stage);
+                new QuizGeneric(stage);
                 break;
 
             case "Collection":

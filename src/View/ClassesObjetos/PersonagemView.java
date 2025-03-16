@@ -11,14 +11,15 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+
+import EstruturasDeDados.Lista.Lista;
+
 
 
 //classe do jogo de classes e objetos
 public class PersonagemView {
     private Stage stage;
-    private List<Personagem> listaPersonagens = new ArrayList<>();
+    private Lista<Personagem> listaPersonagens = new Lista<>();
 
     public PersonagemView(Stage stage) {
         this.stage = stage;
@@ -63,7 +64,7 @@ public class PersonagemView {
                         break;
                 }
                 if (p != null) {
-                    listaPersonagens.add(p);
+                    listaPersonagens.addFirst(p);
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Sucesso");
                     alert.setHeaderText(null);
@@ -186,7 +187,7 @@ public class PersonagemView {
     @SuppressWarnings("unchecked")
     private void carregarPersonagensBinario() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("personagens.dat"))) {
-            listaPersonagens = (List<Personagem>) ois.readObject();
+            listaPersonagens = (Lista<Personagem>) ois.readObject();
             Alert alert = new Alert(Alert.AlertType.INFORMATION,
                     "Personagens carregados (binário) com sucesso!");
             alert.setTitle("Carregar Personagens");

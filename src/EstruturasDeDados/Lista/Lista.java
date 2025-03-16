@@ -1,15 +1,21 @@
 package EstruturasDeDados.Lista;
 
+import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Random;
 
-public class Lista <E> implements InterfaceLista <E>
+import Model.ClassesObjetos.Personagem;
+
+public class Lista <E> implements InterfaceLista <E>, Iterable<E>, Serializable
 {
+
+	private static final long serialVersionUID = 1L;
 	// Classe Interna Node
-	class Node
+	class Node implements Serializable
 	{
+		private static final long serialVersionUID = 1L;
 		// Atributos de Node
         private E data;    
         private Node next; 
@@ -489,7 +495,51 @@ public class Lista <E> implements InterfaceLista <E>
             atual = atual.next;
         }
     } while (trocou); // Continua enquanto ocorrer troca
-}
+	}
+
+	public int indexOf(E elemento) {
+		Node atual = head;
+		int indice = 0;
+		
+		while (atual != null) {
+			if (atual.data.equals(elemento)) {
+				return indice;
+			}
+			atual = atual.next;
+			indice++;
+		}
+		
+		return -1; // Retorna -1 se o elemento não for encontrado
+	}
+
+	public void clear() {
+		head = null;
+		tail = null;
+		size = 0;
+	}
+
+	public void setAll(Lista<E> outraLista) {
+		clear();
+		for (E elemento : outraLista) {
+			addLast(elemento);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public E[] toArray() {
+    E[] array = (E[]) new Object[size]; // Criando array genérico
+    Node atual = head;
+    int i = 0;
+
+		while (atual != null) {
+			array[i++] = atual.data;
+			atual = atual.next;
+		}
+
+    	return array;
+	}
+
+   
 
 	
 }

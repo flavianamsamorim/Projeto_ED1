@@ -1,4 +1,4 @@
-package View.Collection;
+package View.Generic;
 
 import EstruturasDeDados.Lista.Lista;  // Importe sua implementação de Lista
 import javafx.geometry.Pos;
@@ -10,19 +10,19 @@ import javafx.stage.Stage;
 
 import java.util.*;
 
-public class QuizColecoesJava {
+public class QuizGeneric<T> {
     private Stage stage;
     private VBox layout;
     private Label lblPergunta, lblFeedback, lblRanking, titulo;
     private Button btnA, btnB, btnC, btnProxima, btnJogarNovamente;
-    private Lista<Map.Entry<String, String[]>> perguntasOrdenadas;  // Usando sua Lista personalizada
-    private String[] respostasCorretas;
+    private Lista<Map.Entry<String, T[]>> perguntasOrdenadas;  // Usando sua Lista personalizada
+    private T[] respostasCorretas;
     private int perguntaAtual = 0;
     private int pontuacao = 0;
     private Lista<Integer> ranking = new Lista<>();  // Usando sua Lista personalizada para o ranking
     private boolean respostaSelecionada = false;
 
-    public QuizColecoesJava(Stage stage) {
+    public QuizGeneric(Stage stage) {
         this.stage = stage;
         layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
@@ -39,7 +39,7 @@ public class QuizColecoesJava {
         lblRanking = new Label("Ranking:");
         lblRanking.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         
-        titulo = new Label("Coleções em Java");
+        titulo = new Label("Quiz sobre Generics");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         btnA = new Button();
@@ -79,35 +79,35 @@ public class QuizColecoesJava {
 
         Scene scene = new Scene(layout, 400, 400);
         stage.setScene(scene);
-        stage.setTitle("Quiz sobre Coleções do Java");
+        stage.setTitle("Quiz sobre Generics");
         stage.show();
     }
 
     private void configurarPerguntas() {
-        Map<String, String[]> perguntas = new LinkedHashMap<>();
-        respostasCorretas = new String[] {
-            "A", "B", "A", "B", "C", "A", "B", "A", "B", "C",
-            "A", "B", "C", "A", "B", "A"
+        Map<String, T[]> perguntas = new LinkedHashMap<>();
+        respostasCorretas = (T[]) new Object[] {
+            (T) "A", (T) "B", (T) "A", (T) "B", (T) "C", (T) "A", (T) "B", (T) "A", (T) "B", (T) "C",
+            (T) "A", (T) "B", (T) "C", (T) "A", (T) "B", (T) "A"
         };
 
-        perguntas.put("1 - Qual coleção do Java não permite elementos duplicados?", new String[]{"A) Set", "B) List", "C) Queue"});
-        perguntas.put("2 - Qual coleção do Java armazena elementos em pares chave-valor?", new String[]{"A) List", "B) Map", "C) Set"});
-        perguntas.put("3 - Qual implementação de Queue é mais eficiente para inserções e remoções?", new String[]{"A) LinkedList", "B) ArrayList", "C) PriorityQueue"});
-        perguntas.put("4 - Qual coleção permite acessar elementos de forma sequencial?", new String[]{"A) Set", "B) List", "C) Map"});
-        perguntas.put("5 - Qual classe representa a implementação de uma lista em Java?", new String[]{"A) ArrayList", "B) HashSet", "C) TreeMap"});
-        perguntas.put("6 - Qual coleção armazena elementos sem uma ordem específica?", new String[]{"A) Set", "B) List", "C) Map"});
-        perguntas.put("7 - Qual estrutura de dados Java é mais eficiente para representar uma pilha?", new String[]{"A) Stack", "B) LinkedList", "C) PriorityQueue"});
-        perguntas.put("8 - Qual coleção do Java é mais indicada para representar uma fila?", new String[]{"A) Queue", "B) List", "C) Set"});
-        perguntas.put("9 - Qual estrutura de dados Java é adequada para armazenar valores associados a chaves?", new String[]{"A) TreeMap", "B) ArrayList", "C) HashSet"});
-        perguntas.put("10 - Como um HashSet armazena os elementos?", new String[]{"A) Em uma tabela hash", "B) Em uma lista encadeada", "C) Em um vetor"});
-        perguntas.put("11 - Qual método da classe List permite adicionar elementos?", new String[]{"A) add()", "B) put()", "C) offer()"});
-        perguntas.put("12 - Qual implementação de Map é mais eficiente para buscas rápidas?", new String[]{"A) TreeMap", "B) HashMap", "C) LinkedHashMap"});
-        perguntas.put("13 - Em qual coleção podemos garantir a ordem de inserção dos elementos?", new String[]{"A) HashSet", "B) LinkedHashSet", "C) TreeSet"});
-        perguntas.put("14 - Qual estrutura de dados armazena elementos de forma ordenada?", new String[]{"A) HashMap", "B) TreeSet", "C) LinkedList"});
-        perguntas.put("15 - Em qual coleção não podemos acessar elementos diretamente via índice?", new String[]{"A) List", "B) Set", "C) Queue"});
+        perguntas.put("1 - O que são Generics em Java?", (T[]) new String[] {"A) Uma forma de criar métodos e classes com tipos genéricos", "B) Um tipo específico de coleção", "C) Uma classe que pode ser instanciada com tipos específicos"});
+        perguntas.put("2 - Qual é a principal vantagem do uso de Generics?", (T[]) new String[] {"A) Evitar conversões de tipo (casting)", "B) Aumentar o número de classes disponíveis", "C) Tornar o código mais complexo"});
+        perguntas.put("3 - Em Java, qual sintaxe é usada para declarar um método genérico?", (T[]) new String[] {"A) public <T> void metodo(T parametro)", "B) public void metodo<T>(T parametro)", "C) public void metodo(T parametro<T>)"});
+        perguntas.put("4 - Quando devemos usar Generics em Java?", (T[]) new String[] {"A) Quando o tipo de dados não é conhecido durante a escrita do código", "B) Quando se quer evitar o uso de interfaces", "C) Quando se precisa de múltiplos tipos de classes"});
+        perguntas.put("5 - O que o símbolo `T` normalmente representa em Generics?", (T[]) new String[] {"A) Um tipo genérico", "B) Uma string", "C) Um tipo primitivo"});
+        perguntas.put("6 - Como o compilador trata os tipos genéricos durante a execução?", (T[]) new String[] {"A) Com o uso de erasure (apagamento de tipo)", "B) Ele cria novas instâncias para cada tipo", "C) Ele gera diferentes classes para cada tipo especificado"});
+        perguntas.put("7 - Qual das opções abaixo é um exemplo de classe genérica?", (T[]) new String[] {"A) public class Caixa<T> {}", "B) public class Caixa {}", "C) public class Caixa{T} "});
+        perguntas.put("8 - O que é 'bounded type' em Generics?", (T[]) new String[] {"A) Um tipo genérico restrito a uma subclasse de um tipo específico", "B) Um tipo que aceita apenas valores primitivos", "C) Um tipo que pode ser qualquer classe"});
+        perguntas.put("9 - Qual a função do operador `? extends T` em Generics?", (T[]) new String[] {"A) Restringe o tipo para uma classe que estenda T", "B) Aceita qualquer tipo de dado", "C) Especifica um tipo primitivo"});
+        perguntas.put("10 - Qual o erro mais comum ao usar Generics?", (T[]) new String[] {"A) Tentativa de usar tipos incompatíveis", "B) Não especificar o tipo de dado", "C) Esquecer de implementar interfaces genéricas"});
+        perguntas.put("11 - O que acontece se tentarmos adicionar um tipo errado em uma coleção genérica?", (T[]) new String[] {"A) O código não compila", "B) O código compila, mas lança um erro em tempo de execução", "C) O código compila, mas ignora o valor"});
+        perguntas.put("12 - Em Java, qual é a principal diferença entre `List<T>` e `Set<T>`?", (T[]) new String[] {"A) `List<T>` permite elementos duplicados, enquanto `Set<T>` não permite", "B) `Set<T>` permite elementos duplicados, enquanto `List<T>` não permite", "C) Não há diferença"});
+        perguntas.put("13 - Como é possível garantir que uma classe genérica só possa aceitar tipos específicos em Java?", (T[]) new String[] {"A) Usando limites com `extends`", "B) Declarando o tipo como `Object`", "C) Usando `?` sem qualquer limite"});
+        perguntas.put("14 - O que o tipo `T` representa em uma classe genérica?", (T[]) new String[] {"A) Qualquer tipo de dado", "B) Um tipo fixo de dado", "C) Um tipo primitivo específico"});
+        perguntas.put("15 - O que é `erasure` (apagamento de tipo) em Java?", (T[]) new String[] {"A) O processo de remover o tipo genérico após a compilação", "B) O processo de verificar tipos em tempo de execução", "C) O processo de compilar o código"});
         
         perguntasOrdenadas = new Lista<>();  // Inicializando a sua lista personalizada
-        for (Map.Entry<String, String[]> entry : perguntas.entrySet()) {
+        for (Map.Entry<String, T[]> entry : perguntas.entrySet()) {
             perguntasOrdenadas.addLast(entry);  // Usando o método da sua lista para adicionar perguntas
         }
     }
@@ -115,11 +115,11 @@ public class QuizColecoesJava {
     private void carregarPergunta() {
         respostaSelecionada = false;
         if (perguntaAtual < perguntasOrdenadas.getSize()) {
-            Map.Entry<String, String[]> perguntaEntry = perguntasOrdenadas.get(perguntaAtual);  // Usando o método da sua lista
+            Map.Entry<String, T[]> perguntaEntry = perguntasOrdenadas.get(perguntaAtual);  // Usando o método da sua lista
             lblPergunta.setText(perguntaEntry.getKey());
-            btnA.setText(perguntaEntry.getValue()[0]);
-            btnB.setText(perguntaEntry.getValue()[1]);
-            btnC.setText(perguntaEntry.getValue()[2]);
+            btnA.setText((String) perguntaEntry.getValue()[0]);
+            btnB.setText((String) perguntaEntry.getValue()[1]);
+            btnC.setText((String) perguntaEntry.getValue()[2]);
             lblFeedback.setText("");
             btnProxima.setVisible(false);
         } else {

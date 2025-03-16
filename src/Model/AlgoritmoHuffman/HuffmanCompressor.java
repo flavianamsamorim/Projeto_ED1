@@ -44,10 +44,6 @@ public class HuffmanCompressor {
             pq.add(new HuffmanNode(entry.getKey(), entry.getValue()));
         }
 
-        System.out.println("Mapa de Huffman:");
-        for (Map.Entry<Character, String> entry : huffmanCodes.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
-        }
 
         while (pq.size() > 1) {
             HuffmanNode left = pq.poll();
