@@ -28,15 +28,25 @@ public class ComplexAlgoView {
         controller = new ComplexAlgoController(this);
         layout = new VBox(10);
         layout.setAlignment(Pos.CENTER);
-        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #ffffff, #e0f7fa);"
-                + "-fx-padding: 20;");
+        layout.setStyle("-fx-background-color: linear-gradient(to bottom right, #d9f1ff, #ffffff);");
 
         lblPergunta = new Label();
+        lblPergunta.setWrapText(true);
+        lblPergunta.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        lblPergunta.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #2c3e50; -fx-wrap-text: true;");
+        
         lblFeedback = new Label();
+        lblFeedback.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #e74c3c;");
+        
         btnA = new Button();
         btnB = new Button();
         btnC = new Button();
         btnProxima = new Button("Próxima Pergunta ->");
+        btnProxima.setStyle( "-fx-background-color: #27ae60; " +
+        "-fx-text-fill: white; " +
+        "-fx-font-weight: bold; " +
+        "-fx-font-size: 14px; " +
+        "-fx-background-radius: 8;");
         
         // Ações dos botões
         btnA.setOnAction(e -> controller.verificarResposta("A"));

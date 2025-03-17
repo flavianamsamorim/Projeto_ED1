@@ -100,8 +100,6 @@ public class OrdemJogo {
                     break; // Se não houve trocas, o vetor já está ordenado
                 }
             }
-            System.out.println("Bubble sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
         }
 
         // Algoritmo de Selection Sort
@@ -117,8 +115,6 @@ public class OrdemJogo {
                     swap(tabuleiro, i, minIdx);
                 }
             }
-            System.out.println("selection sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
         }
 
         // Algoritmo de Insertion Sort
@@ -132,8 +128,6 @@ public class OrdemJogo {
                 }
                 tabuleiro.getLetras().set(j + 1, key);
             }
-            System.out.println("insertion sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
         }
 
         // Algoritmo de Quick Sort
@@ -143,8 +137,6 @@ public class OrdemJogo {
                 quickSort(tabuleiro, low, pi - 1);
                 quickSort(tabuleiro, pi + 1, high);
             }
-            System.out.println("quick sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
         }
 
         // Particionamento usado no Quick Sort
@@ -155,15 +147,10 @@ public class OrdemJogo {
                 if (tabuleiro.getLetras().get(j) < pivot) {
                     i++;
                     swap(tabuleiro, i, j);
-                    System.out.println("quick sort: " + swapsRealizados + " trocas");
-                    swapsRealizados = 0;
                 }
             }
             swap(tabuleiro, i + 1, high);
-            System.out.println("quick sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
             return i + 1;
-
         }
 
         // Algoritmo de Shell Sort
@@ -180,8 +167,6 @@ public class OrdemJogo {
                     tabuleiro.getLetras().set(j, temp);
                 }
             }
-            System.out.println("shell sort: " + swapsRealizados + " trocas");
-            swapsRealizados = 0;
         }
 
         // Algoritmo de Heap Sort
@@ -192,11 +177,8 @@ public class OrdemJogo {
             }
             for (int i = n - 1; i > 0; i--) {
                 swap(tabuleiro, 0, i);
-                System.out.println("heap sort: " + swapsRealizados + " trocas");
-                swapsRealizados = 0;
                 heapify(tabuleiro, i, 0);
             }
-            
         }
 
         // Função de heapify para o Heap Sort
@@ -213,11 +195,8 @@ public class OrdemJogo {
             }
             if (largest != i) {
                 swap(tabuleiro, i, largest);
-                System.out.println("heap sort: " + swapsRealizados + " trocas");
-                swapsRealizados = 0;
                 heapify(tabuleiro, n, largest);
             }
-            
         }
 
         // Função que troca os valores de duas letras no tabuleiro

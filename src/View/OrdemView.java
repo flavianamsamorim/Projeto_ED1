@@ -18,7 +18,6 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import javafx.scene.control.Alert;
 
 /**
  *
@@ -32,7 +31,7 @@ public class OrdemView {
     private ImageView[][] gridImages;
     private Image abcImg, letraAImg, letraBImg, letraCImg, letraDImg, letraEImg, letraFImg, letraGImg, letraHImg;
     private Button btnBubbleSort, btnSelectionSort, btnInsertionSort, btnQuickSort, btnShellSort, btnHeapSort;
-
+    
     public OrdemView(Stage stage) {
         controller = new OrdemController(this);
         carregarImagens();
@@ -40,21 +39,21 @@ public class OrdemView {
     }
 
     private void carregarImagens() {
-        abcImg = new Image("file:src/imagens/folder/abc.png");
-        letraAImg = new Image("file:src/imagens/folder/letraA.png");
-        letraBImg = new Image("file:src/imagens/folder/letraB.png");
-        letraCImg = new Image("file:src/imagens/folder/letraC.png");
-        letraDImg = new Image("file:src/imagens/folder/letraD.png");
-        letraEImg = new Image("file:src/imagens/folder/letraE.png");
-        letraFImg = new Image("file:src/imagens/folder/letraF.png");
-        letraGImg = new Image("file:src/imagens/folder/letraG.png");
-        letraHImg = new Image("file:src/imagens/folder/letraH.png");
+        abcImg = new Image("file:src/imagens/folder/abc.jpeg");
+        letraAImg = new Image("file:src/imagens/folder/letraA.jpeg");
+        letraBImg = new Image("file:src/imagens/folder/letraB.jpeg");
+        letraCImg = new Image("file:src/imagens/folder/letraC.jpeg");
+        letraDImg = new Image("file:src/imagens/folder/letraD.jpeg");
+        letraEImg = new Image("file:src/imagens/folder/letraE.jpeg");
+        letraFImg = new Image("file:src/imagens/folder/letraF.jpeg");
+        letraGImg = new Image("file:src/imagens/folder/letraG.jpeg");
+        letraHImg = new Image("file:src/imagens/folder/letraH.jpeg");
     }
 
     private void inicializarInterface(Stage stage) {
         statusLabel = new Label("Escolha um método de ordenação");
         statusLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
-
+        
         ordenacaoLabel = new Label("");
         ordenacaoLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
@@ -151,24 +150,15 @@ public class OrdemView {
 
     public Image obterImagemLetra(char letra) {
         switch (letra) {
-            case 'A':
-                return letraAImg;
-            case 'B':
-                return letraBImg;
-            case 'C':
-                return letraCImg;
-            case 'D':
-                return letraDImg;
-            case 'E':
-                return letraEImg;
-            case 'F':
-                return letraFImg;
-            case 'G':
-                return letraGImg;
-            case 'H':
-                return letraHImg;
-            default:
-                return abcImg;
+            case 'A': return letraAImg;
+            case 'B': return letraBImg;
+            case 'C': return letraCImg;
+            case 'D': return letraDImg;
+            case 'E': return letraEImg;
+            case 'F': return letraFImg;
+            case 'G': return letraGImg;
+            case 'H': return letraHImg;
+            default: return abcImg;
         }
     }
 
@@ -192,17 +182,6 @@ public class OrdemView {
         btnHeapSort.setDisable(false);
         ordenacaoLabel.setText("Ordenação concluída!");
     }
-
-    public void exibirAlertaOrdenacao(int swapsRealizados) {
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-    alert.setTitle("Resultado da Ordenação");
-    alert.setHeaderText("Quantidade de Trocas:");
-    alert.setContentText(String.valueOf(swapsRealizados));
-    alert.setOnCloseRequest(event -> {
-        // Realize as ações necessárias após o fechamento do diálogo
-    });
-    alert.show();
-}
 
     // Métodos para obter as imagens das letras. Eles são utilizados no Controller para obter a imagem correspondente à letra.
     public Image getLetraAImg() {

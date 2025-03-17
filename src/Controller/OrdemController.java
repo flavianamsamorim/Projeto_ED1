@@ -11,7 +11,6 @@ import Model.OrdemJogo.AtualizacaoTabuleiro;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.image.Image;
-
 /**
  *
  * @author Cliente
@@ -20,16 +19,13 @@ public class OrdemController implements AtualizacaoTabuleiro {
 
     private OrdemJogo.Tabuleiro tabuleiro;
     private OrdemView view;
-    private OrdemJogo.Ordenacao ordenacao;
     private boolean ordenacaoEmExecucao = false;
 
     public OrdemController(OrdemView view) {
-    this.view = view;
-    this.tabuleiro = new OrdemJogo.Tabuleiro(view.carregarImagensTabuleiro());
-    this.ordenacao = new OrdemJogo.Ordenacao(this);
-}
-    
-    
+        this.view = view;
+        this.tabuleiro = new OrdemJogo.Tabuleiro(view.carregarImagensTabuleiro());
+    }
+
     public void executarOrdem(String tipo) {
         if (ordenacaoEmExecucao) {
             System.out.println("A ordenação já está em execução.");
@@ -74,9 +70,9 @@ public class OrdemController implements AtualizacaoTabuleiro {
         PauseTransition delay = new PauseTransition(Duration.seconds(0.5)); // Delay de meio segundo
         delay.setOnFinished(event -> {
             metodoDeOrdenacao.run();
-            atualizarTabuleiroVisual();
+            atualizarTabuleiroVisual(); 
             if (!tabuleiro.estaOrdenado()) {
-                executarOrdenacaoComDelay(metodoDeOrdenacao);
+                executarOrdenacaoComDelay(metodoDeOrdenacao); 
             } else {
                 finalizarOrdenacao();
             }
@@ -85,18 +81,16 @@ public class OrdemController implements AtualizacaoTabuleiro {
     }
 
     private void finalizarOrdenacao() {
-    ordenacaoEmExecucao = false;
-    view.desbloquearBotoes();
-    int swapsRealizados = getOrdenacao().getSwapsRealizados();
-    view.exibirAlertaOrdenacao(swapsRealizados);
-}
+        ordenacaoEmExecucao = false;
+        view.desbloquearBotoes();
+    }
 
     private void atualizarTabuleiroVisual() {
         // Atualiza todas as células do tabuleiro
         for (int i = 0; i < tabuleiro.getLetras().size(); i++) {
             char letra = tabuleiro.getLetras().get(i);
             // Dividindo o índice do tabuleiro para linhas e colunas (2x4)
-            view.atualizarTabuleiro(i / 4, i % 4, letra);
+            view.atualizarTabuleiro(i / 4, i % 4, letra); 
         }
     }
 
@@ -107,36 +101,16 @@ public class OrdemController implements AtualizacaoTabuleiro {
         // Chame a função para atualizar a célula no tabuleiro com a letra
         view.atualizarTabuleiro(i, j, letra);
     }
-    
-    public OrdemJogo.Ordenacao getOrdenacao() {
-    return ordenacao;
-}
 
     private char obterLetraAssociada(Image imagem) {
-        if (imagem == view.getLetraAImg()) {
-            return 'A';
-        }
-        if (imagem == view.getLetraBImg()) {
-            return 'B';
-        }
-        if (imagem == view.getLetraCImg()) {
-            return 'C';
-        }
-        if (imagem == view.getLetraDImg()) {
-            return 'D';
-        }
-        if (imagem == view.getLetraEImg()) {
-            return 'E';
-        }
-        if (imagem == view.getLetraFImg()) {
-            return 'F';
-        }
-        if (imagem == view.getLetraGImg()) {
-            return 'G';
-        }
-        if (imagem == view.getLetraHImg()) {
-            return 'H';
-        }
+        if (imagem == view.getLetraAImg()) return 'A';
+        if (imagem == view.getLetraBImg()) return 'B';
+        if (imagem == view.getLetraCImg()) return 'C';
+        if (imagem == view.getLetraDImg()) return 'D';
+        if (imagem == view.getLetraEImg()) return 'E';
+        if (imagem == view.getLetraFImg()) return 'F';
+        if (imagem == view.getLetraGImg()) return 'G';
+        if (imagem == view.getLetraHImg()) return 'H';
         return ' '; // Se a imagem não for encontrada, retornamos um espaço
     }
 }

@@ -23,16 +23,16 @@ public class ComplexAlgoController {
     public ComplexAlgoController(ComplexAlgoView view) {
         // Criando perguntas e respostas
         Map<String, String[]> perguntas = new LinkedHashMap<>();
-        perguntas.put("1-O que a complexidade de algoritmos avalia \nprincipalmente?", new String[]{"A) Tamanho da entrada", "B) Número de iterações", "C) Complexidade do espaço"});
-        perguntas.put("2-O que a análise de pior caso considera?", new String[]{"A) Complexidad de espaço", "B) Tempo mais longo de execução", "C) Melhor desempenho possível"});
-        perguntas.put("3-Qual é a complexidade de tempo de um algoritmo \nque executa um número fixo de operações?", new String[]{"A) O(1)", "B) O(n)", "C) O(log n)"});
-        perguntas.put("4-O que significa dizer que um problema é \n\"intratável\"?", new String[]{"A) Não pode ser resolvido em tempo polinomial", "B) Não tem solução", "C) Tem várias soluções"});
-        perguntas.put("5-Qual é a complexidade de tempo de um algoritmo de \nbusca binária em uma lista ordenada de n elementos?", new String[]{"A) O(logn)", "B) O(n)", "C) O(1)"});
-        perguntas.put("6-Qual classe de complexidade inclui problemas \nsolúveis em tempo polinomial?", new String[]{"A) NP", "B) P", "C) NP-completo"});
-        perguntas.put("7-Qual é a notação para limite inferior que depende \ndo problema?", new String[]{"A) Ômega", "B) O grande", "C) Theta"});
-        perguntas.put("8-Qual é a notação para limite superior que depende \ndo algoritmo?", new String[]{"A) Theta", "B) O grande", "C) Ômega"});
-        perguntas.put("9-Qual é a complexidade  típica quando se reduz um \nproblema em subproblemas?", new String[]{"A) O(n)", "B) log n", "C) n log n"});
-        perguntas.put("10-Qual é a complexidade de um algoritmo de força bruta \npara resolver o Problema do Caixeiro Viajante?", new String[]{"A) O(log n)", "B) O(2^ⁿ)", "C) O(n)"});
+        perguntas.put("O que a complexidade de algoritmos avalia \nprincipalmente?", new String[]{"A) Tamanho da entrada", "B) Número de iterações", "C) Complexidade do espaço"});
+        perguntas.put("O que a análise de pior caso considera?", new String[]{"A) Complexidad de espaço", "B) Tempo mais longo de execução", "C) Melhor desempenho possível"});
+        perguntas.put("Qual é a complexidade de tempo de um algoritmo \nque executa um número fixo de operações?", new String[]{"A) O(1)", "B) O(n)", "C) O(log n)"});
+        perguntas.put("O que significa dizer que um problema é \n\"intratável\"?", new String[]{"A) Não pode ser resolvido em tempo polinomial", "B) Não tem solução", "C) Tem várias soluções"});
+        perguntas.put("Qual é a complexidade de tempo de um algoritmo de \nbusca binária em uma lista ordenada de n elementos?", new String[]{"A) O(logn)", "B) O(n)", "C) O(1)"});
+        perguntas.put("Qual classe de complexidade inclui problemas \nsolúveis em tempo polinomial?", new String[]{"A) NP", "B) P", "C) NP-completo"});
+        perguntas.put("Qual é a notação para limite inferior que depende \ndo problema?", new String[]{"A) Ômega", "B) O grande", "C) Theta"});
+        perguntas.put("Qual é a notação para limite superior que depende \ndo algoritmo?", new String[]{"A) Theta", "B) O grande", "C) Ômega"});
+        perguntas.put("Qual é a complexidade  típica quando se reduz um \nproblema em subproblemas?", new String[]{"A) O(n)", "B) log n", "C) n log n"});
+        perguntas.put("Qual é a complexidade de um algoritmo de força bruta \npara resolver o Problema do Caixeiro Viajante?", new String[]{"A) O(log n)", "B) O(2^ⁿ)", "C) O(n)"});
 
         String[] respostasCorretas = {"A", "B","A", "A","A", "B","A", "C","C", "B"}; // As respostas corretas
 

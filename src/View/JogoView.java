@@ -22,7 +22,7 @@ public class JogoView {
         Label titulo = new Label("Estrutura de Dados");
         titulo.setStyle("-fx-font-size: 65px; -fx-font-weight: bold;");
 
-        Label instrucao = new Label("Clique em cada nó para testar seus conhecimentos");
+        Label instrucao = new Label("Clique em cada nó para obter seus conhecimentos");
         instrucao.setStyle("-fx-font-size: 25px;");
 
         Lista<Button> botoes = controller.getBotoes();
