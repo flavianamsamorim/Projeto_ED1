@@ -1,0 +1,32 @@
+### Java / IDE / build artifacts
+# Compiled class files
+*.class
+
+# Build directories
+build/
+dist/
+
+# NetBeans
+nbproject/private/
+nbbuild/
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temporary files
+*.log
+
+# Binary / local data files
+personagens.dat
+
+# Distribution
+*.jar
+
+# Other
+manifest.mf
