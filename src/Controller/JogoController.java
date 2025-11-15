@@ -12,7 +12,6 @@ import View.Recursividade.TorreHanoiView;
 import View.TiposBasicos.QuizView;
 import View.VetoresMatriz.SimuladorImagemView;
 import View.PilhaView;
-import View.AlgoritmoHuffman.HuffmanView;
 import View.FilaView;
 import View.ListaView;
 import View.ComplexAlgoView;
@@ -116,9 +115,6 @@ public class JogoController {
                 new OrdemView(stage);
                 break;
 
-            case "Algoritmo de Huffman":
-               new HuffmanView(stage);
-                break;
-        }
+            }
     }
 }
