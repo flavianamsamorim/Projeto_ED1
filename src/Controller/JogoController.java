@@ -116,9 +116,6 @@ public class JogoController {
                 new OrdemView(stage);
                 break;
 
-            case "Algoritmo de Huffman":
-               new HuffmanView(stage);
-                break;
         }
     }
 }

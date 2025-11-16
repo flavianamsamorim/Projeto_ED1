@@ -87,24 +87,24 @@ public class QuizGeneric<T> {
         Map<String, T[]> perguntas = new LinkedHashMap<>();
         respostasCorretas = (T[]) new Object[] {
             (T) "A", (T) "B", (T) "A", (T) "B", (T) "C", (T) "A", (T) "B", (T) "A", (T) "B", (T) "C",
-            (T) "A", (T) "B", (T) "C", (T) "A", (T) "B", (T) "A"
+            (T) "A", (T) "B", (T) "C", (T) "A", (T) "B"
         };
 
-        perguntas.put("1 - O que são Generics em Java?", (T[]) new String[] {"A) Uma forma de criar métodos e classes com tipos genéricos", "B) Um tipo específico de coleção", "C) Uma classe que pode ser instanciada com tipos específicos"});
-        perguntas.put("2 - Qual é a principal vantagem do uso de Generics?", (T[]) new String[] {"A) Evitar conversões de tipo (casting)", "B) Aumentar o número de classes disponíveis", "C) Tornar o código mais complexo"});
-        perguntas.put("3 - Em Java, qual sintaxe é usada para declarar um método genérico?", (T[]) new String[] {"A) public <T> void metodo(T parametro)", "B) public void metodo<T>(T parametro)", "C) public void metodo(T parametro<T>)"});
-        perguntas.put("4 - Quando devemos usar Generics em Java?", (T[]) new String[] {"A) Quando o tipo de dados não é conhecido durante a escrita do código", "B) Quando se quer evitar o uso de interfaces", "C) Quando se precisa de múltiplos tipos de classes"});
-        perguntas.put("5 - O que o símbolo `T` normalmente representa em Generics?", (T[]) new String[] {"A) Um tipo genérico", "B) Uma string", "C) Um tipo primitivo"});
-        perguntas.put("6 - Como o compilador trata os tipos genéricos durante a execução?", (T[]) new String[] {"A) Com o uso de erasure (apagamento de tipo)", "B) Ele cria novas instâncias para cada tipo", "C) Ele gera diferentes classes para cada tipo especificado"});
-        perguntas.put("7 - Qual das opções abaixo é um exemplo de classe genérica?", (T[]) new String[] {"A) public class Caixa<T> {}", "B) public class Caixa {}", "C) public class Caixa{T} "});
-        perguntas.put("8 - O que é 'bounded type' em Generics?", (T[]) new String[] {"A) Um tipo genérico restrito a uma subclasse de um tipo específico", "B) Um tipo que aceita apenas valores primitivos", "C) Um tipo que pode ser qualquer classe"});
-        perguntas.put("9 - Qual a função do operador `? extends T` em Generics?", (T[]) new String[] {"A) Restringe o tipo para uma classe que estenda T", "B) Aceita qualquer tipo de dado", "C) Especifica um tipo primitivo"});
-        perguntas.put("10 - Qual o erro mais comum ao usar Generics?", (T[]) new String[] {"A) Tentativa de usar tipos incompatíveis", "B) Não especificar o tipo de dado", "C) Esquecer de implementar interfaces genéricas"});
-        perguntas.put("11 - O que acontece se tentarmos adicionar um tipo errado em uma coleção genérica?", (T[]) new String[] {"A) O código não compila", "B) O código compila, mas lança um erro em tempo de execução", "C) O código compila, mas ignora o valor"});
-        perguntas.put("12 - Em Java, qual é a principal diferença entre `List<T>` e `Set<T>`?", (T[]) new String[] {"A) `List<T>` permite elementos duplicados, enquanto `Set<T>` não permite", "B) `Set<T>` permite elementos duplicados, enquanto `List<T>` não permite", "C) Não há diferença"});
-        perguntas.put("13 - Como é possível garantir que uma classe genérica só possa aceitar tipos específicos em Java?", (T[]) new String[] {"A) Usando limites com `extends`", "B) Declarando o tipo como `Object`", "C) Usando `?` sem qualquer limite"});
-        perguntas.put("14 - O que o tipo `T` representa em uma classe genérica?", (T[]) new String[] {"A) Qualquer tipo de dado", "B) Um tipo fixo de dado", "C) Um tipo primitivo específico"});
-        perguntas.put("15 - O que é `erasure` (apagamento de tipo) em Java?", (T[]) new String[] {"A) O processo de remover o tipo genérico após a compilação", "B) O processo de verificar tipos em tempo de execução", "C) O processo de compilar o código"});
+        perguntas.put("Pergunta (1/15)- O que são Generics em Java?", (T[]) new String[] {"A) Uma forma de criar métodos e classes com tipos genéricos", "B) Um tipo específico de coleção", "C) Uma classe que pode ser instanciada com tipos específicos"});
+        perguntas.put("Pergunta (2/15)- Qual é a principal vantagem do uso de Generics?", (T[]) new String[] {"A) Evitar conversões de tipo (casting)", "B) Aumentar o número de classes disponíveis", "C) Tornar o código mais complexo"});
+        perguntas.put("Pergunta (3/15)- Em Java, qual sintaxe é usada para declarar um método genérico?", (T[]) new String[] {"A) public <T> void metodo(T parametro)", "B) public void metodo<T>(T parametro)", "C) public void metodo(T parametro<T>)"});
+        perguntas.put("Pergunta (4/15)- Quando devemos usar Generics em Java?", (T[]) new String[] {"A) Quando o tipo de dados não é conhecido durante a escrita do código", "B) Quando se quer evitar o uso de interfaces", "C) Quando se precisa de múltiplos tipos de classes"});
+        perguntas.put("Pergunta (5/15)- O que o símbolo `T` normalmente representa em Generics?", (T[]) new String[] {"A) Um tipo genérico", "B) Uma string", "C) Um tipo primitivo"});
+        perguntas.put("Pergunta (6/15)- Como o compilador trata os tipos genéricos durante a execução?", (T[]) new String[] {"A) Com o uso de erasure (apagamento de tipo)", "B) Ele cria novas instâncias para cada tipo", "C) Ele gera diferentes classes para cada tipo especificado"});
+        perguntas.put("Pergunta (7/15)- Qual das opções abaixo é um exemplo de classe genérica?", (T[]) new String[] {"A) public class Caixa<T> {}", "B) public class Caixa {}", "C) public class Caixa{T} "});
+        perguntas.put("Pergunta (8/15)- O que é 'bounded type' em Generics?", (T[]) new String[] {"A) Um tipo genérico restrito a uma subclasse de um tipo específico", "B) Um tipo que aceita apenas valores primitivos", "C) Um tipo que pode ser qualquer classe"});
+        perguntas.put("Pergunta (9/15)- Qual a função do operador `? extends T` em Generics?", (T[]) new String[] {"A) Restringe o tipo para uma classe que estenda T", "B) Aceita qualquer tipo de dado", "C) Especifica um tipo primitivo"});
+        perguntas.put("Pergunta (10/15)- Qual o erro mais comum ao usar Generics?", (T[]) new String[] {"A) Tentativa de usar tipos incompatíveis", "B) Não especificar o tipo de dado", "C) Esquecer de implementar interfaces genéricas"});
+        perguntas.put("Pergunta (11/15)- O que acontece se tentarmos adicionar um tipo errado em uma coleção genérica?", (T[]) new String[] {"A) O código não compila", "B) O código compila, mas lança um erro em tempo de execução", "C) O código compila, mas ignora o valor"});
+        perguntas.put("Pergunta (12/15)- Em Java, qual é a principal diferença entre `List<T>` e `Set<T>`?", (T[]) new String[] {"A) `List<T>` permite elementos duplicados, enquanto `Set<T>` não permite", "B) `Set<T>` permite elementos duplicados, enquanto `List<T>` não permite", "C) Não há diferença"});
+        perguntas.put("Pergunta (13/15)- Como é possível garantir que uma classe genérica só possa aceitar tipos específicos em Java?", (T[]) new String[] {"A) Usando limites com `extends`", "B) Declarando o tipo como `Object`", "C) Usando `?` sem qualquer limite"});
+        perguntas.put("Pergunta (14/15)- O que o tipo `T` representa em uma classe genérica?", (T[]) new String[] {"A) Qualquer tipo de dado", "B) Um tipo fixo de dado", "C) Um tipo primitivo específico"});
+        perguntas.put("Pergunta (15/15)- O que é `erasure` (apagamento de tipo) em Java?", (T[]) new String[] {"A) O processo de remover o tipo genérico após a compilação", "B) O processo de verificar tipos em tempo de execução", "C) O processo de compilar o código"});
         
         perguntasOrdenadas = new Lista<>();  // Inicializando a sua lista personalizada
         for (Map.Entry<String, T[]> entry : perguntas.entrySet()) {

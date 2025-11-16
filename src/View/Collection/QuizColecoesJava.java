@@ -39,7 +39,7 @@ public class QuizColecoesJava {
         lblRanking = new Label("Ranking:");
         lblRanking.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         
-        titulo = new Label("Coleções em Java");
+        titulo = new Label("Quiz sobre Coleções");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         btnA = new Button();
@@ -79,7 +79,7 @@ public class QuizColecoesJava {
 
         Scene scene = new Scene(layout, 400, 400);
         stage.setScene(scene);
-        stage.setTitle("Quiz sobre Coleções do Java");
+        stage.setTitle("Quiz sobre Coleções");
         stage.show();
     }
 
@@ -90,21 +90,21 @@ public class QuizColecoesJava {
             "A", "B", "C", "A", "B", "A"
         };
 
-        perguntas.put("1 - Qual coleção do Java não permite elementos duplicados?", new String[]{"A) Set", "B) List", "C) Queue"});
-        perguntas.put("2 - Qual coleção do Java armazena elementos em pares chave-valor?", new String[]{"A) List", "B) Map", "C) Set"});
-        perguntas.put("3 - Qual implementação de Queue é mais eficiente para inserções e remoções?", new String[]{"A) LinkedList", "B) ArrayList", "C) PriorityQueue"});
-        perguntas.put("4 - Qual coleção permite acessar elementos de forma sequencial?", new String[]{"A) Set", "B) List", "C) Map"});
-        perguntas.put("5 - Qual classe representa a implementação de uma lista em Java?", new String[]{"A) ArrayList", "B) HashSet", "C) TreeMap"});
-        perguntas.put("6 - Qual coleção armazena elementos sem uma ordem específica?", new String[]{"A) Set", "B) List", "C) Map"});
-        perguntas.put("7 - Qual estrutura de dados Java é mais eficiente para representar uma pilha?", new String[]{"A) Stack", "B) LinkedList", "C) PriorityQueue"});
-        perguntas.put("8 - Qual coleção do Java é mais indicada para representar uma fila?", new String[]{"A) Queue", "B) List", "C) Set"});
-        perguntas.put("9 - Qual estrutura de dados Java é adequada para armazenar valores associados a chaves?", new String[]{"A) TreeMap", "B) ArrayList", "C) HashSet"});
-        perguntas.put("10 - Como um HashSet armazena os elementos?", new String[]{"A) Em uma tabela hash", "B) Em uma lista encadeada", "C) Em um vetor"});
-        perguntas.put("11 - Qual método da classe List permite adicionar elementos?", new String[]{"A) add()", "B) put()", "C) offer()"});
-        perguntas.put("12 - Qual implementação de Map é mais eficiente para buscas rápidas?", new String[]{"A) TreeMap", "B) HashMap", "C) LinkedHashMap"});
-        perguntas.put("13 - Em qual coleção podemos garantir a ordem de inserção dos elementos?", new String[]{"A) HashSet", "B) LinkedHashSet", "C) TreeSet"});
-        perguntas.put("14 - Qual estrutura de dados armazena elementos de forma ordenada?", new String[]{"A) HashMap", "B) TreeSet", "C) LinkedList"});
-        perguntas.put("15 - Em qual coleção não podemos acessar elementos diretamente via índice?", new String[]{"A) List", "B) Set", "C) Queue"});
+        perguntas.put("Pergunta (1/15)- Qual coleção do Java não permite elementos duplicados?", new String[]{"A) Set", "B) List", "C) Queue"});
+        perguntas.put("Pergunta (2/15)- Qual coleção do Java armazena elementos em pares chave-valor?", new String[]{"A) List", "B) Map", "C) Set"});
+        perguntas.put("Pergunta (3/15)- Qual implementação de Queue é mais eficiente para inserções e remoções?", new String[]{"A) LinkedList", "B) ArrayList", "C) PriorityQueue"});
+        perguntas.put("Pergunta (4/15)- Qual coleção permite acessar elementos de forma sequencial?", new String[]{"A) Set", "B) List", "C) Map"});
+        perguntas.put("Pergunta (5/15)- Qual classe representa a implementação de uma lista em Java?", new String[]{"A) ArrayList", "B) HashSet", "C) TreeMap"});
+        perguntas.put("Pergunta (6/15)- Qual coleção armazena elementos sem uma ordem específica?", new String[]{"A) Set", "B) List", "C) Map"});
+        perguntas.put("Pergunta (7/15)- Qual estrutura de dados Java é mais eficiente para representar uma pilha?", new String[]{"A) Stack", "B) LinkedList", "C) PriorityQueue"});
+        perguntas.put("Pergunta (8/15)- Qual coleção do Java é mais indicada para representar uma fila?", new String[]{"A) Queue", "B) List", "C) Set"});
+        perguntas.put("Pergunta (9/15)- Qual estrutura de dados Java é adequada para armazenar valores associados a chaves?", new String[]{"A) TreeMap", "B) ArrayList", "C) HashSet"});
+        perguntas.put("Pergunta (10/15)- Como um HashSet armazena os elementos?", new String[]{"A) Em uma tabela hash", "B) Em uma lista encadeada", "C) Em um vetor"});
+        perguntas.put("Pergunta (11/15)- Qual método da classe List permite adicionar elementos?", new String[]{"A) add()", "B) put()", "C) offer()"});
+        perguntas.put("Pergunta (12/15)- Qual implementação de Map é mais eficiente para buscas rápidas?", new String[]{"A) TreeMap", "B) HashMap", "C) LinkedHashMap"});
+        perguntas.put("Pergunta (13/15)- Em qual coleção podemos garantir a ordem de inserção dos elementos?", new String[]{"A) HashSet", "B) LinkedHashSet", "C) TreeSet"});
+        perguntas.put("Pergunta (14/15)- Qual estrutura de dados armazena elementos de forma ordenada?", new String[]{"A) HashMap", "B) TreeSet", "C) LinkedList"});
+        perguntas.put("Pergunta (15/15)- Em qual coleção não podemos acessar elementos diretamente via índice?", new String[]{"A) List", "B) Set", "C) Queue"});
         
         perguntasOrdenadas = new Lista<>();  // Inicializando a sua lista personalizada
         for (Map.Entry<String, String[]> entry : perguntas.entrySet()) {

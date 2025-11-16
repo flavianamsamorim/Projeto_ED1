@@ -40,7 +40,7 @@ public class QuizView {
         lblRanking = new Label("Ranking:");
         lblRanking.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
         
-        titulo = new Label("Entrada e saída de dados/Tipos de dados");
+        titulo = new Label("Quiz sobre Tipos Básicos");
         titulo.setStyle("-fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
         btnA = new Button();
@@ -80,7 +80,7 @@ public class QuizView {
 
         Scene scene = new Scene(layout, 400, 400);
         stage.setScene(scene);
-        stage.setTitle("Quiz Interativo");
+        stage.setTitle("Quiz sobre Tipos Básicos");
         stage.show();
     }
 
@@ -91,23 +91,22 @@ public class QuizView {
             "B", "C", "B", "B", "B", "B"
         };
 
-        perguntas.put("Qual comando usamos para exibir um texto no console?", new String[]{"A) System.out.print()", "B) Scanner.nextLine()", "C) System.in.read()"});
-        perguntas.put("Qual classe usamos para ler entrada do usuário via teclado?", new String[]{"A) BufferedReader", "B) Scanner", "C) FileReader"});
-        perguntas.put("Qual comando imprime uma linha pulando para a próxima automaticamente?", new String[]{"A) System.out.print()", "B) System.out.println()", "C) System.out.write()"});
-        perguntas.put("Qual método do Scanner lê um número inteiro?", new String[]{"A) nextInt()", "B) nextLine()", "C) nextDouble()"});
-        perguntas.put("Qual é o tipo de dado para armazenar ‘A’?", new String[]{"A) char", "B) String", "C) int"});
-        perguntas.put("Qual tipo usamos para armazenar números com casas decimais?", new String[]{"A) int", "B) double", "C) boolean"});
-        perguntas.put("Qual é o valor padrão de um boolean em Java?", new String[]{"A) false", "B) true", "C) null"});
-        perguntas.put("Qual tipo usamos para armazenar textos?", new String[]{"A) char", "B) String", "C) byte"});
-        perguntas.put("O que este operador faz: ==?", new String[]{"A) Atribuição", "B) Comparação", "C) Incremento"});
-        perguntas.put("Qual operador usamos para 'E lógico' em Java?", new String[]{"A) ||", "B) &&", "C) !"});
-        perguntas.put("Qual será o resultado da expressão 5 + 3 * 2?", new String[]{"A) 16", "B) 11", "C) 13"});
-        perguntas.put("Qual comando usamos para repetir um bloco de código enquanto uma condição for verdadeira?", new String[]{"A) if", "B) for", "C) while"});
-        perguntas.put("Qual é a estrutura correta de um if em Java?", new String[]{"A) if {condicao} {}", "B) if (condicao) {}", "C) if [condicao] {}"});
-        perguntas.put("Qual estrutura de repetição é mais indicada quando sabemos o número exato de iterações?", new String[]{"A) while", "B) for", "C) do-while"});
-        perguntas.put("Qual índice tem o primeiro elemento de um array em Java?", new String[]{"A) 1", "B) 0", "C) -1"});
-        perguntas.put("Qual estrutura melhor representa uma matriz 3x3?", new String[]{"A) int matriz[3]", "B) int[][] matriz = new int[3][3]", "C) int matriz = new int[9]"});
-        
+        perguntas.put("Pergunta (1/15)- Qual comando usamos para exibir um texto no console?", new String[]{"A) System.out.print()", "B) Scanner.nextLine()", "C) System.in.read()"});
+        perguntas.put("Pergunta (2/15)- Qual classe usamos para ler entrada do usuário via teclado?", new String[]{"A) BufferedReader", "B) Scanner", "C) FileReader"});
+        perguntas.put("Pergunta (3/15)- Qual comando imprime uma linha pulando para a próxima automaticamente?", new String[]{"A) System.out.print()", "B) System.out.println()", "C) System.out.write()"});
+        perguntas.put("Pergunta (4/15)- Qual método do Scanner lê um número inteiro?", new String[]{"A) nextInt()", "B) nextLine()", "C) nextDouble()"});
+        perguntas.put("Pergunta (5/15)- Qual é o tipo de dado para armazenar ‘A’?", new String[]{"A) char", "B) String", "C) int"});
+        perguntas.put("Pergunta (6/15)- Qual tipo usamos para armazenar números com casas decimais?", new String[]{"A) int", "B) double", "C) boolean"});
+        perguntas.put("Pergunta (7/15)- Qual é o valor padrão de um boolean em Java?", new String[]{"A) false", "B) true", "C) null"});
+        perguntas.put("Pergunta (8/15)- Qual tipo usamos para armazenar textos?", new String[]{"A) char", "B) String", "C) byte"});
+        perguntas.put("Pergunta (9/15)- O que este operador faz: ==?", new String[]{"A) Atribuição", "B) Comparação", "C) Incremento"});
+        perguntas.put("Pergunta (10/15)- Qual operador usamos para 'E lógico' em Java?", new String[]{"A) ||", "B) &&", "C) !"});
+        perguntas.put("Pergunta (11/15)- Qual será o resultado da expressão 5 + 3 * 2?", new String[]{"A) 16", "B) 11", "C) 13"});
+        perguntas.put("Pergunta (12/15)- Qual comando usamos para repetir um bloco de código enquanto uma condição for verdadeira?", new String[]{"A) if", "B) for", "C) while"});
+        perguntas.put("Pergunta (13/15)- Qual é a estrutura correta de um if em Java?", new String[]{"A) if {condicao} {}", "B) if (condicao) {}", "C) if [condicao] {}"});
+        perguntas.put("Pergunta (14/15)- Qual estrutura de repetição é mais indicada quando sabemos o número exato de iterações?", new String[]{"A) while", "B) for", "C) do-while"});
+        perguntas.put("Pergunta (15/15)- Qual índice tem o primeiro elemento de um array em Java?", new String[]{"A) 1", "B) 0", "C) -1"});
+               
         perguntasOrdenadas = new Lista<>();
         for (Map.Entry<String, String[]> entry : perguntas.entrySet()) {
             perguntasOrdenadas.addLast(entry);
