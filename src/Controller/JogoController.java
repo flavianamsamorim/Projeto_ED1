@@ -28,21 +28,31 @@ public class JogoController {
         botoes = new Lista<>();
 
         String[] nomesJogos = {
-            "Tipos Básicos", "Operadores", "Condição e Repetição", "Classes e Objetos",
-            "Recursividade", "Vetores e Matrizes", "Arquivos", "Generic", "Collection",
+            "Q-Tipos Básicos", "Q-Operadores", "Condição e Repetição", "Classes e Objetos",
+            "Recursividade", "Vetores e Matrizes", "Arquivos", "Q-Generic", "Q-Collection",
             "Pilhas", "Filas", "Listas Encadeadas", "Complexidade de Algoritmos", "Algoritmos de Busca",
             "Algoritmos de Ordenação"
         };
 
-        for (String nome : nomesJogos) {
-            Button btn = new Button(nome);
-            btn.setStyle("-fx-background-color:rgb(97, 168, 29); -fx-text-fill: white; "
-                    + "-fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
-            // Definir ações para cada botão
-            btn.setOnAction(e -> abrirJogo(nome));
+        for (int i = 0; i < nomesJogos.length; i++) {
+    String nome = nomesJogos[i];
+    Button btn = new Button(nome);
 
-            botoes.addLast(btn); // Agora os botões são adicionados na ordem correta
-        }
+    // Defina a cor de acordo com a unidade (com base no índice)
+    if (i < 9) { // Unidade 1
+        //btn.setStyle("-fx-background-color: #FF9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
+        btn.getStyleClass().add("btn-unidade1");
+    } else if (i < 12) { // Unidade 2
+        //btn.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
+        btn.getStyleClass().add("btn-unidade2");
+    } else { // Unidade 3
+        //btn.setStyle("-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 14px; -fx-background-radius: 8;");
+        btn.getStyleClass().add("btn-unidade3");
+    }
+
+    btn.setOnAction(e -> abrirJogo(nome));
+    botoes.addLast(btn);
+}
     }
 
     public Lista<Button> getBotoes() {
@@ -115,6 +125,6 @@ public class JogoController {
                 new OrdemView(stage);
                 break;
 
-            }
+        }
     }
 }
